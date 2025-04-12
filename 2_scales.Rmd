@@ -7,7 +7,7 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r}
+```{r, include=FALSE}
 library(data.table)
 library(glue)
 library(lavaan)
@@ -33,7 +33,6 @@ fit_mlr_cleaned <- readRDS('fit_mlr_cleaned')
 coeffs_cleaned <- data.table(parameterEstimates(fit_mlr_cleaned))[op == '=~']
 coeffs_cleaned_lowp <- coeffs_cleaned[pvalue < 0.05 | is.na(pvalue)]
 coeffs_cleaned[pvalue >= 0.05, .N]
-
 ```
 
 
@@ -133,6 +132,10 @@ kable(loadings_df[order(factor_number, c3), list(C2, c2, c3, q, competence_ru, q
 
 Вообще, большое количество вопросов, которые оказались без сильных нагрузок по первому или второму факторам, свидетельствует о том, что либо респонденты неверно понимают вопросы, либо эти вопросы служат маркерами какой-то иной компетенции.
 
+```{r}
+kable(loadings_df[, list(n_questions = .N), keyby = factor_number]) %>%
+  kable_styling(font_size = 12)
+```
 
 
 ## EFA, с3 = 10
