@@ -1,0 +1,13 @@
+book_filename: "Psychometrics"
+delete_merged_file: true
+output_dir: "docs"
+new_session: yes
+rmd_files: [
+  'index.Rmd',
+  '1_model.Rmd',
+  '2_scales.Rmd',
+  '3_mimic.Rmd',
+  '4_convergent_validity.Rmd',
+  '5_differences.Rmd',
+  '99_questions.Rmd'
+]
