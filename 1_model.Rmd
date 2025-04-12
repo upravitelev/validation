@@ -1,0 +1,104 @@
+# CFA {#cfa}
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE
+)
+```
+
+
+```{r, include=FALSE, warning=FALSE, message=FALSE}
+library(data.table)
+library(glue)
+library(lavaan)
+library(googlesheets4)
+library(kableExtra)
+
+questions <- fread('./data/questions.csv')
+c2_data <- fread('./data/c2_data.csv')
+questionnaire_names <- fread('./data/questionnaire_names.csv')
+
+
+c2_info <- questionnaire_names[question_type == 'competencies']
+c2_questions <- c2_info[order(q_order), question_ru]
+c2_q_numbers <- c2_info[order(q_order), q]
+
+c2_names <- questions[question_ru %in% c2_info[, unique(question_ru)], sort(unique(c2))]
+
+fit_mlr <- readRDS('fit_mlr')
+fit_mlr_cleaned <- readRDS('fit_mlr_cleaned')
+```
+
+
+## модель на 8 компетенций
+
+Самая простая модель на 8 компетенций среднего уровня (с2). Это исходная модель, которая описана в статье. С помощью конфирматорного факторного анализа проверяем, насколько теоретическая структура модели присутствует в данных.
+
+Декларация модели такая:
+
+```{r}
+c2_declarations <- lapply(c2_names, function(x) questions[c2 == x & question_ru %in% c2_questions, paste(glue('c{x} =~'), paste(q, collapse = ' + '))])
+c2_declarations <- paste(c2_declarations, collapse = '\n\n')
+
+cat(c2_declarations)
+```
+
+Модель сходится относительно неплохо:
+
+```{r}
+fitMeasures(fit_mlr, c('cfi', 'rmsea', 'srmr'))
+```
+
+Индекс CFI (сравнение с моделью без латентных факторов) невысок, так как для хороших моделей значение должно быть выше 0.9, а лучше -- выше 0.95. 
+Возможные способы улучшить модель -- пересмотреть факторную структуру или добавить кросс-нагрузки (когда один вопрос относится к нескольким факторам).
+
+Референсные значения для RMSEA (оценка сложности модели) -- чем ниже, тем лучше, ниже 0.05 очень хорошее качество, ниже 0.08 -- приемлемое.
+
+Референсные значения для SRMR (насколько хорошо модель воспроизводит наблюдаемые корреляции) -- чем ниже, тем лучше, ниже 0.05 очень хорошее качество, ниже 0.08 -- приемлемое.
+
+
+## очищенная модель 
+
+Ряд вопросов имеют низкий / незначимый вклад, поэтому их лучше удалить из модели. Вот список компетенций с исходным количеством вопросов и удаленными вопросами:
+
+```{r}
+coeffs_cleaned <- data.table(parameterEstimates(fit_mlr_cleaned))[op == '=~']
+coeffs_cleaned_lowp <- coeffs_cleaned[pvalue < 0.05 | is.na(pvalue)]
+
+scales_questions <- merge(
+  # coeffs[, list(full_model = .N), keyby = lhs],
+  c2_info[, list(full_model = .N), keyby = list(lhs = paste0('c', c2), C1, C2)],
+  coeffs_cleaned_lowp[, list(trimmed_model = .N), by = lhs],
+  by = 'lhs', all.x = TRUE
+)
+scales_questions[, excluded := full_model - trimmed_model]
+setnames(scales_questions, 'lhs', 'c2')
+
+kableExtra::kable(rbind(scales_questions[3:8], scales_questions[1:2])) %>%
+  kable_styling(font_size = 12)
+```
+
+После удаления вопросов метрики модели выглядят следующим образом:
+
+```{r}
+fitMeasures(fit_mlr_cleaned, c('cfi', 'rmsea', 'srmr'))
+```
+
+
+## метрики качества c2-моделей
+
+Метрики качества модели без знасимых вопросов практически не изменились. Сводная таблица всех четырех моделей (с корреляцией факторов / без корреляции, с удалением незначимых вопровов / все вопросы) выглядит следующим образом:
+
+```{r}
+rbind(
+  as.data.table(as.list(c('model' = 'all questions', round(fitMeasures(fit_mlr, c('cfi', 'rmsea', 'srmr')), 3)))),
+  as.data.table(as.list(c('model' = 'excluded questions', round(fitMeasures(fit_mlr_cleaned, c('cfi', 'rmsea', 'srmr')), 3))))
+)
+```
+
+Удаление незначимых вопросов немного улучшает качество структуры модели, но оно все еще недостаточно. Дальнейшие действия возможные тут --- добавление кросс-нагрузок вопросов в разные факторы. Либо пересмотр всей модели в целом с помощью разведочного факторного анализа.
+
+Однако это все требует теоретического пересмотра модели компетенций, и может быть излишним для текущей задачи.
+
+
+
