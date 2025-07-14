@@ -1,0 +1,242 @@
+# New model {#newmodel}
+
+## cleaned models
+
+Ранее я уже смотрел качество факторных решений при разном числе факторов. Здесь я повторяю оценку, с одним существенным отличием -- для каждого числа факторов при факторизации я удаляю вопросы, у которых максимальная факторная нагрузка по любому из факторов меньше 0.3.
+
+То есть, если ранее при выделении 8 факторов использовались все 137 вопросов опросника, то сейчас используется 106 вопросов.
+
+- `n_factors`: количество факторов
+- `CFI`: индекс для сравнения моделей. Больше подходит для CFA, но и в эксплораторном факторном анализе тоже может использоваться. Принимает значения от 0 до 1, чем выше -- тем лучше (выше 0.9 считается приемлемой моделью).
+- `RMSEA`: оценка, насколько модель может быть обобщена на ген.совокупность. Принимает значения от 0 до 1, чем ниже значение, тем лучше (меньше 0,05 --- отличное соотвествие модели). 
+- `cum_var` -- Cumulative Var, доля общей дисперсии переменных, объясненная факторами. 
+- `prop_var_min/prop_var_max`: минимальное и максимальное значения общей дисперсии, объясняемой тем или иным фактором модели (при `prop_var_max` = 0.04 никакой фактор не объясняет больше, чем 4% общей дисперсии). Этот размах показывает, насколько равноценны факторы.
+- `total_items`: сколько всего вопросов использователось (осталось после удаления вопросов с нагрузками ниже 0.3)
+- `q_loadings_03`: количество вопросов в факторном решении, которые имеют высокую нагрузку
+- `q_communality_weak`: какое количество вопросов, у которых менее 40% дисперсии объясняется выделенными факторами
+- `q_complexity_high`: сколько вопросов делают большой вклад в больше чем 1 фактор (т. е. насколько вопросы размыты между факторами)
+
+```{r, echo=FALSE}
+factor_grid_clean <- lapply(4:14, function(x) {
+    efa_result <- fa(competencies_data, nfactors = x, rotate = "oblimin", fm = "ml")  
+    loadings_df <- as.data.table(unclass(efa_result$loadings), keep.rownames = 'q')
+    loadings_df[, factor_number := apply(as.data.frame(unclass(efa_result$loadings)), 1, function(x) which.max(abs(x)))]
+    
+    cols <- grep('ML', names(loadings_df), value = TRUE)
+    loadings_df[, factor_number := ifelse(rowSums(abs(.SD) < 0.3) == length(cols), NA, factor_number), .SDcols = cols]
+
+    efa_result <- fa(competencies_data[, .SD, .SDcols = loadings_df[!is.na(factor_number), q]], 
+                     nfactors = x, rotate = "oblimin", fm = "ml")
+    
+    loadings_matrix <- unclass(efa_result$loadings)
+    loadings_dt <- as.data.table(loadings_matrix, keep.rownames = 'q')    
+    
+    loadings_dt[, h2 := efa_result$communality]
+    loadings_dt[, u2 := efa_result$uniquenesses]
+    loadings_dt[, com := efa_result$complexity]
+    
+    loadings_dt[, max_loading := do.call(pmax, lapply(.SD, abs)), .SDcols = patterns('ML')]
+    
+    vaccounted <- data.table(t(efa_result$Vaccounted), keep.rownames = TRUE)
+    
+    loadings_dt[, list(
+      n_factors = x,
+      # rotation = 'oblimin',
+      CFI = round(efa_result$CFI, 3),
+      # p.value = round(efa_result$PVAL, 3),
+      RMSEA = round(efa_result$RMSEA[1], 3),
+      cum_var = vaccounted[, round(max(`Cumulative Var`), 2)],
+      prop_var_min = vaccounted[, round(min(`Proportion Var`), 2)],
+      prop_var_max = vaccounted[, round(max(`Proportion Var`), 2)],
+      total_items = .N,
+      q_loadings_03 = sum(max_loading > 0.3),
+      q_communality_weak = sum(h2 < 0.4),
+      q_complexity_high = sum(com > 2)
+    )]
+  }
+)
+factor_grid_clean <- rbindlist(factor_grid_clean)
+kableExtra::kable(factor_grid_clean)
+# factor_grid_clean
+```
+
+Удаление вопросов с низкой нагрузкой увеличило качество решений -- CFI индекс в целом стал больше, RMSEA практически без изменений. Также повысилась общая объясненная дисперсия, однако значения все равно невелики (43% при 14 факторах, т.е. больше половины дисперсии объясненяется иными причинами). Впрочем, это может быть следствием высокого количества вопросов с кросс-нагрузками.
+
+Исходя из таблицы, наилучшие решения -- на 13 и 14 факторов. Различий между ними в индексах не очень много, поэтому решение по выбору стоит принимать исходя из смысла выделенных факторов.
+
+
+Ниже дан график прироста метрики CFI при увеличении числа факторов, исходное количество вопросов и после удаления вопросов с низкими нагрузками.
+
+```{r, echo=FALSE}
+cfi_diff <- merge(
+  factor_grid[, list(n_factors, CFI_original = CFI)],
+  factor_grid_clean[, list(n_factors, CFI_modified = CFI)],
+  by = 'n_factors', all.x = TRUE
+)
+
+cfi_diff[, delta := CFI_modified - CFI_original]
+
+plot_ly(cfi_diff, x = ~n_factors, y = ~CFI_original, type = 'scatter', mode = 'lines', name = 'CFI_original') %>%
+  add_trace(y = ~CFI_modified, name = 'CFI_modified') %>%
+  layout(
+    title = 'CFI by number of factors',
+    yaxis = list(rangemode = 'tozero')
+  ) %>%
+  config(displayModeBar = FALSE)
+```
+
+```{r, include=FALSE}
+plot_ly(cfi_diff, x = ~n_factors, y = ~delta, type = 'scatter', mode = 'lines', name = 'delta CFI') %>%
+  layout(
+    title = 'delta CFI by number of factors',
+    yaxis = list(rangemode = 'tozero')
+  ) %>%
+  config(displayModeBar = FALSE)
+```
+
+## 13-факторная модель
+
+Первый вариант факторизации -- выделение 13 факторов.
+
+```{r, echo=FALSE}
+efa_result <- fa(competencies_data, nfactors = 13, rotate = "oblimin", fm = "ml")
+
+loadings_df <- as.data.table(round(unclass(efa_result$loadings), 3), keep.rownames = TRUE)
+loadings_df[, factor_number := apply(as.data.frame(unclass(efa_result$loadings)), 1, function(x) which.max(abs(x)))]
+
+cols <- grep('ML', names(loadings_df), value = TRUE)
+loadings_df[, factor_number := ifelse(rowSums(abs(.SD) < 0.3) == length(cols), NA, factor_number), .SDcols = cols]
+setnames(loadings_df, 'rn', 'q')
+
+efa_result <- fa(competencies_data[, .SD, .SDcols = loadings_df[!is.na(factor_number), q]], 
+                 nfactors = 13, rotate = "oblimin", fm = "ml")
+loadings_df <- as.data.table(round(unclass(efa_result$loadings), 3), keep.rownames = 'q')
+loadings_df[, factor_number := apply(as.data.frame(unclass(efa_result$loadings)), 1, function(x) which.max(abs(x)))]
+
+loadings_df <- merge(
+  competencies_info[, list(C2, c2, c3, q, competence_ru = C3, question_ru)],
+  loadings_df,
+  by = 'q', all.y = TRUE
+)
+```
+
+```{r, eval=FALSE, include=FALSE}
+# dcast(loadings_df, factor_number ~ C2, value.var = 'q', fun.aggregate = length)
+# dcast(loadings_df, C2 ~ factor_number, value.var = 'q', fun.aggregate = length)
+
+sheet_add(ss, sheet = "new_models")
+
+range_write(
+    data = dcast(loadings_df, C2 ~ factor_number, value.var = 'q', fun.aggregate = length),
+    ss = ss,
+    sheet = 'new_models', 
+    range = 'A1'
+  )
+```
+
+
+
+```{r, eval=FALSE, echo=FALSE}
+# sheet_add(ss, sheet = "new_model_13")
+
+offset = 1
+for (i in seq_len(13)) {
+  range_write(
+    data = loadings_df[factor_number == i][order(C2, c3), list(q, C2, competence_ru, question_ru)],
+    ss = ss,
+    sheet = 'new_model_13', 
+    range = glue('A{offset}')
+  )
+  offset = offset + loadings_df[factor_number == i, .N] + 2
+}
+```
+В результате получились вот такие факторы (название факторов я задавал сам, исходя из списка вопросов):
+```{r}
+model_13 <- as.data.table(read_sheet(ss, sheet = 'new_model_13'))
+model_13 <- model_13[!is.na(new_competence) & new_competence != 'new_competence']
+model_13 <- model_13[, .N, keyby = new_competence]
+kableExtra::kable(model_13)
+```
+
+Подробная таблица факторов, где даны названия компетенций (С2), субшкал (С3), вопросов и возможного названия для каждого выделенного фактора: [new_model_13](https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1010368429#gid=1010368429)
+
+
+## 14-факторная модель
+
+Второй вариант -- 14-ти факторная модель, с предварительным удалением из общего списка вопросов пунктов с низкими факторными нагрузками. 
+
+```{r, echo=FALSE}
+efa_result <- fa(competencies_data, nfactors = 14, rotate = "oblimin", fm = "ml")
+
+loadings_df <- as.data.table(round(unclass(efa_result$loadings), 3), keep.rownames = TRUE)
+loadings_df[, factor_number := apply(as.data.frame(unclass(efa_result$loadings)), 1, function(x) which.max(abs(x)))]
+
+cols <- grep('ML', names(loadings_df), value = TRUE)
+loadings_df[, factor_number := ifelse(rowSums(abs(.SD) < 0.3) == length(cols), NA, factor_number), .SDcols = cols]
+setnames(loadings_df, 'rn', 'q')
+
+efa_result <- fa(competencies_data[, .SD, .SDcols = loadings_df[!is.na(factor_number), q]], 
+                 nfactors = 14, rotate = "oblimin", fm = "ml")
+loadings_df <- as.data.table(round(unclass(efa_result$loadings), 3), keep.rownames = 'q')
+loadings_df[, factor_number := apply(as.data.frame(unclass(efa_result$loadings)), 1, function(x) which.max(abs(x)))]
+
+loadings_df <- merge(
+  competencies_info[, list(C2, c2, c3, q, competence_ru = C3, question_ru)],
+  loadings_df,
+  by = 'q', all.y = TRUE
+)
+```
+
+
+```{r, eval=FALSE, include=FALSE}
+# dcast(loadings_df, factor_number ~ C2, value.var = 'q', fun.aggregate = length)
+# dcast(loadings_df, C2 ~ factor_number, value.var = 'q', fun.aggregate = length)
+
+# sheet_add(ss, sheet = "new_models")
+
+range_write(
+    data = dcast(loadings_df, C2 ~ factor_number, value.var = 'q', fun.aggregate = length),
+    ss = ss,
+    sheet = 'new_models',
+    range = 'A12'
+  )
+```
+
+
+
+```{r, eval=FALSE, echo=FALSE}
+# sheet_add(ss, sheet = "new_model_14")
+
+offset = 1
+for (i in seq_len(14)) {
+  range_write(
+    data = loadings_df[factor_number == i][order(C2, c3), list(q, C2, competence_ru, question_ru)],
+    ss = ss,
+    sheet = 'new_model_14', 
+    range = glue('A{offset}')
+  )
+  offset = offset + loadings_df[factor_number == i, .N] + 2
+}
+```
+```{r, echo=FALSE}
+model_14 <- as.data.table(read_sheet(ss, sheet = 'new_model_14'))
+model_14 <- model_14[!is.na(new_competence) & new_competence != 'new_competence']
+model_14 <- model_14[, .N, keyby = new_competence]
+kableExtra::kable(model_14)
+```
+
+Подробная таблица факторов, где даны названия компетенций (С2), субшкал (С3), вопросов и возможного названия для каждого выделенного фактора: [new_model_13](https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=830574453#gid=830574453)
+
+
+
+## сравнение моделей
+
+Ниже я сопоставил факторы из обеих моделей -- большая часть из них повторяется, но есть и некоторые перестановки / различия.
+
+
+```{r, echo=FALSE}
+new_models <- merge(model_13, model_14, by = 'new_competence', all = TRUE)
+setnames(new_models, c('N.x', 'N.y'), c('13f', '14f'))
+kableExtra::kable(new_models)
+```
+

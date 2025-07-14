@@ -1,0 +1,220 @@
+# Descriptives {#descriptives}
+
+```{r, include=FALSE}
+library(plotly)
+library(kableExtra)
+library(corrplot)
+
+flattenCorrMatrix <- function(cormat, pmat) {
+  ut <- upper.tri(cormat, diag = TRUE)
+  data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor = (cormat)[ut],
+    p = pmat[ut]
+  )
+}
+
+flattenCorrMatrix <- function(cormat) {
+  data.frame(
+    row = rownames(cormat$r)[row(cormat$r)],
+    column = rownames(cormat$r)[col(cormat$r)],
+    cor = c(cormat$r),
+    p = c(cormat$P)
+  )
+}
+
+```
+
+
+## Вопросы по шкалам
+
+В опроснике присутствуют не все вопросы из теоретической модели (137 из 250).
+Ниже дана таблица, по каким шкалам вопросы оказались частично или полностью исключены.
+```{r}
+questions_stat <- merge(
+  questions,
+  competencies_info[, list(question_ru, q)],
+  by = 'question_ru', all.x = TRUE
+)
+
+
+questions_stat <- questions_stat[, list(
+  in_model = length(question_ru),
+  in_questionnaire = length(question_ru[!is.na(q)])
+), by = list(C2, c2)]
+
+questions_stat[, lost_questions := in_model - in_questionnaire]
+questions_stat[, C2 := cell_spec(C2, color = ifelse(in_questionnaire != 0, "black", "red"))]
+questions_stat[, c2 := cell_spec(c2, color = ifelse(in_questionnaire != 0, "black", "red"))]
+kableExtra::kable(questions_stat[order(C2)]) %>%
+  kable_styling(font_size = 12)
+```
+
+## Вопросы по субшкалам
+
+Аналогичная таблица, но уже по субшкалам.
+
+```{r}
+questions_stat <- merge(
+  questions,
+  competencies_info[, list(question_ru, q)],
+  by = 'question_ru', all.x = TRUE
+)
+
+questions_stat <- questions_stat[, list(
+  in_model = length(question_ru),
+  in_questionnaire = length(question_ru[!is.na(q)])
+), by = list(C2, c2, C3)]
+
+questions_stat[, lost_questions := in_model - in_questionnaire]
+questions_stat[, C2 := cell_spec(C2, color = ifelse(in_questionnaire != 0, "black", "red"))]
+questions_stat[, C3 := cell_spec(C3, color = ifelse(in_questionnaire != 0, "black", "red"))]
+kableExtra::kable(questions_stat[order(C2, C3)]) %>%
+  kable_styling(font_size = 12)
+```
+
+
+
+## Стабильность ответов
+
+Опросник достаточно длинный (137 вопросов по компетенциям, плюс несколько десятков по шкалам эмпатии и проч.). Так что есть вероятность, что респонденты в результате прохождения опросник устают и начинают выбирать какой-то один ответ. По настройкам гугл-формы видно, что переключатель `Shuffle question order` выключен, то есть респонденты видят вопросы ровно в той последовательности, как они заданы и поэтому гипотеза имеет место.
+
+Однако, судя по графику, какого-то убывающего тренда в дисперсии (т.е. пользователи продолжают выбирать разные варианты ответов) нет. 
+
+```{r, echo=FALSE, fig.width=10}
+competencies_data_l_stat[, hoverinfo := paste(
+  question_ru, '<br>',
+  C2, '<br>',
+  'SD = ', q_sd, '<br>', 
+  'Mean = ', round(q_mean, 1),
+  sep = ''
+)]
+
+plot_ly(competencies_data_l_stat, x = ~q_order, y = ~q_sd, color = ~paste('c2 = ', c2), type = 'bar',
+        hoverinfo = 'text', text = ~hoverinfo) %>%
+  layout(
+    title = 'Дисперсия вопросов по номеру предъявления'
+  ) %>%
+  config(displayModeBar = FALSE)
+```
+
+```{r, echo=FALSE, fig.width=10}
+plot_ly(competencies_data_l_stat, x = ~q_order, y = ~q_mean, color = ~paste('c2 = ', c2), type = 'bar',
+        hoverinfo = 'text', text = ~hoverinfo) %>%
+  layout(
+    title = 'Среднее значение вопросов по номеру предъявления'
+  ) %>%
+  config(displayModeBar = FALSE)
+```
+
+## Корреляция шкал
+
+Каждую шкалу (компетенцию) я представил как сумму всех вопросов шкалы. Ниже дана сводная статистика, с каким количеством шкал есть значимая взаимосвязь и максимальное значение значимого коэффициента корреляции.
+
+```{r}
+c2_sums <- data.table()
+
+for (i in competencies_info[, unique(c2)]) {
+  c2_values <- competencies_data[, rowSums(.SD), .SDcols = competencies_info[c2 == i, q]]
+  c2_name <- unique(big_model[c2 == i, C2])
+  # c2_sums[, (paste0('c2_', i)) := c2_values]
+  c2_sums[, (c2_name) := c2_values]
+}
+
+corrmatrix <- Hmisc::rcorr(as.matrix(c2_sums))
+corr_dt <- flattenCorrMatrix(corrmatrix)
+setDT(corr_dt)
+corr_dt[, p := round(p, 3)]
+
+corr_dt_stat <- corr_dt[!is.na(p), list(
+  n_sig_corrs = length(column[p < 0.05]),
+  r_max = round(max(cor[p < 0.05]), 3),
+  r_min = round(min(cor[p < 0.05]), 3)  
+), keyby = row]
+
+kableExtra::kable(corr_dt_stat) %>%
+  kable_styling(font_size = 12)
+```
+
+```{r}
+corrplot(
+  cor(c2_sums),
+  type = "lower",
+  # order = "hclust",
+  tl.col = "black",
+  tl.srt = .01,
+  insig = "blank",
+  addCoef.col = 'grey90',
+  number.cex = .7,
+  diag = FALSE
+)
+```
+
+
+
+
+## Корреляция субшкал
+
+Аналогично, корреляция субшкал. Видно, что достаточно мало сильно скоррелированых шкал, некоторые субшкалы если и значимо взаимосвязаны с какими-то другими, то все равно связь очень слабая (например, `уместное самораскрытие`, `эмпатия`, `понятность`).
+
+```{r}
+c3_sums <- data.table()
+
+for (i in competencies_info[, unique(c3)]) {
+  c3_values <- competencies_data[, rowSums(.SD), .SDcols = competencies_info[c3 == i, q]]
+  # c3_name <- unique(big_model[c3 == i, paste('c2', c2, C3, sep = '_')])
+  c3_name <- unique(big_model[c3 == i, C3])
+  # c3_sums[, (paste0('c3_', i)) := c3_values]
+  c3_sums[, (c3_name) := c3_values]
+}
+
+corrmatrix <- Hmisc::rcorr(as.matrix(c3_sums))
+corr_dt <- flattenCorrMatrix(corrmatrix)
+setDT(corr_dt)
+corr_dt[, p := round(p, 3)]
+
+corr_dt_stat <- corr_dt[!is.na(p), list(
+  n_sig_corrs = length(column[p < 0.05]),
+  r_max = round(max(cor[p < 0.05]), 3),
+  r_min = round(min(cor[p < 0.05]), 3)  
+), keyby = row]
+
+kableExtra::kable(corr_dt_stat[order(-r_max)]) %>%
+  kable_styling(font_size = 12)
+```
+
+```{r}
+corrplot(
+  cor(c3_sums),
+  type = "lower",
+  tl.col = "black",
+  tl.pos = 'l',
+  tl.cex = 0.7,
+  insig = "blank",
+  diag = FALSE,
+)
+```
+
+
+## Размеры шкал
+
+В модели на уровне компетенций (с2-шкал) шкалы не сбалансированы по количеству вопросов. Эта неравномерность вызвана тем, что от исходной модели опросника на 230 вопросов в количественном исследовании было использовано всего 137 вопросов. Остальные вопросы (и, соответственно, (суб)шкалы), было решено оценивать качественными методами.
+
+В результате в некоторых шкалах всего 3 вопроса, а в некоторых --- до 27:
+
+```{r}
+scales_questions <- merge(
+  # coeffs[, list(full_model = .N), keyby = lhs],
+  competencies_info[, list(full_model = .N), keyby = list(lhs = paste0('c', c2), C1, C2)],
+  coeffs_cleaned_lowp[, list(trimmed_model = .N), by = lhs],
+  by = 'lhs', all.x = TRUE
+)
+scales_questions[, excluded := full_model - trimmed_model]
+setnames(scales_questions, 'lhs', 'c2')
+
+kableExtra::kable(rbind(scales_questions[3:8], scales_questions[1:2])) %>%
+  kable_styling(font_size = 12)
+```
+
+

@@ -1,0 +1,211 @@
+# Data preparation {#preprocessing}
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE
+)
+```
+
+```{r, include=FALSE, warning=FALSE, message=FALSE}
+library(data.table)
+library(glue)
+library(lavaan)
+library(googlesheets4)
+library(kableExtra)
+
+library(psych)
+library(GPArotation)
+library(nFactors)
+library(corrplot)
+library(plotly)
+
+# ss <- gs4_create("2025_03_01_survey_validation")
+ss <- '1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM'
+```
+
+
+## Корректировка текстов вопросов
+
+Написание ряд вопросов в таблице модели по написанию отличаются от тех, что были использованы в опроснике. Поэтому в таблице модели внес некоторые правки:
+
+```
+было: когда я наблюдал(а) у клиента какой-то дисфункциональный процесс/убеждение или внутреннее противоречие, я прямо указывал(а) на это
+стало: Когда я наблюдал(а) у клиента какой-то дисфункциональный процесс, убеждение или внутреннее противоречие, я прямо указывал(а) на это
+
+
+было: я использовал(а) психологические термины, чтобы завоевать доверие клиента
+стало: Я использовала психологические термины, чтобы завоевать доверие клиента
+
+
+было: я просил(а) клиента говорить о своих чувствах и мыслях и не предлагал(а) своих интерпретаций
+стало: Я просил(а) клиента говорить о своих чувствах и мыслях, не предлагая своих интерпретаций
+
+было: я не рассказываю клиентам о том, как работаю, поскольку считаю, что это никак не повлияет на эффективность нашей работы
+стало: Я не рассказываю клиентам о том, как работаю, поскольку считаю что это никак не повлияет на эффективность нашей работы
+
+было: я формулирую психотерапевтический контракт с клиентом
+стало: Я формулирую психотерапевтический контракт со клиентом
+```
+
+## Кодирование шкал
+
+Для того, чтобы в коде не использовать длинные тексты и кириллицу, название компетенций (шкал) были перекодированы в лейблы `c1`, `c2`, `c3` для высокоуровневых категорий (5 макрокомпетенций), шкал компетенций (8) и суб-шкал ()
+
+```{r}
+# импортируем датасет модели шкал
+big_model <- fread('./raw_data/big_model.csv')
+
+# приводим к нижнему регистру
+big_model[, C1 := tolower(C1)]
+big_model[, C2 := tolower(C2)]
+big_model[, C3 := tolower(C3)]
+
+# нумеруем шкалы
+big_model[, c1 := .GRP, by = C1]
+big_model[, c2 := .GRP, by = C2]
+big_model[, c3 := .GRP, by = C3]
+```
+
+Попутно собираем табличку, где соотносятся вопросы и шкалы:
+
+```{r}
+questions <- fread('./raw_data/questions.csv')
+questions[, competence_ru := tolower(competence_ru)]
+questions[, question_ru := tolower(question_ru)]
+
+questions <- merge(
+  questions, 
+  big_model[, list(C1, c1, C2, c2, C3, c3)], 
+  by.x = 'competence_ru', by.y = 'C3', all.x = TRUE
+)
+setnames(questions, 'competence_ru', 'C3')
+```
+
+Названия шкал и присвоенные им коды можно посмотреть в табличке:
+
+- шкалы и субшкалы
+- шкалы и вопросы
+
+## Кодирование названий вопросов
+
+В самом опроснике вопросы также предствлены в виде текстовом виде. Их также пришлось перекодировать, по схеме `q_XXX`, где XXX --- номер вопроса в порядке его предъявления респондентам.
+
+```{r}
+# импортируем опросник
+questionnaire <- fread('./raw_data/questionnaire.csv')
+
+# создаем табличку вопросов
+questionnaire_names <- data.table(
+  question_ru = tolower(names(questionnaire))
+)
+
+# размечаем опросники, к которым относятся вопросы
+questionnaire_names[c(1:9, 232), question_type := 'info']
+questionnaire_names[10:146, question_type := 'competencies']
+questionnaire_names[147:160, question_type := 'empathy']
+questionnaire_names[161:170, question_type := 'TIPI']
+questionnaire_names[171:185, question_type := 'MAAS']
+questionnaire_names[186:231, question_type := 'SSPM']
+
+questionnaire_names[, question_ru := gsub('[0-9]*\\.\\s+', '', question_ru)]
+
+# выделяем табличку с вопросами 
+competencies_info <- questionnaire_names[question_type == 'competencies']
+
+# маркируем порядок вопросов
+competencies_info[, q_order := seq_len(.N)]
+
+# кодируем вопросы
+competencies_info[, q := paste0('q_', seq_len(.N))]
+
+# присоединяем табличку с маркерами шкал
+competencies_info <- merge(
+  competencies_info,
+  questions,
+  by = 'question_ru', all.x = TRUE
+)
+
+# вопросы и их маркеры
+c2_questions <- competencies_info[order(q_order), question_ru]
+c2_q_numbers <- competencies_info[order(q_order), q]
+```
+
+```{r, include=FALSE}
+fwrite(questionnaire_names, './data/questionnaire_names.csv')
+```
+
+Табличку вопросов с кодами и шкалами можно посмотреть здесь.
+
+```{r}
+# из всего опросника выделяем только ответы на вопросы по компетенциям
+competencies_data <- copy(questionnaire)
+names(competencies_data) <- tolower(names(competencies_data))
+names(competencies_data) <- gsub('[0-9]*\\.\\s+', '', names(competencies_data))
+
+competencies_data <- competencies_data[, .SD, .SDcols = c2_questions]
+names(competencies_data) <- c2_q_numbers
+```
+
+Теперь у нас есть рабочий датасет, в котором названия вопросов идут в виде `q_XXX`.
+
+## Кодирование вариантов ответов
+
+В опроснике используется шкала Ликерта с четырьмя вариантами ответа, ответы текстовые. Соответственно, для того, чтобы с этими данными можно было работать численными методами, все строковые значения были перекодированы в числовые:
+
+```{r}
+competencies_data[, (c2_q_numbers) := replace(.SD, .SD == 'Совершенно не верно', -2), .SDcols = c2_q_numbers]
+competencies_data[, (c2_q_numbers) := replace(.SD, .SD == 'Скорее не верно', -1), .SDcols = c2_q_numbers]
+competencies_data[, (c2_q_numbers) := replace(.SD, .SD == 'Скорее верно', 1), .SDcols = c2_q_numbers]
+competencies_data[, (c2_q_numbers) := replace(.SD, .SD == 'Совершенно верно', 2), .SDcols = c2_q_numbers]
+competencies_data[, (c2_q_numbers) := lapply(.SD, as.numeric), .SDcols = c2_q_numbers]
+```
+
+## Перекодирование обратных вопросов
+
+В опроснике встречаются вопросы с обратным порядком выборов -- то есть, отрицательные значения маркируют сильные проявления компетенций.
+Значения по таким вопросам я умножил на `-1`, чтобы привести их к общему виду с другими вопросами, когда положительное значение означает выраженность/наличие компетенции, а отрицательное -- ее отсутствие.
+
+```{r, include=FALSE}
+competencies_data_l <- melt(competencies_data, measure.vars = names(competencies_data), variable.name = 'q')
+competencies_data_l_stat  <- competencies_data_l[, list(q_sd = sd(value), q_mean = mean(value)), keyby = q]
+competencies_data_l_stat <- merge(
+  competencies_info[question_type == 'competencies', list(question_ru, q, q_order, C2, c2)],
+  competencies_data_l_stat,
+  by = 'q'
+)
+
+competencies_data_l_stat <- competencies_data_l_stat[order(q_order)]
+# write_sheet(
+#   data = competencies_data_l_stat,
+#   ss = ss,
+#   sheet = 'tmp'
+# )
+```
+
+
+```{r, warning=FALSE, message=FALSE}
+# импортируем табличку вопросов с маркером обратный / нет
+questionnaire_reverse <- as.data.table(read_sheet(ss, sheet = 'reversed_q'))
+competencies_info <- merge(
+  competencies_info, 
+  questionnaire_reverse[, list(question_ru, is_reversed)], 
+  by = 'question_ru', all.x = TRUE
+)
+
+kableExtra::kable(competencies_info[is_reversed == 1, list(question_ru)][1:5])
+```
+
+
+```{r}
+# выделяем обратные вопросы
+questions_reversed <- competencies_info[is_reversed == 1, q]
+
+# и перекодируем их значения (2 в -2, 1 в -1)
+competencies_data[, (questions_reversed) := lapply(.SD, function(x) -1 * x), .SDcols = questions_reversed]
+```
+
+
+
+
+
+

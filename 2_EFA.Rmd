@@ -1,0 +1,421 @@
+# EFA {#efa}
+
+```{r, include=FALSE}
+library(psych)
+library(GPArotation)
+library(nFactors)
+library(corrplot)
+library(data.table)
+library(plotly)
+```
+
+
+## Оценка данных
+
+Перед тем, как делать CFA и проверку теор.модели шкал компетенций, я сначала сделал общий эксплораторный анализ -- как выглядит факторная структура на восемь компетенций.
+
+### меры адекватности данных
+
+Два основных критерия адекватности данных при проведении эксплораторного факторного анализа -- критерий Кайзера-Мейера-Олкина (KMO, значения от 0 до 1, выше 0.9 -- очень хорошо, желательно не менее 0.6) и критерий сферичности Батлетта (p-value должно быть меньше 0.05).
+```{r}
+fa_metrics <- data.table(
+  `Kaiser-Meyer-Olkin measure` = round(KMO(competencies_data)$MSA, 2),
+  `Bartlett’s Test of Sphericity` = cortest.bartlett(cor(competencies_data), n = nrow(competencies_data))$p.value
+)
+kableExtra::kable(fa_metrics) %>%
+  kable_styling(font_size = 12)
+```
+
+
+### график собственных значений
+
+Чтобы оценить, какова вообще может быть потенциально факторная структура в основе наших 137 вопросов, можно посмотреть на график собственных значений. По критерию Кайзера (eigenvalues > 1) можно выделить до 14 факторов.
+
+```{r}
+# fa.parallel(competencies_data, fa = "fa", n.iter = 100, show.legend = TRUE)
+get_scree_plot(competencies_data)
+```
+
+## Восьмифакторная модель
+
+Ниже дана таблица факторных нагрузок при выделении восьми факторов (как в теор.модели компетенций). Я использовал oblimin-вращение, так как факторы могут быть скоррелированы друг с другом. Нагрузки ниже 0.3 подавлены, чтобы отсечь вопросы с низким вкладом (нерелевантные).
+
+```{r, echo=FALSE}
+efa_result <- fa(competencies_data, nfactors = 8, rotate = "oblimin", fm = "ml")
+```
+
+### корреляция факторов
+
+Если выделять восемь факторов, то они относительно слабо коррелируют друг с другом, некоторые факторы вообще слабо связаны с другими. Однако и полной ортогональности факторов тоже нет, что вполне соответствует нашим наблюдениям о высокой доле вопросов с кросс-нагрузками (высокими вкладами в сразу несколько факторов).
+
+```{r, echo=FALSE}
+corrplot(efa_result$Phi)
+```
+
+### факторные нагрузки
+
+Сводная статистика качества модели при выделении восьми факторов.
+
+- `total_items`: сколько всего вопросов использователось (осталось после удаления вопросов с нагрузками ниже 0.3)
+- `q_loadings_03`: количество вопросов в факторном решении, которые имеют высокую нагрузку
+- `q_communality_weak`: какое количество вопросов, у которых менее 40% дисперсии объясняется выделенными факторами
+- `q_complexity_high`: сколько вопросов делают большой вклад в больше чем 1 фактор (т. е. насколько вопросы размыты между факторами)
+
+```{r, echo=FALSE}
+print(efa_result, cut = 0.3)
+
+loadings_matrix <- unclass(efa_result$loadings)
+loadings_dt <- as.data.table(loadings_matrix, keep.rownames = 'q')
+
+loadings_dt[, h2 := efa_result$communality]
+loadings_dt[, u2 := efa_result$uniquenesses]
+loadings_dt[, com := efa_result$complexity]
+
+loadings_dt[, max_loading := do.call(pmax, lapply(.SD, abs)), .SDcols = patterns('ML')]
+
+
+loadings_dt <- loadings_dt[, list(
+  total_items = .N,
+  loadings_03 = sum(max_loading > 0.3),
+  communality_weak = sum(h2 < 0.4),
+  complexity_high = sum(com > 2)
+)]
+
+kableExtra::kable(loadings_dt) %>%
+  kable_styling(font_size = 12)
+```
+
+## Варианты с разным числом факторов
+
+### сводная таблица
+
+Для того, чтобы в целом представлять качество данных и возможность на их основе выделить какой-то набор осмысленных факторов, я оценил варианты факторизации с 4-14 факторами. Результаты наже в таблице.
+
+- `n_factors`: количество факторов
+- `CFI`: индекс для сравнения моделей. Больше подходит для CFA, но и в эксплораторном факторном анализе тоже может использоваться. Принимает значения от 0 до 1, чем выше -- тем лучше (выше 0.9 считается приемлемой моделью).
+- `RMSEA`: оценка, насколько модель может быть обобщена на ген.совокупность. Принимает значения от 0 до 1, чем ниже значение, тем лучше (меньше 0,05 --- отличное соотвествие модели). 
+- `cum_var` -- Cumulative Var, доля общей дисперсии переменных, объясненная факторами. 
+- `prop_var_min/prop_var_max`: минимальное и максимальное значения общей дисперсии, объясняемой тем или иным фактором модели (при `prop_var_max` = 0.04 никакой фактор не объясняет больше, чем 4% общей дисперсии). Этот размах показывает, насколько равноценны факторы.
+- `total_items`: сколько всего вопросов использователось (осталось после удаления вопросов с нагрузками ниже 0.3)
+- `q_loadings_03`: количество вопросов в факторном решении, которые имеют высокую нагрузку
+- `q_communality_weak`: какое количество вопросов, у которых менее 40% дисперсии объясняется выделенными факторами
+- `q_complexity_high`: сколько вопросов делают большой вклад в больше чем 1 фактор (т. е. насколько вопросы размыты между факторами)
+
+```{r}
+factor_grid <- lapply(4:14, function(x) {
+    efa_result <- fa(competencies_data, nfactors = x, rotate = "oblimin", fm = "ml")  
+    loadings_matrix <- unclass(efa_result$loadings)
+    loadings_dt <- as.data.table(loadings_matrix, keep.rownames = 'q')
+    
+    loadings_dt[, h2 := efa_result$communality]
+    loadings_dt[, u2 := efa_result$uniquenesses]
+    loadings_dt[, com := efa_result$complexity]
+    
+    loadings_dt[, max_loading := do.call(pmax, lapply(.SD, abs)), .SDcols = patterns('ML')]
+    
+    vaccounted <- data.table(t(efa_result$Vaccounted), keep.rownames = TRUE)
+    
+    loadings_dt[, list(
+      n_factors = x,
+      # rotation = 'oblimin',
+      CFI = round(efa_result$CFI, 3),
+      p.value = round(efa_result$PVAL, 3),
+      RMSEA = round(efa_result$RMSEA[1], 3),
+      cum_var = vaccounted[, round(max(`Cumulative Var`), 2)],
+      prop_var_min = vaccounted[, round(min(`Proportion Var`), 2)],
+      prop_var_max = vaccounted[, round(max(`Proportion Var`), 2)],
+      # total_items = .N,
+      q_loadings_03 = sum(max_loading > 0.3),
+      q_communality_weak = sum(h2 < 0.4),
+      q_complexity_high = sum(com > 2)
+    )]
+  }
+)
+factor_grid <- rbindlist(factor_grid)
+kableExtra::kable(factor_grid) %>%
+  kable_styling(font_size = 12)
+```
+
+
+При увеличении количества факторов растет индекс CFI и доля общей объясненной дисперсии. Однако видно, что достаточно много вопросов имеет низкую факторную нагрузку, а также имеет кросс-нагрузки.
+
+
+### динамика CFI
+
+Видно, что CFI прирастает медленно и с увеличением количества факторов. При увеличении количества факторов CFI метрика прирастает скачками, и чем больше факторов, тем меньше прирост. 
+Теор.модель с восемью факторами не выглядит оптимальной, а факторные модели с 13-14 факторами выглядят вероятными кандидатами на более глубокое исследование.
+
+```{r, include=FALSE}
+plot_ly(factor_grid, x = ~n_factors, y = ~CFI, type = 'scatter', mode = 'lines') %>%
+  layout(
+    title = 'CFI by number of factors',
+    yaxis = list(rangemode = 'tozero')
+  ) %>%
+  config(displayModeBar = FALSE)
+```
+
+```{r}
+tmp <- factor_grid[, list(n_factors, CFI, CFI_prev = shift(CFI, type = 'lag'))]
+tmp[, CFI_change := CFI / CFI_prev]
+tmp[, CFI_diff := c(NA, diff(CFI))]
+
+subplot(
+  plot_ly(tmp, x = ~n_factors, y = ~CFI, type = 'scatter', mode = 'lines', name = 'CFI'),
+  plot_ly(tmp, x = ~n_factors, y = ~CFI_diff, type = 'scatter', mode = 'lines', name = 'CFI_diff'),
+  nrows = 2, shareX = TRUE) %>%
+  layout(
+    title = 'CFI and CFI change by number of factors',
+    yaxis = list(rangemode = 'tozero'),
+    yaxis2 = list(rangemode = 'tozero')
+  ) %>%
+  config(displayModeBar = FALSE)
+```
+
+
+
+## Переразбиение шкал
+
+Для того, чтобы улучшить существующую модель, я попробовал оценить структуру крупных шкал отдельно -- чтобы удалить нерелевантные вопросы и/или разбить их на субшкалы. 
+
+Ниже я посмотрел, какие факторы можно выделить из вопросов шкал `отношения-1`, `работа с изменениями`, `профессионализм-2`, `результаты`.
+
+По большей части я руководствовался критерием Кайзера при определении количества факторов, а также исходным числом субшкал в той или иной шкале. В целом видно, что субшкалы действительно в той или иной степени составляют свою шкалу, однако почти во всех случаях это небольшие значения объясненной дисперсии (т. е. много вариативности ответов респондентов имеет другую причину, чем выделенные нами факторы). 
+
+В целом я склонен считать, что нет смысла в основной модели заменять шкалы набором переопределенных с помощью EFA субшкал -- некоторые из субшкал очень маленькие, в целом все факторные модели оказались с неудовлетворительным качеством. Поэтому для улучшения CFA я просто решил удалить вопросы, которые не имеют высокой нагрузки ни в один из выделенных факторов. Это должно уменьшить количество нерелевантных вопросов в рамках этих четырех больших шкал и потенциально улучшить модель.
+
+### EFA, с2 = 5
+
+Первый этап --- оценка, а сколько всего можно выделить факторов. Исходно в шкале с5 (отношения-1) 27 вопросов. Согласно критерию Кайзера (eigenvalue, собственный вес фактора, больше 1) можно выделить семь факторов. По графику собственных значений (scree plot, график "каменистой осыпи") оптимальными кажется выделение двух или четырех факторов.
+
+```{r}
+competencies_data_c5 <- competencies_data[, .SD, .SDcols = competencies_info[c2 == 5 & question_ru %in% c2_questions, q]]
+get_scree_plot(competencies_data_c5)
+```
+
+Я попробовал переразбить вопросы шкалы с2 = 5 (отношения-1) на четыре субшкалы. Для этого я использовал эксплораторный факторный анализ с oblimin-вращением. Вращение нужно, что сделать структуру более интерпретабельной, а также выровнять факторы, так как без вращения первый фактор всегда забирает максимум дисперсии и, соответственно, остальные факторы меньше по количеству вопросов и менее интерпретабельны. Oblimin-вращение предполагает возможную корреляцию факторов между собой.
+
+Факторные нагрузки по вопросам выглядят следюущим образом (отображение ниже 0.3 подавлено). Суммарно эти четыре фактора описывают порядка 30% общей дисперсии, первый фактор 14%. 
+```{r}
+fa_result <- fa(competencies_data_c5, nfactors = 4, rotate = "oblimin", fm = "ml")
+print(fa_result$loadings, cutoff = 0.3)
+```
+
+Качество вопросов:
+
+- `total_items`: всего вопросов
+- `loadings_03`: вопросов с нагрузками больше 0.3
+- `communality_weak`: количество вопросов, в которых выделенные факторы объсняют менее 40% дисперсии (вопросы слабо свзаны с факторами)
+- `complexity_high`: какое количество вопросов имеет высокие нагрузки более чем по одному фактору
+
+
+```{r}
+get_loadings(fa_result)
+```
+
+
+Диаграмма связей вопросов и факторов выглядит вот так.
+```{r}
+fa.diagram(fa_result)
+```
+
+Таблица вопросов с маркером объясняющего их фактора:
+
+```{r}
+loadings_df <- as.data.table(round(unclass(fa_result$loadings), 3), keep.rownames = TRUE)
+loadings_df[, factor_number := apply(as.data.frame(unclass(fa_result$loadings)), 1, function(x) which.max(abs(x)))]
+
+cols <- grep('ML', names(loadings_df), value = TRUE)
+loadings_df[, factor_number := ifelse(rowSums(abs(.SD) < 0.3) == length(cols), NA, factor_number), .SDcols = cols]
+setnames(loadings_df, 'rn', 'q')
+
+loadings_df <- merge(
+  competencies_info[c2 == 5 & question_ru %in% c2_questions, list(C2, c2, c3, q, competence_ru = C3, question_ru)],
+  loadings_df,
+  by = 'q', all.x = TRUE
+)
+
+kable(loadings_df[order(factor_number, c3), list(C2, c2, c3, q, competence_ru, question_ru, factor_number)]) %>%
+  kable_styling(font_size = 12)
+```
+
+```{r}
+c5_exclude <- loadings_df[is.na(factor_number), q]
+```
+
+Всего вопросов в каждом из факторов. По сути у нас тут один большой фактор и три микро-фактора:
+```{r}
+kable(loadings_df[, list(n_questions = .N), keyby = factor_number]) %>%
+  kable_styling(font_size = 12)
+```
+
+### EFA, с2 = 8
+
+Шкала `работа с изменениями`:
+
+```{r}
+competencies_data_c8 <- competencies_data[, .SD, .SDcols = competencies_info[c2 == 8 & question_ru %in% c2_questions, q]]
+get_scree_plot(competencies_data_c8)
+```
+
+
+```{r}
+fa_result <- fa(competencies_data_c8, nfactors = 7, rotate = "oblimin", fm = 'ml')
+print(fa_result$loadings, cutoff = 0.3)
+```
+
+Диаграмма, дисперсия каких вопросов каким фактором объясняется, выглядит вот так. Связь между факторами со значением 0.5 свидетельствует от достаточно сильной корреляции факторов друг с другом.
+
+```{r}
+fa.diagram(fa_result)
+```
+
+Таблица вопросов с маркером объясняющего их фактора:
+
+```{r}
+loadings_df <- as.data.table(round(unclass(fa_result$loadings), 3), keep.rownames = TRUE)
+loadings_df[, factor_number := apply(as.data.frame(unclass(fa_result$loadings)), 1, function(x) which.max(abs(x)))]
+
+cols <- grep('ML', names(loadings_df), value = TRUE)
+loadings_df[, factor_number := ifelse(rowSums(abs(.SD) < 0.3) == length(cols), NA, factor_number), .SDcols = cols]
+setnames(loadings_df, 'rn', 'q')
+
+# loadings_df[, factor_number := ifelse(rowSums(abs(.SD) < 0.3) == length(cols), NA, factor_number), .SDcols = cols]
+
+loadings_df <- merge(
+  competencies_info[c2 == 8 & question_ru %in% c2_questions, list(C2, c2, c3, q, competence_ru = C3, question_ru)],
+  loadings_df,
+  by = 'q', all.x = TRUE
+)
+
+# kable(loadings_df[order(factor_number, c3)])
+kable(loadings_df[order(factor_number, c3), list(C2, q, competence_ru, question_ru, ML1, ML2, factor_number)]) %>%
+  kable_styling(font_size = 12)
+```
+
+Здесь факторная структура и разделение вопросов по факторам также более сбалансировано:
+```{r}
+kable(loadings_df[, list(n_questions = .N), keyby = factor_number]) %>%
+  kable_styling(font_size = 12)
+```
+
+```{r}
+c8_exclude <- loadings_df[is.na(factor_number), q]
+```
+
+
+### EFA, с2 = 10
+
+Шкала `профессионализм-2`:
+
+```{r}
+competencies_data_c10 <- competencies_data[, .SD, .SDcols = competencies_info[c2 == 10 & question_ru %in% c2_questions, q]]
+get_scree_plot(competencies_data_c10)
+```
+
+
+```{r}
+fa_result <- fa(competencies_data_c10, nfactors = 3, rotate = "oblimin", fm = 'ml')
+print(fa_result$loadings, cutoff = 0.3)
+```
+Диаграмма, дисперсия каких вопросов каким фактором объясняется, выглядит вот так. Связь между факторами со значением 0.5 свидетельствует от достаточно сильной корреляции факторов друг с другом.
+```{r}
+fa.diagram(fa_result)
+```
+
+Таблица вопросов с маркером объясняющего их фактора:
+
+```{r}
+loadings_df <- as.data.table(round(unclass(fa_result$loadings), 3), keep.rownames = TRUE)
+loadings_df[, factor_number := apply(as.data.frame(unclass(fa_result$loadings)), 1, function(x) which.max(abs(x)))]
+
+cols <- grep('ML', names(loadings_df), value = TRUE)
+loadings_df[, factor_number := ifelse(rowSums(abs(.SD) < 0.3) == length(cols), NA, factor_number), .SDcols = cols]
+setnames(loadings_df, 'rn', 'q')
+
+loadings_df <- merge(
+  competencies_info[c2 == 10 & question_ru %in% c2_questions, list(C2, c2, c3, q, competence_ru = C3, question_ru)],
+  loadings_df,
+  by = 'q', all.x = TRUE
+)
+
+# kable(loadings_df[order(factor_number, c3)])
+kable(loadings_df[order(factor_number, c3), list(C2, q, competence_ru, question_ru, factor_number)]) %>%
+  kable_styling(font_size = 12)
+```
+
+Здесь факторная структура и разделение вопросов по факторам также более сбалансировано:
+```{r}
+kable(loadings_df[, list(n_questions = .N), keyby = factor_number]) %>%
+  kable_styling(font_size = 12)
+```
+
+```{r}
+c10_exclude <- loadings_df[is.na(factor_number), q]
+```
+
+
+### EFA, с2 = 11
+
+Аналогично с с2 = 11 (результаты), попробовал разбить на две субшкалы:
+
+```{r}
+competencies_data_c11 <- competencies_data[, .SD, .SDcols = competencies_info[c2 == 11 & question_ru %in% c2_questions, q]]
+get_scree_plot(competencies_data_c11)
+```
+
+```{r}
+fa_result <- fa(competencies_data_c11, nfactors = 3, rotate = "oblimin", fm = 'ml')
+print(fa_result$loadings, cutoff = 0.3)
+```
+
+Диаграмма, дисперсия каких вопросов каким фактором объясняется, выглядит вот так. Связь между факторами со значением -0.4 свидетельствует от достаточно сильной отрицательной корреляции.
+```{r}
+fa.diagram(fa_result)
+```
+
+Таблица вопросов с маркером объясняющего их фактора:
+
+```{r}
+loadings_df <- as.data.table(round(unclass(fa_result$loadings), 3), keep.rownames = TRUE)
+loadings_df[, factor_number := apply(as.data.frame(unclass(fa_result$loadings)), 1, function(x) which.max(abs(x)))]
+
+cols <- grep('ML', names(loadings_df), value = TRUE)
+loadings_df[, factor_number := ifelse(rowSums(abs(.SD) < 0.3) == length(cols), NA, factor_number), .SDcols = cols]
+setnames(loadings_df, 'rn', 'q')
+
+loadings_df <- merge(
+  competencies_info[c2 == 11 & question_ru %in% c2_questions, list(C2, c2, c3, q, competence_ru = C3, question_ru)],
+  loadings_df,
+  by = 'q', all.x = TRUE
+)
+
+# kable(loadings_df[order(factor_number, c3)])
+kable(loadings_df[order(factor_number, c3), list(C2, q, competence_ru, question_ru, factor_number)]) %>%
+  kable_styling(font_size = 12)
+```
+
+Здесь факторная структура и разделение вопросов по факторам оказалось более сбалансированным:
+```{r}
+kable(loadings_df[, list(n_questions = .N), keyby = factor_number]) %>%
+  kable_styling(font_size = 12)
+```
+
+
+```{r}
+c11_exclude <- loadings_df[is.na(factor_number), q]
+```
+
+
+```{r}
+# q_excluded <- c(c5_exclude, c8_exclude, c10_exclude, c11_exclude)
+# saveRDS(q_excluded, './cfa_models/q_excluded')
+q_excluded <- readRDS('./cfa_models/q_excluded')
+```
+
+
+
+
+
+
+
+

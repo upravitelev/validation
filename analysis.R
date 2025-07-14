@@ -2,14 +2,14 @@ library(data.table)
 library(glue)
 library(lavaan)
 library(googlesheets4)
-
+library(plotly)
 
 # google spreadsheet ------------------------------------------------------
 
 # install.packages('googlesheets4')
 library(googlesheets4)
 # ss <- gs4_create("2025_03_01_survey_validation")
-
+ss <- '1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM'
 
 
 # big model ---------------------------------------------------------------
@@ -67,6 +67,10 @@ c2_q_numbers <- c2_info[order(q_order), q]
 
 fwrite(questionnaire_names, './data/questionnaire_names.csv')
 
+questionnaire_reverse <- as.data.table(read_sheet(ss, sheet = 'reversed_q'))
+c2_info <- merge(c2_info, questionnaire_reverse[, list(q, is_reversed)], by = 'q', all.x = TRUE)
+
+
 # model declaration -------------------------------------------------------
 
 # questions[, sort(unique(c2))]
@@ -120,12 +124,15 @@ c2_data[, (c2_q_numbers) := replace(.SD, .SD == 'Скорее верно', 1), .
 c2_data[, (c2_q_numbers) := replace(.SD, .SD == 'Совершенно верно', 2), .SDcols = c2_q_numbers]
 c2_data[, (c2_q_numbers) := lapply(.SD, as.numeric), .SDcols = c2_q_numbers]
 
+c2_q_reversed <- c2_info[is_reversed == 1, q]
+c2_data[, (c2_q_reversed) := lapply(.SD, function(x) -1 * x), .SDcols = c2_q_reversed]
+
 fwrite(c2_data, './data/c2_data.csv')
 
 # model fit ---------------------------------------------------------------
 
 fit_mlr <- cfa(model = c2_declarations, data = c2_data, estimator = 'MLR')
-saveRDS(fit_mlr, 'fit_mlr')
+# saveRDS(fit_mlr, 'fit_mlr')
 
 fit_ml <- cfa(model = c2_declarations, data = c2_data, estimator = 'ML')
 saveRDS(fit_ml, 'fit_ml')
@@ -146,47 +153,40 @@ inspect(fit_corr_mlr, "cor.lv")
 
 
 # coefficients ------------------------------------------------------------
-
-coeffs <- data.table(parameterEstimates(fit_corr_mlr))[op == '=~']
+# fit_mlr <- readRDS('fit_mlr')
+coeffs <- data.table(parameterEstimates(fit_mlr))[op == '=~']
 coeffs_lowp <- coeffs[pvalue < 0.05 | is.na(pvalue)]
-# coeffs_lowp <- coeffs_lowp[op == '=~']
 
 c2_declarations_cleaned <- coeffs_lowp[, list(paste(lhs, '=~', paste(rhs, collapse = ' + ') )), by = lhs]
 c2_declarations_cleaned <- c2_declarations_cleaned[, paste(V1, collapse = '\n\n')]
 
-fit_mlr_cleaned <- cfa(model = c2_declarations_cleaned, data = c2_data, estimator = 'MLR')
-saveRDS(fit_mlr_cleaned, 'fit_mlr_cleaned')
-
+# fit_mlr_cleaned <- cfa(model = c2_declarations_cleaned, data = c2_data, estimator = 'MLR')
+# saveRDS(fit_mlr_cleaned, 'fit_mlr_cleaned')
+fit_mlr_cleaned <- readRDS('fit_mlr_cleaned')
 
 fitMeasures(fit_mlr, c("cfi", "rmsea", "srmr", "chisq", "df"))
 fitMeasures(fit_mlr_cleaned, c("cfi", "rmsea", "srmr", "chisq", "df"))
-fitMeasures(fit_corr_mlr, c("cfi", "rmsea", "srmr", "chisq", "df"))
 
 coeffs_cleaned <- data.table(parameterEstimates(fit_mlr_cleaned))[op == '=~']
 coeffs_cleaned_lowp <- coeffs_cleaned[pvalue < 0.05 | is.na(pvalue)]
 coeffs_cleaned[pvalue >= 0.05, .N]
 
-
-coeffs[, .N, by = lhs]
-coeffs_cleaned_lowp[, .N, by = lhs]
-
-
-c2_declarations_cleand_corr <- paste(
-  c2_declarations_cleaned,
-  '
-  c2  ~~ c3  + c5  + c6  + c8  + c9  + c10 + c11
-  c3  ~~ c5  + c6  + c8  + c9  + c10 + c11
-  c5  ~~ c6  + c8  + c9  + c10 + c11
-  c6  ~~ c8  + c9  + c10 + c11
-  c8  ~~ c9  + c10 + c11
-  c9  ~~ c10 + c11
-  c10 ~~ c11
-  ',
-  sep = '\n\n'
-)
-
-fit_mlr_corr_cleaned <- cfa(model = c2_declarations_cleand_corr, data = c2_data, estimator = 'MLR')
-saveRDS(fit_mlr_corr_cleaned, 'fit_mlr_corr_cleaned')
+# c2_declarations_cleand_corr <- paste(
+#   c2_declarations_cleaned,
+#   '
+#   c2  ~~ c3  + c5  + c6  + c8  + c9  + c10 + c11
+#   c3  ~~ c5  + c6  + c8  + c9  + c10 + c11
+#   c5  ~~ c6  + c8  + c9  + c10 + c11
+#   c6  ~~ c8  + c9  + c10 + c11
+#   c8  ~~ c9  + c10 + c11
+#   c9  ~~ c10 + c11
+#   c10 ~~ c11
+#   ',
+#   sep = '\n\n'
+# )
+# 
+# fit_mlr_corr_cleaned <- cfa(model = c2_declarations_cleand_corr, data = c2_data, estimator = 'MLR')
+# saveRDS(fit_mlr_corr_cleaned, 'fit_mlr_corr_cleaned')
 
 
 # excluded questions ------------------------------------------------------
@@ -233,7 +233,7 @@ write_sheet(
 modindices <- modindices(fit_mlr_cleaned, sort = TRUE)
 setDT(modindices)
 
-modindices_cut <- modindices[op == '=~' & mi > 15]
+modindices_cut <- modindices[op == '=~' & mi > 10]
 modindices_cut <- modindices_cut[order(rhs, -mi)]
 modindices_cut[, mi_rnd := round(mi, 2)]
 
@@ -337,6 +337,30 @@ modindices[lhs == 'c6' & mi > 10][order(rhs), paste(rhs, collapse = ' + ')]
 modindices[, uniqueN(rhs)]
 
 
+# исключение вопросов с высокой нагрузкой ---------------------------------
+
+questions_highloads <- modindices[op == '=~' & mi > 20, unique(rhs)]
+length(questions_highloads)
+
+cat(c2_declarations_cleaned)
+
+c2_declarations_cleaned_noloads <- gsub(paste(questions_highloads, collapse = '|'), '', c2_declarations_cleaned)
+cat(c2_declarations_cleaned_noloads)
+
+
+c2_declarations_cleaned_noloads <- lapply(c2_names, function(x) questions[c2 == x & question_ru %in% c2_questions & !q %in% questions_highloads, paste(glue('c{x} =~'), paste(q, collapse = ' + '))])
+c2_declarations_cleaned_noloads <- paste(c2_declarations_cleaned_noloads, collapse = '\n\n')
+cat(c2_declarations_cleaned_noloads)
+
+fit_mlr_noloads <- cfa(model = c2_declarations_cleaned_noloads, data = c2_data, estimator = 'MLR')
+saveRDS(fit_mlr_noloads, 'fit_mlr_noloads')
+
+fitMeasures(fit_mlr, c("cfi", "rmsea", "srmr", "chisq", "df"))
+fitMeasures(fit_mlr_cleaned, c("cfi", "rmsea", "srmr", "chisq", "df"))
+fitMeasures(fit_mlr_noloads, c("cfi", "rmsea", "srmr", "chisq", "df"))
+
+
+
 # MIMIC -------------------------------------------------------------------
 c2_data_ext <- cbind(
   c2_data, 
@@ -371,16 +395,6 @@ summary(fit_configural, fit.measures = TRUE)
 
 fit_configural <- cfa(c2_declarations_cleaned, data = c2_data_ext, group = "experience", estimator = "MLR")
 summary(fit_configural, fit.measures = TRUE)
-
-
-
-
-
-
-
-
-
-
 
 
 
