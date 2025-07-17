@@ -1,1 +1,154 @@
 # Convergent validity {#cv}
+
+## MASS
+
+```{r}
+# maas
+
+questions_maas <- questionnaire_names[question_type == 'MAAS', question_ru]
+data_maas <- questionnaire_data[, .SD, .SDcols = c('uid', questions_maas)]
+
+data_maas[, (questions_maas) := replace(.SD, .SD == 'почти всегда', 1), .SDcols = questions_maas]
+data_maas[, (questions_maas) := replace(.SD, .SD == 'очень часто', 2), .SDcols = questions_maas]
+data_maas[, (questions_maas) := replace(.SD, .SD == 'скорее часто', 3), .SDcols = questions_maas]
+data_maas[, (questions_maas) := replace(.SD, .SD == 'скорее редко', 4), .SDcols = questions_maas]
+data_maas[, (questions_maas) := replace(.SD, .SD == 'очень редко', 5), .SDcols = questions_maas]
+data_maas[, (questions_maas) := replace(.SD, .SD == 'почти никогда', 6), .SDcols = questions_maas]
+data_maas[, (questions_maas) := lapply(.SD, as.numeric), .SDcols = questions_maas]
+
+data_maas[, maas := rowSums(.SD), .SDcols = questions_maas]
+```
+
+
+## тест эмпатии Дэвиса
+
+NB! в информации по опроснику шкала кодируется униполярно в значениях А-Г, от 0 до 4. В опроснике ответы закодированы в биполярной шкале от `Полностью не согласен` до `Полностью согласен` с нейтральной точкой в виде `Трудно сказать`.
+
+Также в тест есть обратные вопросы и непонятно, как они закодированы в опроснике.
+
+
+```{r}
+questions_empathy <- questionnaire_names[question_type == 'empathy', question_ru]
+data_empathy <- questionnaire_data[, .SD, .SDcols = c('uid', questions_empathy)]
+
+
+data_empathy[, unique(`я часто испытываю теплые чувства и заботу по отношению к тем, кто менее удачлив, чем я.`)]
+
+data_empathy[, (questions_empathy) := replace(.SD, .SD == 'Полностью не согласен', 0), .SDcols = questions_empathy]
+data_empathy[, (questions_empathy) := replace(.SD, .SD == 'Частично не согласен', 1), .SDcols = questions_empathy]
+data_empathy[, (questions_empathy) := replace(.SD, .SD == 'Трудно сказать', 2), .SDcols = questions_empathy]
+data_empathy[, (questions_empathy) := replace(.SD, .SD == 'Частично согласен', 3), .SDcols = questions_empathy]
+data_empathy[, (questions_empathy) := replace(.SD, .SD == 'Полностью согласен', 4), .SDcols = questions_empathy]
+
+data_empathy[, maas := rowSums(.SD), .SDcols = questions_empathy]
+```
+
+
+## TIPI
+
+```{r}
+questions_tipi <- questionnaire_names[question_type == 'TIPI', question_ru]
+data_tipi <- questionnaire_data[, .SD, .SDcols = c('uid', questions_tipi)]
+
+questions_tipi_neg <- c(
+  "сдержанным, тихим.", 
+  "критичным, придирчивым.", 
+  "неорганизованным, беспечным.", 
+  "спокойным, эмоционально стабильным.", 
+  "конвенциональным, не творческим."
+)
+
+# data_tipi[, unique(`экстравертированным, полным энтузиазма.`)]
+
+data_tipi[, (questions_tipi) := replace(.SD, .SD == 'Полностью не согласен', 1), .SDcols = questions_tipi]
+data_tipi[, (questions_tipi) := replace(.SD, .SD == 'Не согласен', 2), .SDcols = questions_tipi]
+data_tipi[, (questions_tipi) := replace(.SD, .SD == 'Скорее не согласен', 3), .SDcols = questions_tipi]
+data_tipi[, (questions_tipi) := replace(.SD, .SD == 'Ни то, ни другое', 4), .SDcols = questions_tipi]
+data_tipi[, (questions_tipi) := replace(.SD, .SD == 'Скорее согласен', 5), .SDcols = questions_tipi]
+data_tipi[, (questions_tipi) := replace(.SD, .SD == 'Согласен', 6), .SDcols = questions_tipi]
+data_tipi[, (questions_tipi) := replace(.SD, .SD == 'Полностью согласен', 7), .SDcols = questions_tipi]
+
+data_tipi[, (questions_tipi) := lapply(.SD, as.numeric), .SDcols = questions_tipi]
+data_tipi[, (questions_tipi_neg) := lapply(.SD, function(x) -1 * x), .SDcols = questions_tipi_neg]
+
+data_tipi[, `Экстраверсия` := `экстравертированным, полным энтузиазма.` + `сдержанным, тихим.`]
+data_tipi[, `Доброжелательность` := `критичным, придирчивым.` + `отзывчивым, теплым.`]
+data_tipi[, `Сознательность` := `надежным, самодисциплинированным.` + `неорганизованным, беспечным.`]
+data_tipi[, `Невротизм` := `тревожным, легко расстраивающимся.` + `спокойным, эмоционально стабильным.`]
+data_tipi[, `Открытость опыту` := `открытым новому опыту, сложным.` + `конвенциональным, не творческим.`]
+```
+
+## SSPM
+
+```{r}
+# SSPM
+
+sspm_scales <- function(data, pos, neg, scale_name) {
+  q_pos <- paste0('q_', pos)
+  q_neg <- paste0('q_', neg)
+  
+  dt <- copy(data[, .SD, .SDcols = c('uid', q_pos, q_neg)])
+  
+  # Перекодируем положительные утверждения
+  dt[, (q_pos) := lapply(.SD, \(x) fifelse(x %in% c('Пожалуй, верно', 'Верно'), 1, 0)), .SDcols = q_pos]
+  
+  # Перекодируем отрицательные утверждения
+  dt[, (q_neg) := lapply(.SD, \(x) fifelse(x %in% c('Пожалуй, верно', 'Верно'), 0, 1)), .SDcols = q_neg]
+  
+  # Преобразуем всё в числовой формат
+  dt[, (c(q_pos, q_neg)) := lapply(.SD, as.numeric), .SDcols = c(q_pos, q_neg)]
+  
+  # Считаем сумму баллов по шкале
+  dt[, (scale_name) := rowSums(.SD), .SDcols = c(q_pos, q_neg)]
+  
+  return(dt)
+}
+
+questions_sspm <- questionnaire_names[question_type == 'SSPM', question_ru]
+data_sspm <- questionnaire_data[, .SD, .SDcols = c('uid', questions_sspm)]
+names(data_sspm) <- c('uid', paste('q', 1:length(questions_sspm), sep = '_'))
+
+q_sspm_plan_pos <- c(1, 8, 17, 22, 28, 31, 36)
+q_sspm_plan_neg <- c(15, 42)
+data_sspm_plan <- sspm_scales(data_sspm, q_sspm_plan_pos, q_sspm_plan_neg, scale_name = 'Планирование')
+data_sspm <- merge(data_sspm, data_sspm_plan[, list(uid, `Планирование`)], by='uid', all.x = TRUE)
+
+# q_sspm_plan_pos <- paste('q', c(1, 8, 17, 22, 28, 31, 36), sep = '_')
+# q_sspm_plan_neg <- paste('q', c(15, 42), sep = '_')
+# data_sspm_plan <- data_sspm[, .SD, .SDcols = c('uid', q_sspm_plan_pos, q_sspm_plan_neg)]
+# data_sspm_plan[, (q_sspm_plan_pos) := lapply(.SD, function(x) fifelse(x %in% c('Пожалуй, верно', 'Верно'), 1, 0)), .SDcols = q_sspm_plan_pos]
+# data_sspm_plan[, (q_sspm_plan_neg) := lapply(.SD, function(x) fifelse(x %in% c('Пожалуй, верно', 'Верно'), 0, 1)), .SDcols = q_sspm_plan_neg]
+# data_sspm_plan[, (c(q_sspm_plan_pos, q_sspm_plan_neg)) := lapply(.SD, as.numeric), .SDcols = c(q_sspm_plan_pos, q_sspm_plan_neg)]
+# data_sspm_plan[, `Планирование` := rowSums(.SD), .SDcols = c(q_sspm_plan_pos, q_sspm_plan_neg)]
+
+q_sspm_model_pos <- c(11, 37)
+q_sspm_model_neg <- c(2, 7, 19, 23, 26, 33, 41)
+data_sspm_model <- sspm_scales(data_sspm, q_sspm_model_pos, q_sspm_model_neg, scale_name = 'Моделирование')
+data_sspm <- merge(data_sspm, data_sspm_model[, list(uid, `Моделирование`)], by='uid', all.x = TRUE)
+
+q_sspm_progr_pos <- c(12, 20, 25, 29, 38, 43)
+q_sspm_progr_neg <- c(5, 9, 32)
+data_sspm_progr <- sspm_scales(data_sspm, q_sspm_progr_pos, q_sspm_progr_neg, scale_name = 'Программирование')
+data_sspm <- merge(data_sspm, data_sspm_progr[, list(uid, `Программирование`)], by='uid', all.x = TRUE)
+
+q_sspm_result_pos <- c(30, 44)
+q_sspm_result_neg <- c(6, 10, 13, 16, 24, 34, 39)
+data_sspm_result <- sspm_scales(data_sspm, q_sspm_result_pos, q_sspm_result_neg, scale_name = 'Оценивание результатов')
+data_sspm <- merge(data_sspm, data_sspm_result[, list(uid, `Оценивание результатов`)], by='uid', all.x = TRUE)
+
+q_sspm_flex_pos <- c(2, 11, 25, 35, 36, 45)
+q_sspm_flex_neg <- c(16, 18, 43)
+data_sspm_flex <- sspm_scales(data_sspm, q_sspm_flex_pos, q_sspm_flex_neg, scale_name = 'Гибкость')
+data_sspm <- merge(data_sspm, data_sspm_flex[, list(uid, `Гибкость`)], by='uid', all.x = TRUE)
+
+q_sspm_self_pos <- c(4, 12, 14, 21, 27, 31, 40, 46)
+q_sspm_self_neg <- c(34)
+data_sspm_self <- sspm_scales(data_sspm, q_sspm_self_pos, q_sspm_self_neg, scale_name = 'Самостоятельность')
+data_sspm <- merge(data_sspm, data_sspm_self[, list(uid, `Самостоятельность`)], by='uid', all.x = TRUE)
+
+q_sspm_common_pos <- c(1, 2, 4, 8, 11, 12, 14, 17, 20, 21, 22, 25, 27, 28, 29, 30, 31, 35, 36, 37, 38, 40, 43, 44, 45, 46)
+q_sspm_common_neg <- c(3, 5, 6, 7, 9, 10, 13, 15, 16, 18, 19, 23, 24, 26, 32, 33, 34, 39, 41, 42)
+data_sspm_common <- sspm_scales(data_sspm, q_sspm_common_pos, q_sspm_common_neg, scale_name = 'Общий уровень саморегуляции')
+data_sspm <- merge(data_sspm, data_sspm_common[, list(uid, `Общий уровень саморегуляции`)], by='uid', all.x = TRUE)
+```
+

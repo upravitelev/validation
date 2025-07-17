@@ -99,6 +99,9 @@ questionnaire_names <- data.table(
   question_ru = tolower(names(questionnaire))
 )
 
+# добавляем uid
+questionnaire[, uid := paste('uid_', seq_len(.N))]
+
 # размечаем опросники, к которым относятся вопросы
 questionnaire_names[c(1:9, 232), question_type := 'info']
 questionnaire_names[10:146, question_type := 'competencies']
@@ -138,11 +141,11 @@ fwrite(questionnaire_names, './data/questionnaire_names.csv')
 
 ```{r}
 # из всего опросника выделяем только ответы на вопросы по компетенциям
-competencies_data <- copy(questionnaire)
-names(competencies_data) <- tolower(names(competencies_data))
-names(competencies_data) <- gsub('[0-9]*\\.\\s+', '', names(competencies_data))
+questionnaire_data <- copy(questionnaire)
+names(questionnaire_data) <- tolower(names(questionnaire_data))
+names(questionnaire_data) <- gsub('[0-9]*\\.\\s+', '', names(questionnaire_data))
 
-competencies_data <- competencies_data[, .SD, .SDcols = c2_questions]
+competencies_data <- questionnaire_data[, .SD, .SDcols = c2_questions]
 names(competencies_data) <- c2_q_numbers
 ```
 

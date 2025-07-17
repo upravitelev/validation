@@ -65,7 +65,11 @@ fitMeasures(fit_mlr, c('cfi', 'rmsea', 'srmr'))
 Референсные значения для SRMR (насколько хорошо модель воспроизводит наблюдаемые корреляции) -- чем ниже, тем лучше, ниже 0.05 очень хорошее качество, ниже 0.08 -- приемлемое.
 
 
-## скорректированная модель 
+## подходы к улучшению модели
+
+### скорректированная модель 
+
+Самый простой способ улучшить модель -- удалить те вопросы, по которым нет значимых вкладов. В табличке ниже дано количество вопросов в каждой шкале всего, и сколько оказалось без значимых вкладов (кандидаты на удаление):
 
 ```{r}
 coeffs <- data.table(parameterEstimates(fit_mlr))[op == '=~']
@@ -79,8 +83,7 @@ c2_declarations_cleaned <- c2_declarations_cleaned[, paste(V1, collapse = '\n\n'
 fit_mlr_cleaned <- readRDS('./cfa_models/fit_mlr_cleaned')
 ```
 
-
-Ряд вопросов имеют низкий / незначимый вклад, поэтому их лучше удалить из модели. Вот список компетенций с исходным количеством вопросов и удаленными вопросами:
+<!-- Ряд вопросов имеют низкий / незначимый вклад, поэтому их лучше удалить из модели. Вот список компетенций с исходным количеством вопросов и удаленными вопросами: -->
 
 ```{r}
 coeffs_cleaned <- data.table(parameterEstimates(fit_mlr_cleaned))[op == '=~']
@@ -106,22 +109,62 @@ fitMeasures(fit_mlr_cleaned, c('cfi', 'rmsea', 'srmr'))
 ```
 
 
-## метрики качества c2-моделей
-
-Метрики качества модели без знасимых вопросов практически не изменились. Сводная таблица всех четырех моделей (с корреляцией факторов / без корреляции, с удалением незначимых вопровов / все вопросы) выглядит следующим образом:
+### модель с кросс-нагрузками
 
 ```{r}
-rbind(
-  as.data.table(as.list(c('model' = 'all questions', round(fitMeasures(fit_mlr, c('cfi', 'rmsea', 'srmr')), 3)))),
-  as.data.table(as.list(c('model' = 'excluded questions', round(fitMeasures(fit_mlr_cleaned, c('cfi', 'rmsea', 'srmr')), 3))))
-)
+modindices_high_loads <- modindices_cut[, .SD[1], by = rhs]
+modindices_high_loads
+
+coeffs_lowp[, unique(lhs)]
+
+c2_declarations_mod <- lapply(coeffs_lowp[, sort(unique(lhs))], function(x) {
+  questions <- c(coeffs_lowp[lhs == x, rhs], modindices_high_loads[lhs == x, rhs])
+  questions <- sort(unique(questions))
+  model <- paste(questions, collapse = ' + ')
+  paste(x, '=~', model)
+})
+
+# c2_declarations_mod <- lapply(coeffs_lowp[, unique(lhs)], function(x) {
+#   if (x == 'c3') {
+#     questions <- c(coeffs_lowp[lhs %in% c('c3', 'c9'), rhs], modindices_high_loads[lhs %in% c('c3', 'c9'), rhs])
+#   }
+#   else {
+#     questions <- c(coeffs_lowp[lhs == x, rhs], modindices_high_loads[lhs == x, rhs])
+#   }
+#   questions <- sort(unique(questions))
+#   model <- paste(questions, collapse = ' + ')
+#   paste(x, '=~', model)
+# })
+# c2_declarations_mod <- c2_declarations_mod[-6]
+
+c2_declarations_mod <- paste(c2_declarations_mod, collapse = '\n')
+cat(c2_declarations_mod)
 ```
 
-Удаление незначимых вопросов немного улучшает качество структуры модели, но оно все еще недостаточно. Дальнейшие действия возможные тут --- добавление кросс-нагрузок вопросов в разные факторы. Либо пересмотр всей модели в целом с помощью разведочного факторного анализа.
+```{r}
+# fit_mlr_mod <- cfa(model = c2_declarations_cleaned, data = competencies_data, estimator = 'MLR')
+# saveRDS(fit_mlr_mod, './cfa_models/fit_mlr_mod')
 
-Однако это все требует теоретического пересмотра модели компетенций, и может быть излишним для текущей задачи.
+fit_mlr_mod <- readRDS('./cfa_models/fit_mlr_mod')
+```
 
-## модель без кросс-нагрузок
+```{r}
+fitMeasures(fit_mlr_mod, c('cfi', 'rmsea', 'srmr'))
+```
+
+
+### модель без кросс-нагрузок
+
+Еще один способ улучшить модель --- исключить вопросы с высокой кросс-нагрузкой (вариативность которых может объясняться сразу несколькими латентными факторами).
+
+Можно, наоборот, попробовать сделать модель с учетом кросс-нагрузок и указать связь вопросов сразу с несколькими факторами. Однако достаточно сложно определить хорошие кандидаты на связь с другими факторам, так как некоторые вопросы имеют высокую кросс-нагрузку сразу по нескольким факторам. 
+
+```{r}
+modindices_cut <- modindices[op == '=~' & mi > 10]
+modindices_cut <- modindices_cut[order(rhs, -mi)]
+modindices_cut[, mi_rnd := round(mi, 2)]
+```
+
 
 ```{r}
 # смотрим кросс-нагрузки
@@ -136,6 +179,43 @@ setDT(modindices)
 modindices_cut <- modindices[op == '=~' & mi > 10]
 modindices_cut <- modindices_cut[order(rhs, -mi)]
 modindices_cut[, mi_rnd := round(mi, 2)]
+
+indices_table <- rbind(
+  modindices_cut[, list(type = 'cross-loads', lhs, rhs, mi = round(mi, 2))],
+  coeffs_lowp[, list(type = 'model', lhs, rhs, mi = 100, pvalue = round(pvalue, 5))],
+  fill = TRUE
+)
+
+indices_table[, n_factors := .N, by = rhs]
+indices_table <- indices_table[n_factors > 1]
+
+indices_table <- merge(
+  indices_table,
+  questionnaire_names[, list(rhs = q, question_ru, c3)],
+  by = 'rhs', all.x = TRUE
+)
+
+indices_table <- merge(
+  indices_table,
+  unique(big_model[, list(lhs = paste0('c', c2), C1, C2)]),
+  by = c('lhs'), all.x = TRUE
+)
+
+indices_table <- merge(
+  indices_table,
+  unique(big_model[, list(lhs = paste0('c', c2), c3, C3, description)]),
+  by = c('lhs', 'c3'), all.x = TRUE
+)
+
+indices_table <- indices_table[order(rhs, -type, -mi)]
+indices_table[, n_factors := NULL]
+
+write_sheet(
+  data = indices_table,
+  ss = ss,
+  sheet = 'cross-loads'
+)
+
 ```
 
 ```{r}
@@ -165,19 +245,22 @@ fit_mlr_noloads_15 <- readRDS('./cfa_models/fit_mlr_noloads_15')
 ```
 
 
-
+Метрики качество модели при удалении вопросов с высокими (mi > 15) кросс-нагрузками
 ```{r}
 fitMeasures(fit_mlr_noloads_15, c('cfi', 'rmsea', 'srmr'))
-fitMeasures(fit_mlr_noloads_20, c('cfi', 'rmsea', 'srmr'))
+# fitMeasures(fit_mlr_noloads_20, c('cfi', 'rmsea', 'srmr'))
 ```
 
-## модель с высокими нагрузками
+### модель с высокими efa-нагрузками
+
+Третий способ, который я использовал --- убрал из модели вопросы, которые имели низкую факторную нагрузку при разбиении вопросов на восемь факторов при EFA. По сути, я убрал совсем нерелевантные вопросы.
+
 
 ```{r}
 efa_result <- fa(competencies_data, nfactors = 8, rotate = "oblimin", fm = "ml")
 loadings_dt <- as.data.table(unclass(efa_result$loadings), keep.rownames = 'q')
 loadings_dt[, max_loading := do.call(pmax, lapply(.SD, abs)), .SDcols = patterns('ML')]
-loadings_dt[max_loading < 0.3, q]
+# loadings_dt[max_loading < 0.3, q]
 ```
 
 
@@ -200,11 +283,15 @@ cat(c2_declarations_cleaned_weak)
 fit_mlr_weak <- readRDS('./cfa_models/fit_mlr_weak')
 ```
 
+
+Метрики качества получившейся модели:
 ```{r}
 fitMeasures(fit_mlr_weak, c('cfi', 'rmsea', 'srmr'))
 ```
 
-## модель с без вопросов с низкой нагрузкой
+### модель без вопросов с низкой нагрузкой
+
+Четвертый способ (самый слабый из испробованных) -- удаление нерелевантных вопросов из шкал `отношения-1`, `работа с изменениями`, `профессионализм-2`, `результаты`.
 
 ```{r}
 # задаем модель
@@ -222,6 +309,41 @@ fit_mlr_weak2 <- readRDS('./cfa_models/fit_mlr_weak2')
 ```{r}
 fitMeasures(fit_mlr_weak, c('cfi', 'rmsea', 'srmr'))
 ```
+
+
+## метрики с2-моделей
+
+Сводная таблица метрик качества этих моделей выглядит следующим образом:
+
+```{r}
+c2_models_metrics <- data.table(
+  model = c(
+    'исходная модель', 
+    'модель без незначимых вопросов', 
+    'модель с кросс-нагрузками', 
+    'модель без кросс-нагрузок',
+    'модель с высокими EFA-нагрузками',
+    'модель без низких EFA-нагрузок по отдельным шкалам')
+)
+```
+
+```{r}
+metrics_names <- c('cfi', 'rmsea', 'srmr')
+c2_models_metrics[model == 'исходная модель', (metrics_names) := as.list(round(fitMeasures(fit_mlr, metrics_names), 3))]
+c2_models_metrics[model == 'модель без незначимых вопросов', (metrics_names) := as.list(round(fitMeasures(fit_mlr_cleaned, metrics_names), 3))]
+c2_models_metrics[model == 'модель с кросс-нагрузками', (metrics_names) := as.list(round(fitMeasures(fit_mlr_mod, metrics_names), 3))]
+c2_models_metrics[model == 'модель без кросс-нагрузок', (metrics_names) := as.list(round(fitMeasures(fit_mlr_noloads_15, metrics_names), 3))]
+c2_models_metrics[model == 'модель с высокими EFA-нагрузками', (metrics_names) := as.list(round(fitMeasures(fit_mlr_weak, metrics_names), 3))]
+c2_models_metrics[model == 'модель без низких EFA-нагрузок по отдельным шкалам', (metrics_names) := as.list(round(fitMeasures(fit_mlr_weak2, metrics_names), 3))]
+
+kableExtra::kable(c2_models_metrics)  %>%
+  kable_styling(font_size = 12)
+```
+
+
+Удаление незначимых вопросов немного улучшает качество структуры модели, но оно все еще недостаточно. Остальные попытки улучшить качество модели не дали хороших эффектов, даже наоборот. 
+
+Дальнейшие улучшения текущей можели на восемь компетенций мне кажутся бессмысленными. Тем не менее, можно попробовать оценить качество модели по 30 субшкалам (то есть по субшкалам наших восьми компетенций), что я и сделал ниже. Либо в целом попробовать пересобрать факторную модель в эксплораторном факторном анализе (в следующем разделе).
 
 
 ## модель с3-шкал
@@ -246,6 +368,7 @@ fit_c3_mlr <- readRDS('./cfa_models/fit_c3_mlr')
 ```
 
 
+Если рассматривать каждую из 30 шкал отдельно, то видно, что есть несколько шкал, по которым даже маленькая модель сойтись не может. 
 
 ```{r, include=FALSE}
 # c3_models <- lapply(c3_names, function(x) {
@@ -258,7 +381,7 @@ fit_c3_mlr <- readRDS('./cfa_models/fit_c3_mlr')
 c3_models <- readRDS('./cfa_models/c3_models')
 ```
 
-Если рассматривать каждую из 30 шкал отдельно, то видно, что есть несколько шкал, по которым даже маленькая модель сойтись не может. 
+
 
 ```{r}
 c3_models_tbl <- lapply(1:length(c3_names), function(x) {
