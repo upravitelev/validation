@@ -62,7 +62,7 @@ corrplot(efa_result$Phi)
 - `q_complexity_high`: сколько вопросов делают большой вклад в больше чем 1 фактор (т. е. насколько вопросы размыты между факторами)
 
 ```{r, echo=FALSE}
-print(efa_result, cut = 0.3)
+# print(efa_result, cut = 0.3)
 
 loadings_matrix <- unclass(efa_result$loadings)
 loadings_dt <- as.data.table(loadings_matrix, keep.rownames = 'q')
@@ -102,7 +102,7 @@ kableExtra::kable(loadings_dt) %>%
 - `q_complexity_high`: сколько вопросов делают большой вклад в больше чем 1 фактор (т. е. насколько вопросы размыты между факторами)
 
 ```{r}
-factor_grid <- lapply(4:14, function(x) {
+factor_grid <- lapply(1:14, function(x) {
     efa_result <- fa(competencies_data, nfactors = x, rotate = "oblimin", fm = "ml")  
     loadings_matrix <- unclass(efa_result$loadings)
     loadings_dt <- as.data.table(loadings_matrix, keep.rownames = 'q')
@@ -119,9 +119,9 @@ factor_grid <- lapply(4:14, function(x) {
       n_factors = x,
       # rotation = 'oblimin',
       CFI = round(efa_result$CFI, 3),
-      p.value = round(efa_result$PVAL, 3),
+      # p.value = round(efa_result$PVAL, 3),
       RMSEA = round(efa_result$RMSEA[1], 3),
-      cum_var = vaccounted[, round(max(`Cumulative Var`), 2)],
+      cum_var = vaccounted[, round(max(ifelse(x == 1, `Proportion Var` , `Cumulative Var`)), 2)],
       prop_var_min = vaccounted[, round(min(`Proportion Var`), 2)],
       prop_var_max = vaccounted[, round(max(`Proportion Var`), 2)],
       # total_items = .N,
@@ -132,8 +132,24 @@ factor_grid <- lapply(4:14, function(x) {
   }
 )
 factor_grid <- rbindlist(factor_grid)
-kableExtra::kable(factor_grid) %>%
-  kable_styling(font_size = 12)
+# kableExtra::kable(factor_grid) %>%
+#   kable_styling(font_size = 12, full_width = FALSE) %>%
+#   scroll_box(width = "100%")
+
+datatable(
+  factor_grid,
+  extensions = 'FixedColumns',
+  rownames = FALSE,
+  options = list(
+    paging = FALSE,
+    scrollX = TRUE,
+    pageLength = 20,
+    searching = FALSE,
+    lengthChange = FALSE,
+    fixedColumns = list(leftColumns = 1)
+  )
+)
+
 ```
 
 
@@ -154,7 +170,7 @@ plot_ly(factor_grid, x = ~n_factors, y = ~CFI, type = 'scatter', mode = 'lines')
   config(displayModeBar = FALSE)
 ```
 
-```{r}
+```{r, fig.width=10}
 tmp <- factor_grid[, list(n_factors, CFI, CFI_prev = shift(CFI, type = 'lag'))]
 tmp[, CFI_change := CFI / CFI_prev]
 tmp[, CFI_diff := c(NA, diff(CFI))]
@@ -208,8 +224,9 @@ print(fa_result$loadings, cutoff = 0.3)
 - `complexity_high`: какое количество вопросов имеет высокие нагрузки более чем по одному фактору
 
 
-```{r}
-get_loadings(fa_result)
+```{r, include=FALSE}
+kableExtra::kable(get_loadings(fa_result)) %>%
+  kable_styling(font_size = 12)
 ```
 
 
@@ -292,7 +309,7 @@ kable(loadings_df[order(factor_number, c3), list(C2, q, competence_ru, question_
   kable_styling(font_size = 12)
 ```
 
-Здесь факторная структура и разделение вопросов по факторам также более сбалансировано:
+Здесь факторная структура и разделение вопросов по факторам более сбалансировано:
 ```{r}
 kable(loadings_df[, list(n_questions = .N), keyby = factor_number]) %>%
   kable_styling(font_size = 12)
@@ -343,7 +360,7 @@ kable(loadings_df[order(factor_number, c3), list(C2, q, competence_ru, question_
   kable_styling(font_size = 12)
 ```
 
-Здесь факторная структура и разделение вопросов по факторам также более сбалансировано:
+Разделение вопросов по факторам:
 ```{r}
 kable(loadings_df[, list(n_questions = .N), keyby = factor_number]) %>%
   kable_styling(font_size = 12)
@@ -394,7 +411,7 @@ kable(loadings_df[order(factor_number, c3), list(C2, q, competence_ru, question_
   kable_styling(font_size = 12)
 ```
 
-Здесь факторная структура и разделение вопросов по факторам оказалось более сбалансированным:
+Разделение вопросов по факторам:
 ```{r}
 kable(loadings_df[, list(n_questions = .N), keyby = factor_number]) %>%
   kable_styling(font_size = 12)

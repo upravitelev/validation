@@ -1,10 +1,6 @@
 # Descriptives {#descriptives}
 
 ```{r, include=FALSE}
-library(plotly)
-library(kableExtra)
-library(corrplot)
-
 flattenCorrMatrix <- function(cormat, pmat) {
   ut <- upper.tri(cormat, diag = TRUE)
   data.frame(
@@ -47,7 +43,8 @@ questions_stat <- questions_stat[, list(
 questions_stat[, lost_questions := in_model - in_questionnaire]
 questions_stat[, C2 := cell_spec(C2, color = ifelse(in_questionnaire != 0, "black", "red"))]
 questions_stat[, c2 := cell_spec(c2, color = ifelse(in_questionnaire != 0, "black", "red"))]
-kableExtra::kable(questions_stat[order(C2)]) %>%
+
+kable(questions_stat[order(C2)], escape = FALSE, format = "html") %>%
   kable_styling(font_size = 12)
 ```
 
@@ -70,7 +67,7 @@ questions_stat <- questions_stat[, list(
 questions_stat[, lost_questions := in_model - in_questionnaire]
 questions_stat[, C2 := cell_spec(C2, color = ifelse(in_questionnaire != 0, "black", "red"))]
 questions_stat[, C3 := cell_spec(C3, color = ifelse(in_questionnaire != 0, "black", "red"))]
-kableExtra::kable(questions_stat[order(C2, C3)]) %>%
+kableExtra::kable(questions_stat[order(C2, C3)], escape = FALSE, format = "html") %>%
   kable_styling(font_size = 12)
 ```
 

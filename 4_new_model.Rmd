@@ -17,7 +17,7 @@
 - `q_complexity_high`: сколько вопросов делают большой вклад в больше чем 1 фактор (т. е. насколько вопросы размыты между факторами)
 
 ```{r, echo=FALSE}
-factor_grid_clean <- lapply(4:14, function(x) {
+factor_grid_clean <- lapply(1:14, function(x) {
     efa_result <- fa(competencies_data, nfactors = x, rotate = "oblimin", fm = "ml")  
     loadings_df <- as.data.table(unclass(efa_result$loadings), keep.rownames = 'q')
     loadings_df[, factor_number := apply(as.data.frame(unclass(efa_result$loadings)), 1, function(x) which.max(abs(x)))]
@@ -45,7 +45,8 @@ factor_grid_clean <- lapply(4:14, function(x) {
       CFI = round(efa_result$CFI, 3),
       # p.value = round(efa_result$PVAL, 3),
       RMSEA = round(efa_result$RMSEA[1], 3),
-      cum_var = vaccounted[, round(max(`Cumulative Var`), 2)],
+      # cum_var = vaccounted[, round(max(`Cumulative Var`), 2)],
+      cum_var = vaccounted[, round(max(ifelse(x == 1, `Proportion Var` , `Cumulative Var`)), 2)],
       prop_var_min = vaccounted[, round(min(`Proportion Var`), 2)],
       prop_var_max = vaccounted[, round(max(`Proportion Var`), 2)],
       total_items = .N,
@@ -56,8 +57,21 @@ factor_grid_clean <- lapply(4:14, function(x) {
   }
 )
 factor_grid_clean <- rbindlist(factor_grid_clean)
-kableExtra::kable(factor_grid_clean)
-# factor_grid_clean
+# kableExtra::kable(factor_grid_clean) %>%
+#   kable_styling(font_size = 10)
+datatable(
+  factor_grid,
+  extensions = 'FixedColumns',
+  rownames = FALSE,
+  options = list(
+    paging = FALSE,
+    scrollX = TRUE,
+    pageLength = 20,
+    searching = FALSE,
+    lengthChange = FALSE,
+    fixedColumns = list(leftColumns = 1)
+  )
+)
 ```
 
 Удаление вопросов с низкой нагрузкой увеличило качество решений -- CFI индекс в целом стал больше, RMSEA практически без изменений. Также повысилась общая объясненная дисперсия, однако значения все равно невелики (43% при 14 факторах, т.е. больше половины дисперсии объясненяется иными причинами). Впрочем, это может быть следствием высокого количества вопросов с кросс-нагрузками.
@@ -150,15 +164,29 @@ for (i in seq_len(13)) {
   offset = offset + loadings_df[factor_number == i, .N] + 2
 }
 ```
+
 В результате получились вот такие факторы (название факторов я задавал сам, исходя из списка вопросов):
 ```{r}
 model_13 <- as.data.table(read_sheet(ss, sheet = 'new_model_13'))
 model_13 <- model_13[!is.na(new_competence) & new_competence != 'new_competence']
-model_13 <- model_13[, .N, keyby = new_competence]
-kableExtra::kable(model_13)
+kableExtra::kable(model_13[, .N, keyby = new_competence]) %>%
+  kable_styling(font_size = 12)
 ```
 
 Подробная таблица факторов, где даны названия компетенций (С2), субшкал (С3), вопросов и возможного названия для каждого выделенного фактора: [new_model_13](https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1010368429#gid=1010368429)
+
+```{r}
+model_13_factors <- model_13[, unique(new_competence)]
+
+model_13_scales <- copy(competencies_data_uid)
+
+for (i in model_13_factors) {
+  tmp_list <- model_13[new_competence == i, unique(q)]
+  model_13_scales[, (i) := rowSums(.SD), .SDcols = tmp_list]
+}
+
+model_13_scales <- model_13_scales[, .SD, .SDcols = c('uid', model_13_factors)]
+```
 
 
 ## 14-факторная модель
@@ -218,15 +246,29 @@ for (i in seq_len(14)) {
   offset = offset + loadings_df[factor_number == i, .N] + 2
 }
 ```
+
 ```{r, echo=FALSE}
 model_14 <- as.data.table(read_sheet(ss, sheet = 'new_model_14'))
 model_14 <- model_14[!is.na(new_competence) & new_competence != 'new_competence']
-model_14 <- model_14[, .N, keyby = new_competence]
-kableExtra::kable(model_14)
+kableExtra::kable(model_14[, .N, keyby = new_competence]) %>%
+  kable_styling(font_size = 12)
 ```
 
-Подробная таблица факторов, где даны названия компетенций (С2), субшкал (С3), вопросов и возможного названия для каждого выделенного фактора: [new_model_13](https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=830574453#gid=830574453)
 
+Подробная таблица факторов, где даны названия компетенций (С2), субшкал (С3), вопросов и возможного названия для каждого выделенного фактора: [new_model_14](https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=830574453#gid=830574453)
+
+```{r}
+model_14_factors <- model_14[, unique(new_competence)]
+
+model_14_scales <- copy(competencies_data_uid)
+
+for (i in model_14_factors) {
+  tmp_list <- model_14[new_competence == i, unique(q)]
+  model_14_scales[, (i) := rowSums(.SD), .SDcols = tmp_list]
+}
+
+model_14_scales <- model_14_scales[, .SD, .SDcols = c('uid', model_14_factors)]
+```
 
 
 ## сравнение моделей
@@ -235,8 +277,16 @@ kableExtra::kable(model_14)
 
 
 ```{r, echo=FALSE}
-new_models <- merge(model_13, model_14, by = 'new_competence', all = TRUE)
+new_models <- merge(
+  model_13[, .N, keyby = new_competence],
+  model_14[, .N, keyby = new_competence], 
+  by = 'new_competence', all = TRUE
+)
 setnames(new_models, c('N.x', 'N.y'), c('13f', '14f'))
-kableExtra::kable(new_models)
+kableExtra::kable(new_models) %>%
+  kable_styling(font_size = 12)
 ```
+
+
+
 

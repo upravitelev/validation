@@ -16,18 +16,66 @@ data_maas[, (questions_maas) := replace(.SD, .SD == 'очень редко', 5),
 data_maas[, (questions_maas) := replace(.SD, .SD == 'почти никогда', 6), .SDcols = questions_maas]
 data_maas[, (questions_maas) := lapply(.SD, as.numeric), .SDcols = questions_maas]
 
-data_maas[, maas := rowSums(.SD), .SDcols = questions_maas]
+data_maas[, MAAS := rowSums(.SD), .SDcols = questions_maas]
+```
+```{r}
+# write_sheet(
+#   data = data_maas,
+#   ss = ss,
+#   sheet = 'MAAS'
+# )
 ```
 
 
-## тест эмпатии Дэвиса
+### корреляция с 13-факторной моделью
+```{r}
+model_13_scales_maas <- merge(
+  model_13_scales,
+  data_maas[, list(uid, MAAS)],
+  by = 'uid', all.x = TRUE
+)
+
+model_13_scales_maas_cor <- purrr::map_dfr(model_13_factors, function(var) {
+  test <- model_13_scales_maas[, cor.test(get(var), MAAS, method = "pearson")]
+  data.table(
+    variable = var,
+    r = round(test$estimate, 3),
+    p_value = round(test$p.value, 4)
+  )
+})
+kableExtra::kable(model_13_scales_maas_cor) %>%
+  kable_styling(font_size = 10)
+```
+
+### корреляция с 14-факторной моделью
+```{r}
+model_14_scales_maas <- merge(
+  model_14_scales,
+  data_maas[, list(uid, MAAS)],
+  by = 'uid', all.x = TRUE
+)
+
+model_14_scales_maas_cor <- purrr::map_dfr(model_14_factors, function(var) {
+  test <- model_14_scales_maas[, cor.test(get(var), MAAS, method = "pearson")]
+  data.table(
+    variable = var,
+    r = round(test$estimate, 3),
+    p_value = round(test$p.value, 4)
+  )
+})
+kableExtra::kable(model_14_scales_maas_cor) %>%
+  kable_styling(font_size = 10)
+```
+
+
+
+## Тест эмпатии Дэвиса
 
 NB! в информации по опроснику шкала кодируется униполярно в значениях А-Г, от 0 до 4. В опроснике ответы закодированы в биполярной шкале от `Полностью не согласен` до `Полностью согласен` с нейтральной точкой в виде `Трудно сказать`.
 
-Также в тест есть обратные вопросы и непонятно, как они закодированы в опроснике.
+Также в тесте есть обратные вопросы и непонятно, как они закодированы в опроснике. Я не понимаю, как в текущем виде корректно использовать тест эмпатии Дэвиса.
 
-
-```{r}
+```{r, eval=FALSE}
 questions_empathy <- questionnaire_names[question_type == 'empathy', question_ru]
 data_empathy <- questionnaire_data[, .SD, .SDcols = c('uid', questions_empathy)]
 
@@ -40,7 +88,7 @@ data_empathy[, (questions_empathy) := replace(.SD, .SD == 'Трудно сказ
 data_empathy[, (questions_empathy) := replace(.SD, .SD == 'Частично согласен', 3), .SDcols = questions_empathy]
 data_empathy[, (questions_empathy) := replace(.SD, .SD == 'Полностью согласен', 4), .SDcols = questions_empathy]
 
-data_empathy[, maas := rowSums(.SD), .SDcols = questions_empathy]
+data_empathy[, (questions_empathy) := lapply(.SD, as.numeric), .SDcols = questions_empathy]
 ```
 
 
@@ -77,6 +125,109 @@ data_tipi[, `Сознательность` := `надежным, самодис�
 data_tipi[, `Невротизм` := `тревожным, легко расстраивающимся.` + `спокойным, эмоционально стабильным.`]
 data_tipi[, `Открытость опыту` := `открытым новому опыту, сложным.` + `конвенциональным, не творческим.`]
 ```
+
+```{r}
+# write_sheet(
+#   data = data_tipi,
+#   ss = ss,
+#   sheet = 'TIPI'
+# )
+```
+
+
+### корреляция с 13-факторной моделью
+```{r}
+scales_tipi <- c('Экстраверсия', 'Доброжелательность', 'Сознательность', 'Невротизм', 'Открытость опыту')
+
+model_13_scales_tipi <- merge(
+  model_13_scales,
+  data_tipi[, .SD, .SDcols = c('uid', scales_tipi)],
+  by = 'uid', all.x = TRUE
+)
+
+# Generate all pairwise combinations
+var_pairs <- tidyr::expand_grid(predictor = model_13_factors, target = scales_tipi)
+
+# Perform correlation test for each pair
+cor_results <- pmap_dfr(var_pairs, function(predictor, target) {
+  test <- model_13_scales_tipi[, cor.test(get(predictor), get(target), method = "pearson")]
+  data.table(
+    predictor = predictor,
+    target = target,
+    r = round(test$estimate, 3),
+    p_value = round(test$p.value, 4)
+  )
+})
+
+cor_results <- dcast(cor_results[p_value < 0.05], predictor ~ target, value.var = 'r', fill = NA)
+kableExtra::kable(cor_results) %>%
+  kable_styling(font_size = 10)
+
+# library(DT)
+# datatable(
+#   cor_results,
+#   options = list(
+#       scrollX = TRUE,    # horizontal scroll
+#       pageLength = 20,   # number of rows per page
+#       dom = 'tip'        # table layout: table, info, paging (no search box)
+#     ),
+#   rownames = FALSE
+# ) %>%
+#   formatStyle(
+#     columns = names(cor_results),
+#     fontSize = '10px'
+# )
+```
+
+```{r, eval=FALSE}
+corr_matrix <- cor(
+  model_13_scales_tipi[, .SD, .SDcols = model_13_factors], 
+  model_13_scales_tipi[, .SD, .SDcols = scales_tipi], 
+  use = "pairwise.complete.obs"
+)
+
+corrplot(
+  corr_matrix,
+  type = "lower",
+  is.corr = FALSE,
+  # order = "hclust",
+  tl.col = "black",
+  tl.srt = .01,
+  tl.cex = .8,
+  insig = "n",
+  # addCoef.col = 'grey90',
+  number.cex = .7,
+  diag = FALSE
+)
+```
+
+### корреляция с 14-факторной моделью
+```{r}
+model_14_scales_tipi <- merge(
+  model_14_scales,
+  data_tipi[, .SD, .SDcols = c('uid', scales_tipi)],
+  by = 'uid', all.x = TRUE
+)
+
+# Generate all pairwise combinations
+var_pairs <- tidyr::expand_grid(predictor = model_14_factors, target = scales_tipi)
+
+# Perform correlation test for each pair
+cor_results <- pmap_dfr(var_pairs, function(predictor, target) {
+  test <- model_14_scales_tipi[, cor.test(get(predictor), get(target), method = "pearson")]
+  data.table(
+    predictor = predictor,
+    target = target,
+    r = round(test$estimate, 3),
+    p_value = round(test$p.value, 4)
+  )
+})
+
+cor_results <- dcast(cor_results[p_value < 0.05], predictor ~ target, value.var = 'r', fill = NA)
+kableExtra::kable(cor_results) %>%
+  kable_styling(font_size = 10)
+```
+
 
 ## SSPM
 
@@ -151,4 +302,78 @@ q_sspm_common_neg <- c(3, 5, 6, 7, 9, 10, 13, 15, 16, 18, 19, 23, 24, 26, 32, 33
 data_sspm_common <- sspm_scales(data_sspm, q_sspm_common_pos, q_sspm_common_neg, scale_name = 'Общий уровень саморегуляции')
 data_sspm <- merge(data_sspm, data_sspm_common[, list(uid, `Общий уровень саморегуляции`)], by='uid', all.x = TRUE)
 ```
+
+```{r}
+# write_sheet(
+#   data = data_sspm,
+#   ss = ss,
+#   sheet = 'SSPM'
+# )
+```
+
+
+
+### корреляция с 13-факторной моделью
+
+```{r}
+scales_sspm <- c('Планирование', 'Моделирование', 'Программирование', 'Оценивание результатов', 'Гибкость', 'Общий уровень саморегуляции')
+
+model_13_scales_sspm <- merge(
+  model_13_scales,
+  data_sspm[, .SD, .SDcols = c('uid', scales_sspm)],
+  by = 'uid', all.x = TRUE
+)
+
+# Generate all pairwise combinations
+var_pairs <- tidyr::expand_grid(predictor = model_13_factors, target = scales_sspm)
+
+# Perform correlation test for each pair
+cor_results <- pmap_dfr(var_pairs, function(predictor, target) {
+  test <- model_13_scales_sspm[, cor.test(get(predictor), get(target), method = "pearson")]
+  data.table(
+    predictor = predictor,
+    target = target,
+    r = round(test$estimate, 3),
+    p_value = round(test$p.value, 4)
+  )
+})
+
+cor_results <- dcast(cor_results[p_value < 0.05], predictor ~ target, value.var = 'r', fill = NA)
+setcolorder(cor_results, c('predictor', scales_sspm))
+kableExtra::kable(cor_results) %>%
+  kable_styling(font_size = 10)
+```
+
+### корреляция с 14-факторной моделью
+
+```{r}
+scales_sspm <- c('Планирование', 'Моделирование', 'Программирование', 'Оценивание результатов', 'Гибкость', 'Общий уровень саморегуляции')
+
+model_14_scales_sspm <- merge(
+  model_14_scales,
+  data_sspm[, .SD, .SDcols = c('uid', scales_sspm)],
+  by = 'uid', all.x = TRUE
+)
+
+# Generate all pairwise combinations
+var_pairs <- tidyr::expand_grid(predictor = model_14_factors, target = scales_sspm)
+
+# Perform correlation test for each pair
+cor_results <- pmap_dfr(var_pairs, function(predictor, target) {
+  test <- model_14_scales_sspm[, cor.test(get(predictor), get(target), method = "pearson")]
+  data.table(
+    predictor = predictor,
+    target = target,
+    r = round(test$estimate, 3),
+    p_value = round(test$p.value, 4)
+  )
+})
+
+cor_results <- dcast(cor_results[p_value < 0.05], predictor ~ target, value.var = 'r', fill = NA)
+setcolorder(cor_results, c('predictor', scales_sspm))
+kableExtra::kable(cor_results) %>%
+  kable_styling(font_size = 10)
+```
+
+
 

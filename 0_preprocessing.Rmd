@@ -2,11 +2,12 @@
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
-  echo = FALSE, warning = FALSE, message = FALSE
+  echo = FALSE,
+  warning = FALSE, message = FALSE
 )
 ```
 
-```{r, include=FALSE, warning=FALSE, message=FALSE}
+```{r}
 library(data.table)
 library(glue)
 library(lavaan)
@@ -18,6 +19,9 @@ library(GPArotation)
 library(nFactors)
 library(corrplot)
 library(plotly)
+
+library(purrr)
+library(DT)
 
 # ss <- gs4_create("2025_03_01_survey_validation")
 ss <- '1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM'
@@ -49,7 +53,7 @@ ss <- '1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM'
 
 ## Кодирование шкал
 
-Для того, чтобы в коде не использовать длинные тексты и кириллицу, название компетенций (шкал) были перекодированы в лейблы `c1`, `c2`, `c3` для высокоуровневых категорий (5 макрокомпетенций), шкал компетенций (8) и суб-шкал ()
+Для того, чтобы в коде не использовать длинные тексты и кириллицу, название компетенций (шкал) были перекодированы в лейблы `c1`, `c2`, `c3` для высокоуровневых категорий (5 макрокомпетенций), шкал компетенций (8) и суб-шкал (30).
 
 ```{r}
 # импортируем датасет модели шкал
@@ -66,7 +70,7 @@ big_model[, c2 := .GRP, by = C2]
 big_model[, c3 := .GRP, by = C3]
 ```
 
-Попутно собираем табличку, где соотносятся вопросы и шкалы:
+Попутно собираем табличку, где соотносятся вопросы и шкалы.
 
 ```{r}
 questions <- fread('./raw_data/questions.csv')
@@ -80,11 +84,6 @@ questions <- merge(
 )
 setnames(questions, 'competence_ru', 'C3')
 ```
-
-Названия шкал и присвоенные им коды можно посмотреть в табличке:
-
-- шкалы и субшкалы
-- шкалы и вопросы
 
 ## Кодирование названий вопросов
 
@@ -137,7 +136,15 @@ c2_q_numbers <- competencies_info[order(q_order), q]
 fwrite(questionnaire_names, './data/questionnaire_names.csv')
 ```
 
-Табличку вопросов с кодами и шкалами можно посмотреть здесь.
+```{r}
+write_sheet(
+  data = competencies_info[order(q_order), list(q, question_ru, question_type, orientation, C1, c1, C2, c3, C3, c3)],
+  ss = ss,
+  sheet = 'competencies_info'
+)
+```
+
+Табличку вопросов с кодами и шкалами можно посмотреть [здесь](https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1095816549#gid=1095816549).
 
 ```{r}
 # из всего опросника выделяем только ответы на вопросы по компетенциям
@@ -145,15 +152,18 @@ questionnaire_data <- copy(questionnaire)
 names(questionnaire_data) <- tolower(names(questionnaire_data))
 names(questionnaire_data) <- gsub('[0-9]*\\.\\s+', '', names(questionnaire_data))
 
-competencies_data <- questionnaire_data[, .SD, .SDcols = c2_questions]
-names(competencies_data) <- c2_q_numbers
+# competencies_data <- questionnaire_data[, .SD, .SDcols = c2_questions]
+# names(competencies_data) <- c2_q_numbers
+
+competencies_data <- questionnaire_data[, .SD, .SDcols = c('uid', c2_questions)]
+names(competencies_data) <- c('uid', c2_q_numbers)
 ```
 
-Теперь у нас есть рабочий датасет, в котором названия вопросов идут в виде `q_XXX`.
+<!-- Теперь у нас есть рабочий датасет, в котором названия вопросов идут в виде `q_XXX`. -->
 
 ## Кодирование вариантов ответов
 
-В опроснике используется шкала Ликерта с четырьмя вариантами ответа, ответы текстовые. Соответственно, для того, чтобы с этими данными можно было работать численными методами, все строковые значения были перекодированы в числовые:
+В опроснике используется шкала Ликерта с четырьмя вариантами ответа, ответы текстовые. Соответственно, для того, чтобы с этими данными можно было работать численными методами, все строковые значения были перекодированы в числовые.
 
 ```{r}
 competencies_data[, (c2_q_numbers) := replace(.SD, .SD == 'Совершенно не верно', -2), .SDcols = c2_q_numbers]
@@ -169,7 +179,12 @@ competencies_data[, (c2_q_numbers) := lapply(.SD, as.numeric), .SDcols = c2_q_nu
 Значения по таким вопросам я умножил на `-1`, чтобы привести их к общему виду с другими вопросами, когда положительное значение означает выраженность/наличие компетенции, а отрицательное -- ее отсутствие.
 
 ```{r, include=FALSE}
-competencies_data_l <- melt(competencies_data, measure.vars = names(competencies_data), variable.name = 'q')
+competencies_data_l <- melt(
+  # competencies_data, 
+  competencies_data[, .SD, .SDcols = setdiff(names(competencies_data), 'uid')],
+  measure.vars = names(setdiff(names(competencies_data), 'uid')), 
+  variable.name = 'q'
+)
 competencies_data_l_stat  <- competencies_data_l[, list(q_sd = sd(value), q_mean = mean(value)), keyby = q]
 competencies_data_l_stat <- merge(
   competencies_info[question_type == 'competencies', list(question_ru, q, q_order, C2, c2)],
@@ -185,6 +200,7 @@ competencies_data_l_stat <- competencies_data_l_stat[order(q_order)]
 # )
 ```
 
+Пример вопросов, которые были перекодированы в обратном порядке:
 
 ```{r, warning=FALSE, message=FALSE}
 # импортируем табличку вопросов с маркером обратный / нет
@@ -209,6 +225,11 @@ competencies_data[, (questions_reversed) := lapply(.SD, function(x) -1 * x), .SD
 
 
 
+```{r}
+# делаем два варианта таблички данных, с uid и без
+competencies_data_uid <- copy(competencies_data)
+competencies_data[, uid := NULL]
+```
 
 
 
