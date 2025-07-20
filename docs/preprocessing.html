@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Валидация опросника</title>
-  <meta name="description" content="Валидация опросника" />
+  <title>Data preparation | Валидация опросника</title>
+  <meta name="description" content="Data preparation | Валидация опросника" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Валидация опросника" />
+  <meta property="og:title" content="Data preparation | Валидация опросника" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Валидация опросника" />
+  <meta name="twitter:title" content="Data preparation | Валидация опросника" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="preprocessing.html"/>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="descriptives.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -203,34 +203,75 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Валидация опросника</h1>
-<p class="author"><em>Ph.A.Upravitelev</em></p>
-<p class="date"><em>2025-07-20</em></p>
+<div id="preprocessing" class="section level1 hasAnchor">
+<h1>Data preparation<a href="preprocessing.html#preprocessing" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="корректировка-текстов-вопросов" class="section level2 hasAnchor">
+<h2>Корректировка текстов вопросов<a href="preprocessing.html#корректировка-текстов-вопросов" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Написание ряд вопросов в таблице модели по написанию отличаются от тех, что были использованы в опроснике. Поэтому в таблице модели внес некоторые правки:</p>
+<pre><code>было: когда я наблюдал(а) у клиента какой-то дисфункциональный процесс/убеждение или внутреннее противоречие, я прямо указывал(а) на это
+стало: Когда я наблюдал(а) у клиента какой-то дисфункциональный процесс, убеждение или внутреннее противоречие, я прямо указывал(а) на это
+
+
+было: я использовал(а) психологические термины, чтобы завоевать доверие клиента
+стало: Я использовала психологические термины, чтобы завоевать доверие клиента
+
+
+было: я просил(а) клиента говорить о своих чувствах и мыслях и не предлагал(а) своих интерпретаций
+стало: Я просил(а) клиента говорить о своих чувствах и мыслях, не предлагая своих интерпретаций
+
+было: я не рассказываю клиентам о том, как работаю, поскольку считаю, что это никак не повлияет на эффективность нашей работы
+стало: Я не рассказываю клиентам о том, как работаю, поскольку считаю что это никак не повлияет на эффективность нашей работы
+
+было: я формулирую психотерапевтический контракт с клиентом
+стало: Я формулирую психотерапевтический контракт со клиентом</code></pre>
 </div>
-<div id="intro" class="section level1 hasAnchor">
-<h1>Intro<a href="index.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="content" class="section level2 hasAnchor">
-<h2>Content<a href="index.html#content" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Раздел <a href="preprocessing.html#preprocessing">Data preparation</a> посвящен подготовке данных – перекодированию названий вопросов, перекодированию текстовых значений ответов в числовые, перекодирование обратных вопросов и т. д.</p>
-<p>Раздел <a href="descriptives.html#descriptives">Descriptives</a> содержит в себе распределение отуствующих вопросов по шкалам и субшкалам, корреляционный анализ шкал и субшкал, оценку динамики вариативности ответов в зависимости от порядка предъявления (чтобы проверить, не устали ли респонденты отвечать на вопросы).</p>
-<p>Раздел <a href="efa.html#efa">EFA</a> посвящен эксплораторной оценке факторной структуры опросника — насколько хорошая получается факторная структура, если извлекать столько же факторов, сколько в теоретической модели. Также я сделал оценку моделей каком разном количестве факторов. Отдельно я проанализировал структуру крупных шкал – есть ли там нерелевантные вопросы, насколько хорошо повторяется теоретическая структура субшкал и т. д.</p>
-<p>Раздел <a href="cfa.html#cfa">CFA</a> посвящен конфирматорной оценке теоретической модели шкал на основе данных опросника. А также попыткам улучшить модель. Я попробовал несколько способов улучшить качество модели:</p>
-<ul>
-<li>исходная модель</li>
-<li>модель с удалением вопросов, не делающих значимый вклад</li>
-<li>модель с указанием кросс-факторных вкладов вопросов</li>
-<li>модель с удалением вопросов с высокими кросс-факторными нагрузками</li>
-<li>модель с удалением вопросов, которые в восьмифакторной EFA-модели имели низкие факторные нагрузки</li>
-<li>модель с коррекцией крупных шкал (удалением вопросов с низкой нагрузкой в факторы шкалы)</li>
-</ul>
-<p>В разделе <a href="newmodel">New model</a> я пробую переструктурировать опросник и выделить осмысленное количество факторов. В результате у меня получилось два достаточно близких по метрикам и смыслам решения с 13 и 14 факторами.</p>
-<p>Разделе <a href="cv.html#cv">Convergent validity</a> посвящен оцененке конвергентной валидности выделенных шкал опросника – насколько новые шкалы (при 13- и 14-ти факторных решениях) коррелируют с другими личностными опросниками и шкалами.</p>
-<p>Раздел <a href="s.html#s">Summary</a> — коротко результаты работы и дальнейшие действия.</p>
+<div id="кодирование-шкал" class="section level2 hasAnchor">
+<h2>Кодирование шкал<a href="preprocessing.html#кодирование-шкал" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Для того, чтобы в коде не использовать длинные тексты и кириллицу, название компетенций (шкал) были перекодированы в лейблы <code>c1</code>, <code>c2</code>, <code>c3</code> для высокоуровневых категорий (5 макрокомпетенций), шкал компетенций (8) и суб-шкал (30).</p>
+<p>Попутно собираем табличку, где соотносятся вопросы и шкалы.</p>
 </div>
-<div id="model-and-applications" class="section level2 hasAnchor">
-<h2>Model and applications<a href="index.html#model-and-applications" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><a href="https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1547686518#gid=1547686518" class="uri">https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1547686518#gid=1547686518</a></p>
+<div id="кодирование-названий-вопросов" class="section level2 hasAnchor">
+<h2>Кодирование названий вопросов<a href="preprocessing.html#кодирование-названий-вопросов" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>В самом опроснике вопросы также предствлены в виде текстовом виде. Их также пришлось перекодировать, по схеме <code>q_XXX</code>, где XXX — номер вопроса в порядке его предъявления респондентам.</p>
+<p>Табличку вопросов с кодами и шкалами можно посмотреть <a href="https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1095816549#gid=1095816549">здесь</a>.</p>
+<!-- Теперь у нас есть рабочий датасет, в котором названия вопросов идут в виде `q_XXX`. -->
+</div>
+<div id="кодирование-вариантов-ответов" class="section level2 hasAnchor">
+<h2>Кодирование вариантов ответов<a href="preprocessing.html#кодирование-вариантов-ответов" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>В опроснике используется шкала Ликерта с четырьмя вариантами ответа, ответы текстовые. Соответственно, для того, чтобы с этими данными можно было работать численными методами, все строковые значения были перекодированы в числовые.</p>
+</div>
+<div id="перекодирование-обратных-вопросов" class="section level2 hasAnchor">
+<h2>Перекодирование обратных вопросов<a href="preprocessing.html#перекодирование-обратных-вопросов" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>В опроснике встречаются вопросы с обратным порядком выборов – то есть, отрицательные значения маркируют сильные проявления компетенций.
+Значения по таким вопросам я умножил на <code>-1</code>, чтобы привести их к общему виду с другими вопросами, когда положительное значение означает выраженность/наличие компетенции, а отрицательное – ее отсутствие.</p>
+<p>Пример вопросов, которые были перекодированы в обратном порядке:</p>
+<table>
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">question_ru</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">в процессе терапии все быстро меняется, поэтому я не формулирую детализированный контракт о целях работы с клиентом</td>
+</tr>
+<tr class="even">
+<td align="left">если в разговоре с клиентом возникала пауза, я старался(лась) ее чем-то заполнить</td>
+</tr>
+<tr class="odd">
+<td align="left">если клиент сам не рассказывал подробно о чем-то, я не просил(а) клиента рассказать больше</td>
+</tr>
+<tr class="even">
+<td align="left">задавая вопросы клиенту, я опирался(лась) на интуицию</td>
+</tr>
+<tr class="odd">
+<td align="left">когда клиент высказывал неудовлетворенность работой, я пытался(лась) переубедить его</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 </div>
@@ -239,8 +280,8 @@
           </div>
         </div>
       </div>
-
-<a href="preprocessing.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="descriptives.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

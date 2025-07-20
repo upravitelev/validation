@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ru-RU" xml:lang="ru-RU">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>New model | Валидация опросника</title>
+  <meta name="description" content="New model | Валидация опросника" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="New model | Валидация опросника" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="New model | Валидация опросника" />
+  
+  
+  
+
+<meta name="author" content="Ph.A.Upravitelev" />
+
+
+<meta name="date" content="2025-07-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="cfa.html"/>
+<link rel="next" href="cv.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/dt-ext-fixedcolumns-1.13.6/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-fixedcolumns-1.13.6/js/dataTables.fixedColumns.min.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">survey</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Intro</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#content"><i class="fa fa-check"></i>Content</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#model-and-applications"><i class="fa fa-check"></i>Model and applications</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html"><i class="fa fa-check"></i>Data preparation</a>
+<ul>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#корректировка-текстов-вопросов"><i class="fa fa-check"></i>Корректировка текстов вопросов</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#кодирование-шкал"><i class="fa fa-check"></i>Кодирование шкал</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#кодирование-названий-вопросов"><i class="fa fa-check"></i>Кодирование названий вопросов</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#кодирование-вариантов-ответов"><i class="fa fa-check"></i>Кодирование вариантов ответов</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#перекодирование-обратных-вопросов"><i class="fa fa-check"></i>Перекодирование обратных вопросов</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html"><i class="fa fa-check"></i>Descriptives</a>
+<ul>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#вопросы-по-шкалам"><i class="fa fa-check"></i>Вопросы по шкалам</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#вопросы-по-субшкалам"><i class="fa fa-check"></i>Вопросы по субшкалам</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#стабильность-ответов"><i class="fa fa-check"></i>Стабильность ответов</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#корреляция-шкал"><i class="fa fa-check"></i>Корреляция шкал</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#корреляция-субшкал"><i class="fa fa-check"></i>Корреляция субшкал</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#размеры-шкал"><i class="fa fa-check"></i>Размеры шкал</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html"><i class="fa fa-check"></i>EFA</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#оценка-данных"><i class="fa fa-check"></i>Оценка данных</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#меры-адекватности-данных"><i class="fa fa-check"></i>меры адекватности данных</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#график-собственных-значений"><i class="fa fa-check"></i>график собственных значений</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#восьмифакторная-модель"><i class="fa fa-check"></i>Восьмифакторная модель</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#корреляция-факторов"><i class="fa fa-check"></i>корреляция факторов</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#факторные-нагрузки"><i class="fa fa-check"></i>факторные нагрузки</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#варианты-с-разным-числом-факторов"><i class="fa fa-check"></i>Варианты с разным числом факторов</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#сводная-таблица"><i class="fa fa-check"></i>сводная таблица</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#динамика-cfi"><i class="fa fa-check"></i>динамика CFI</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#переразбиение-шкал"><i class="fa fa-check"></i>Переразбиение шкал</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-5"><i class="fa fa-check"></i>EFA, с2 = 5</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-8"><i class="fa fa-check"></i>EFA, с2 = 8</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-10"><i class="fa fa-check"></i>EFA, с2 = 10</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-11"><i class="fa fa-check"></i>EFA, с2 = 11</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html"><i class="fa fa-check"></i>CFA</a>
+<ul>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#основная-модель"><i class="fa fa-check"></i>основная модель</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#подходы-к-улучшению-модели"><i class="fa fa-check"></i>подходы к улучшению модели</a>
+<ul>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#скорректированная-модель"><i class="fa fa-check"></i>скорректированная модель</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с-кросс-нагрузками"><i class="fa fa-check"></i>модель с кросс-нагрузками</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-без-кросс-нагрузок"><i class="fa fa-check"></i>модель без кросс-нагрузок</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с-высокими-efa-нагрузками"><i class="fa fa-check"></i>модель с высокими efa-нагрузками</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-без-вопросов-с-низкой-нагрузкой"><i class="fa fa-check"></i>модель без вопросов с низкой нагрузкой</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#метрики-с2-моделей"><i class="fa fa-check"></i>метрики с2-моделей</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с3-шкал"><i class="fa fa-check"></i>модель с3-шкал</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с1-шкал"><i class="fa fa-check"></i>модель с1-шкал</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html"><i class="fa fa-check"></i>New model</a>
+<ul>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#cleaned-models"><i class="fa fa-check"></i>cleaned models</a></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#факторная-модель"><i class="fa fa-check"></i>13-факторная модель</a></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#факторная-модель-1"><i class="fa fa-check"></i>14-факторная модель</a></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#сравнение-моделей"><i class="fa fa-check"></i>сравнение моделей</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html"><i class="fa fa-check"></i>Convergent validity</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#mass"><i class="fa fa-check"></i>MASS</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-13-факторной-моделью"><i class="fa fa-check"></i>корреляция с 13-факторной моделью</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-14-факторной-моделью"><i class="fa fa-check"></i>корреляция с 14-факторной моделью</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#тест-эмпатии-дэвиса"><i class="fa fa-check"></i>Тест эмпатии Дэвиса</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#tipi"><i class="fa fa-check"></i>TIPI</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-13-факторной-моделью-1"><i class="fa fa-check"></i>корреляция с 13-факторной моделью</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-14-факторной-моделью-1"><i class="fa fa-check"></i>корреляция с 14-факторной моделью</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#sspm"><i class="fa fa-check"></i>SSPM</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-13-факторной-моделью-2"><i class="fa fa-check"></i>корреляция с 13-факторной моделью</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-14-факторной-моделью-2"><i class="fa fa-check"></i>корреляция с 14-факторной моделью</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html"><i class="fa fa-check"></i>Summary</a>
+<ul>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html#ход-работ-и-гипотезы"><i class="fa fa-check"></i>Ход работ и гипотезы</a></li>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html#результаты"><i class="fa fa-check"></i>Результаты</a></li>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html#дальнейшие-действия"><i class="fa fa-check"></i>Дальнейшие действия</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Валидация опросника</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="newmodel" class="section level1 hasAnchor">
+<h1>New model<a href="newmodel.html#newmodel" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="cleaned-models" class="section level2 hasAnchor">
+<h2>cleaned models<a href="newmodel.html#cleaned-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ранее я уже смотрел качество факторных решений при разном числе факторов. Здесь я повторяю оценку, с одним существенным отличием – для каждого числа факторов при факторизации я удаляю вопросы, у которых максимальная факторная нагрузка по любому из факторов меньше 0.3.</p>
+<p>То есть, если ранее при выделении 8 факторов использовались все 137 вопросов опросника, то сейчас используется 106 вопросов.</p>
+<ul>
+<li><code>n_factors</code>: количество факторов</li>
+<li><code>CFI</code>: индекс для сравнения моделей. Больше подходит для CFA, но и в эксплораторном факторном анализе тоже может использоваться. Принимает значения от 0 до 1, чем выше – тем лучше (выше 0.9 считается приемлемой моделью).</li>
+<li><code>RMSEA</code>: оценка, насколько модель может быть обобщена на ген.совокупность. Принимает значения от 0 до 1, чем ниже значение, тем лучше (меньше 0,05 — отличное соотвествие модели).</li>
+<li><code>cum_var</code> – Cumulative Var, доля общей дисперсии переменных, объясненная факторами.</li>
+<li><code>prop_var_min/prop_var_max</code>: минимальное и максимальное значения общей дисперсии, объясняемой тем или иным фактором модели (при <code>prop_var_max</code> = 0.04 никакой фактор не объясняет больше, чем 4% общей дисперсии). Этот размах показывает, насколько равноценны факторы.</li>
+<li><code>total_items</code>: сколько всего вопросов использователось (осталось после удаления вопросов с нагрузками ниже 0.3)</li>
+<li><code>q_loadings_03</code>: количество вопросов в факторном решении, которые имеют высокую нагрузку</li>
+<li><code>q_communality_weak</code>: какое количество вопросов, у которых менее 40% дисперсии объясняется выделенными факторами</li>
+<li><code>q_complexity_high</code>: сколько вопросов делают большой вклад в больше чем 1 фактор (т. е. насколько вопросы размыты между факторами)</li>
+</ul>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-9875fecdc3ed31076594" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9875fecdc3ed31076594">{"x":{"filter":"none","vertical":false,"extensions":["FixedColumns"],"data":[[1,2,3,4,5,6,7,8,9,10,11,12,13,14],[0.393,0.483,0.5639999999999999,0.629,0.678,0.71,0.74,0.768,0.79,0.8100000000000001,0.828,0.844,0.857,0.869],[0.053,0.049,0.046,0.042,0.04,0.038,0.036,0.035,0.033,0.032,0.031,0.029,0.028,0.027],[0.14,0.14,0.12,0.1,0.08,0.07000000000000001,0.07000000000000001,0.07000000000000001,0.06,0.06,0.05,0.05,0.05,0.04],[0.14,0.04,0.04,0.04,0.04,0.02,0.03,0.03,0.02,0.02,0.02,0.02,0.02,0.02],[0.14,0.14,0.12,0.1,0.08,0.07000000000000001,0.07000000000000001,0.07000000000000001,0.06,0.06,0.05,0.05,0.05,0.04],[84,93,98,110,109,105,104,106,105,106,99,102,92,89],[136,134,130,127,122,120,116,109,102,94,88,83,81,82],[0,0,37,48,55,71,70,79,77,87,96,97,98,99]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>n_factors<\/th>\n      <th>CFI<\/th>\n      <th>RMSEA<\/th>\n      <th>cum_var<\/th>\n      <th>prop_var_min<\/th>\n      <th>prop_var_max<\/th>\n      <th>q_loadings_03<\/th>\n      <th>q_communality_weak<\/th>\n      <th>q_complexity_high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"scrollX":true,"pageLength":20,"searching":false,"lengthChange":false,"fixedColumns":{"leftColumns":1},"columnDefs":[{"className":"dt-right","targets":[0,1,2,3,4,5,6,7,8]},{"name":"n_factors","targets":0},{"name":"CFI","targets":1},{"name":"RMSEA","targets":2},{"name":"cum_var","targets":3},{"name":"prop_var_min","targets":4},{"name":"prop_var_max","targets":5},{"name":"q_loadings_03","targets":6},{"name":"q_communality_weak","targets":7},{"name":"q_complexity_high","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Удаление вопросов с низкой нагрузкой увеличило качество решений – CFI индекс в целом стал больше, RMSEA практически без изменений. Также повысилась общая объясненная дисперсия, однако значения все равно невелики (43% при 14 факторах, т.е. больше половины дисперсии объясненяется иными причинами). Впрочем, это может быть следствием высокого количества вопросов с кросс-нагрузками.</p>
+<p>Исходя из таблицы, наилучшие решения – на 13 и 14 факторов. Различий между ними в индексах не очень много, поэтому решение по выбору стоит принимать исходя из смысла выделенных факторов.</p>
+<p>Ниже дан график прироста метрики CFI при увеличении числа факторов, исходное количество вопросов и после удаления вопросов с низкими нагрузками.</p>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-95143974aed8e99ced29" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-95143974aed8e99ced29">{"x":{"visdat":{"c146c7cbc4779":["function () ","plotlyVisDat"]},"cur_data":"c146c7cbc4779","attrs":{"c146c7cbc4779":{"x":{},"y":{},"mode":"lines","name":"CFI_original","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"c146c7cbc4779.1":{"x":{},"y":{},"mode":"lines","name":"CFI_modified","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"CFI by number of factors","yaxis":{"domain":[0,1],"automargin":true,"rangemode":"tozero","title":"CFI_original"},"xaxis":{"domain":[0,1],"automargin":true,"title":"n_factors"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14],"y":[0.39300000000000002,0.48299999999999998,0.56399999999999995,0.629,0.67800000000000005,0.70999999999999996,0.73999999999999999,0.76800000000000002,0.79000000000000004,0.81000000000000005,0.82799999999999996,0.84399999999999997,0.85699999999999998,0.86899999999999999],"mode":"lines","name":"CFI_original","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14],"y":[0.55200000000000005,0.58899999999999997,0.66100000000000003,0.69599999999999995,0.749,0.78500000000000003,0.81200000000000006,0.82799999999999996,0.84499999999999997,0.84699999999999998,0.879,0.88300000000000001,0.91200000000000003,0.91900000000000004],"mode":"lines","name":"CFI_modified","type":"scatter","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="факторная-модель" class="section level2 hasAnchor">
+<h2>13-факторная модель<a href="newmodel.html#факторная-модель" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Первый вариант факторизации – выделение 13 факторов.</p>
+В результате получились вот такие факторы (название факторов я задавал сам, исходя из списка вопросов):
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+new_competence
+</th>
+<th style="text-align:right;">
+N
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+информация о психотерапии
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+конгруэнтность
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+контроль альянса и сеттинга
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+невербальные навыки
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+обсуждение контракта
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+осознанное управление контактом с клиентом
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+поддержание результатов
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+профессиональная рефлексия и анализ
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+профессиональное саморазвитие
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+работа с изменениями
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+резюмирование и оценка результатов терапии
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+удержание цели
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+уместное самораскрытие
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+</tbody>
+</table>
+<p>Подробная таблица факторов, где даны названия компетенций (С2), субшкал (С3), вопросов и возможного названия для каждого выделенного фактора: <a href="https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1010368429#gid=1010368429">new_model_13</a></p>
+</div>
+<div id="факторная-модель-1" class="section level2 hasAnchor">
+<h2>14-факторная модель<a href="newmodel.html#факторная-модель-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Второй вариант – 14-ти факторная модель, с предварительным удалением из общего списка вопросов пунктов с низкими факторными нагрузками.</p>
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+new_competence
+</th>
+<th style="text-align:right;">
+N
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+информация о психотерапии
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+конгруэнтность
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+контроль альянса и сеттинга
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+невербальные навыки
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+обсуждение контракта
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+объяснения и интерпретации
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+осознанное управление контактом с клиентом
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+поддержание контакта
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+поддержание результатов
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+профессиональная рефлексия и анализ
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+профессиональное саморазвитие
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+работа с изменениями
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+резюмирование и оценка результатов терапии
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+уместное самораскрытие
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+</tbody>
+</table>
+<p>Подробная таблица факторов, где даны названия компетенций (С2), субшкал (С3), вопросов и возможного названия для каждого выделенного фактора: <a href="https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=830574453#gid=830574453">new_model_14</a></p>
+</div>
+<div id="сравнение-моделей" class="section level2 hasAnchor">
+<h2>сравнение моделей<a href="newmodel.html#сравнение-моделей" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ниже я сопоставил факторы из обеих моделей – большая часть из них повторяется, но есть и некоторые перестановки / различия.</p>
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+new_competence
+</th>
+<th style="text-align:right;">
+13f
+</th>
+<th style="text-align:right;">
+14f
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+информация о психотерапии
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+конгруэнтность
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+контроль альянса и сеттинга
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+невербальные навыки
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+обсуждение контракта
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+объяснения и интерпретации
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+осознанное управление контактом с клиентом
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+поддержание контакта
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+поддержание результатов
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+профессиональная рефлексия и анализ
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+профессиональное саморазвитие
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+работа с изменениями
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+резюмирование и оценка результатов терапии
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+удержание цели
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+уместное самораскрытие
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="cfa.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cv.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": false,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section",
+    "scroll_highlight": true
+  },
+  "toolbar": {
+    "position": "static"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

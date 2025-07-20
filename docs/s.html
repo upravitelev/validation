@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Валидация опросника</title>
-  <meta name="description" content="Валидация опросника" />
+  <title>Summary | Валидация опросника</title>
+  <meta name="description" content="Summary | Валидация опросника" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Валидация опросника" />
+  <meta property="og:title" content="Summary | Валидация опросника" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Валидация опросника" />
+  <meta name="twitter:title" content="Summary | Валидация опросника" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="cv.html"/>
 
-<link rel="next" href="preprocessing.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -203,34 +203,43 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Валидация опросника</h1>
-<p class="author"><em>Ph.A.Upravitelev</em></p>
-<p class="date"><em>2025-07-20</em></p>
-</div>
-<div id="intro" class="section level1 hasAnchor">
-<h1>Intro<a href="index.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="content" class="section level2 hasAnchor">
-<h2>Content<a href="index.html#content" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Раздел <a href="preprocessing.html#preprocessing">Data preparation</a> посвящен подготовке данных – перекодированию названий вопросов, перекодированию текстовых значений ответов в числовые, перекодирование обратных вопросов и т. д.</p>
-<p>Раздел <a href="descriptives.html#descriptives">Descriptives</a> содержит в себе распределение отуствующих вопросов по шкалам и субшкалам, корреляционный анализ шкал и субшкал, оценку динамики вариативности ответов в зависимости от порядка предъявления (чтобы проверить, не устали ли респонденты отвечать на вопросы).</p>
-<p>Раздел <a href="efa.html#efa">EFA</a> посвящен эксплораторной оценке факторной структуры опросника — насколько хорошая получается факторная структура, если извлекать столько же факторов, сколько в теоретической модели. Также я сделал оценку моделей каком разном количестве факторов. Отдельно я проанализировал структуру крупных шкал – есть ли там нерелевантные вопросы, насколько хорошо повторяется теоретическая структура субшкал и т. д.</p>
-<p>Раздел <a href="cfa.html#cfa">CFA</a> посвящен конфирматорной оценке теоретической модели шкал на основе данных опросника. А также попыткам улучшить модель. Я попробовал несколько способов улучшить качество модели:</p>
+<div id="s" class="section level1 hasAnchor">
+<h1>Summary<a href="s.html#s" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="ход-работ-и-гипотезы" class="section level2 hasAnchor">
+<h2>Ход работ и гипотезы<a href="s.html#ход-работ-и-гипотезы" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Несмотря на структуру отчета, реально был немного иной порядок — сначала я проверил, как исходная теоретическая модель подтверждается на данных (с помощью CFA). Когда получил не очень высокие метрики качества, стал пробовать разные варианты улучшения модели и в целом сделал разведочный анализ, как дексриптивный, так и факторный.</p>
 <ul>
-<li>исходная модель</li>
+<li>попробовал спуститься на уровень субшкал (группировка c3), которых 30 для 8 компетенций.</li>
+<li>аналогично, попробовал подняться на уровень выше, на уровень макро-компетенций (5 макро-компетенций)</li>
+<li>разными способами пытался улучшить качество основной c2-модели:
+<ul>
 <li>модель с удалением вопросов, не делающих значимый вклад</li>
 <li>модель с указанием кросс-факторных вкладов вопросов</li>
 <li>модель с удалением вопросов с высокими кросс-факторными нагрузками</li>
 <li>модель с удалением вопросов, которые в восьмифакторной EFA-модели имели низкие факторные нагрузки</li>
 <li>модель с коррекцией крупных шкал (удалением вопросов с низкой нагрузкой в факторы шкалы)</li>
+</ul></li>
 </ul>
-<p>В разделе <a href="newmodel">New model</a> я пробую переструктурировать опросник и выделить осмысленное количество факторов. В результате у меня получилось два достаточно близких по метрикам и смыслам решения с 13 и 14 факторами.</p>
-<p>Разделе <a href="cv.html#cv">Convergent validity</a> посвящен оцененке конвергентной валидности выделенных шкал опросника – насколько новые шкалы (при 13- и 14-ти факторных решениях) коррелируют с другими личностными опросниками и шкалами.</p>
-<p>Раздел <a href="s.html#s">Summary</a> — коротко результаты работы и дальнейшие действия.</p>
+<p>Также была гипотеза, что респонденты на таком большом массиве вопросов устают и начинают выбирать первый пункт во всех вопросах (т. е. снижается дисперсия ответов). Для проверки гипотезы я просто посмотрел вариативность вопросов в зависимости от порядкового номера вопроса. Гипотеза не подтвердилась, качество исходной модели низкое по каким-то иным причинам.</p>
+<p>Помимо оценки модели и поиска вариантов новой структуры, я сделал еще оценку конвергентной валидности опросника (новых шкал, выделенных с помощью EFA). Даны таблицы значимых коэффициентов корреляций.</p>
 </div>
-<div id="model-and-applications" class="section level2 hasAnchor">
-<h2>Model and applications<a href="index.html#model-and-applications" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><a href="https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1547686518#gid=1547686518" class="uri">https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1547686518#gid=1547686518</a></p>
+<div id="результаты" class="section level2 hasAnchor">
+<h2>Результаты<a href="s.html#результаты" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Несмотря на попытки улучшить модель, метрики все равно остались недостаточно хороши. В результате кажется более осмысленным пересобрать набор компетенций с помощью эксплораторного факторного анализа.</p>
+<p>По формальным показателям можно на текущем наборе вопросов выделить 13 или 14 факторов. Вопросы, исходные шкалы и моя интерпретация для 13-факторной модели <a href="https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1010368429#gid=1010368429">здесь</a>. Материалы по 14-ти факторной модели <a href="https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=830574453#gid=830574453">здесь</a>.</p>
+<p>Стоит учитывать, что качество этих решений все равно проходит по нижней границе приемлемости — CFA чуть выше 0.9, а общая объясненная дисперсия не выше 45% (т. е. больше половины вариативности вопросов объясняется иными факторами).</p>
+<p>Какой вариант выбрать – вопрос открытый, надо ориентироваться на общую осмысленность получившихся факторов. А также на оценку их конвергентной валидности (корреляции с шкалами тестов MAAS, TIPI и SSPM). Однако в целом сами значения коэффициентов не очень высоки — выделенные шкалы слабо коррелируют с шкалами тестов MAAS, TIPI и SSPM.</p>
+</div>
+<div id="дальнейшие-действия" class="section level2 hasAnchor">
+<h2>Дальнейшие действия<a href="s.html#дальнейшие-действия" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>перепроверить, что я верно отметил вопросы с обратным порядком значений. На качество модели и или факторной структуры это не особо повлияет, но для описательных статистик, оценки конвергентной валидности и получения индивидуальных значений по выделенным факторам это важно. Табличка <a href="https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=104226224#gid=104226224">здесь</a>.</li>
+<li>уточнить кодировку и ключи теста эмпатии Дэвиса, так как в <a href="https://docs.google.com/document/d/1D-YZjwgeBh-llDrjBfpuGx2XcEHRZ1Z1uS0O79h8hyg/edit?tab=t.0">описании методики</a> используется униполярная шкала, а в опроснике – биполярная, плюс есть несколько обратных вопросов. В результате непонятно, как корректно вычислять значения по шкалам.</li>
+<li>в идеале было бы неплохо перепроверить, что я корректно применил ключи методик из описаний опросников (они местами весьма заковыристые, в частности SSPM).</li>
+<li>выбрать, какая факторная модель (на 13 или на 14 факторов) кажется более осмысленной.</li>
+<li>перечислить, если нужны, дополнительные гипотезы и исследования, которые касаются различий групп респондентов по выделенным шкалам (например по стажу / полу и т.д.)</li>
+<li>вопрос для отдельного брейншторма и в рамках текущей задачи может быть избыточным — почему в целом качество исходных моделей получилось не очень высоким.</li>
+</ul>
 
 </div>
 </div>
@@ -239,8 +248,8 @@
           </div>
         </div>
       </div>
+<a href="cv.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="preprocessing.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

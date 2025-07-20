@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="ru-RU" xml:lang="ru-RU">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Descriptives | Валидация опросника</title>
+  <meta name="description" content="Descriptives | Валидация опросника" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Descriptives | Валидация опросника" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Descriptives | Валидация опросника" />
+  
+  
+  
+
+<meta name="author" content="Ph.A.Upravitelev" />
+
+
+<meta name="date" content="2025-07-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="preprocessing.html"/>
+<link rel="next" href="efa.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/dt-ext-fixedcolumns-1.13.6/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-fixedcolumns-1.13.6/js/dataTables.fixedColumns.min.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">survey</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Intro</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#content"><i class="fa fa-check"></i>Content</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#model-and-applications"><i class="fa fa-check"></i>Model and applications</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html"><i class="fa fa-check"></i>Data preparation</a>
+<ul>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#корректировка-текстов-вопросов"><i class="fa fa-check"></i>Корректировка текстов вопросов</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#кодирование-шкал"><i class="fa fa-check"></i>Кодирование шкал</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#кодирование-названий-вопросов"><i class="fa fa-check"></i>Кодирование названий вопросов</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#кодирование-вариантов-ответов"><i class="fa fa-check"></i>Кодирование вариантов ответов</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#перекодирование-обратных-вопросов"><i class="fa fa-check"></i>Перекодирование обратных вопросов</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html"><i class="fa fa-check"></i>Descriptives</a>
+<ul>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#вопросы-по-шкалам"><i class="fa fa-check"></i>Вопросы по шкалам</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#вопросы-по-субшкалам"><i class="fa fa-check"></i>Вопросы по субшкалам</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#стабильность-ответов"><i class="fa fa-check"></i>Стабильность ответов</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#корреляция-шкал"><i class="fa fa-check"></i>Корреляция шкал</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#корреляция-субшкал"><i class="fa fa-check"></i>Корреляция субшкал</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#размеры-шкал"><i class="fa fa-check"></i>Размеры шкал</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html"><i class="fa fa-check"></i>EFA</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#оценка-данных"><i class="fa fa-check"></i>Оценка данных</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#меры-адекватности-данных"><i class="fa fa-check"></i>меры адекватности данных</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#график-собственных-значений"><i class="fa fa-check"></i>график собственных значений</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#восьмифакторная-модель"><i class="fa fa-check"></i>Восьмифакторная модель</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#корреляция-факторов"><i class="fa fa-check"></i>корреляция факторов</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#факторные-нагрузки"><i class="fa fa-check"></i>факторные нагрузки</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#варианты-с-разным-числом-факторов"><i class="fa fa-check"></i>Варианты с разным числом факторов</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#сводная-таблица"><i class="fa fa-check"></i>сводная таблица</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#динамика-cfi"><i class="fa fa-check"></i>динамика CFI</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#переразбиение-шкал"><i class="fa fa-check"></i>Переразбиение шкал</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-5"><i class="fa fa-check"></i>EFA, с2 = 5</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-8"><i class="fa fa-check"></i>EFA, с2 = 8</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-10"><i class="fa fa-check"></i>EFA, с2 = 10</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-11"><i class="fa fa-check"></i>EFA, с2 = 11</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html"><i class="fa fa-check"></i>CFA</a>
+<ul>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#основная-модель"><i class="fa fa-check"></i>основная модель</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#подходы-к-улучшению-модели"><i class="fa fa-check"></i>подходы к улучшению модели</a>
+<ul>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#скорректированная-модель"><i class="fa fa-check"></i>скорректированная модель</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с-кросс-нагрузками"><i class="fa fa-check"></i>модель с кросс-нагрузками</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-без-кросс-нагрузок"><i class="fa fa-check"></i>модель без кросс-нагрузок</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с-высокими-efa-нагрузками"><i class="fa fa-check"></i>модель с высокими efa-нагрузками</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-без-вопросов-с-низкой-нагрузкой"><i class="fa fa-check"></i>модель без вопросов с низкой нагрузкой</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#метрики-с2-моделей"><i class="fa fa-check"></i>метрики с2-моделей</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с3-шкал"><i class="fa fa-check"></i>модель с3-шкал</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с1-шкал"><i class="fa fa-check"></i>модель с1-шкал</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html"><i class="fa fa-check"></i>New model</a>
+<ul>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#cleaned-models"><i class="fa fa-check"></i>cleaned models</a></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#факторная-модель"><i class="fa fa-check"></i>13-факторная модель</a></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#факторная-модель-1"><i class="fa fa-check"></i>14-факторная модель</a></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#сравнение-моделей"><i class="fa fa-check"></i>сравнение моделей</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html"><i class="fa fa-check"></i>Convergent validity</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#mass"><i class="fa fa-check"></i>MASS</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-13-факторной-моделью"><i class="fa fa-check"></i>корреляция с 13-факторной моделью</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-14-факторной-моделью"><i class="fa fa-check"></i>корреляция с 14-факторной моделью</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#тест-эмпатии-дэвиса"><i class="fa fa-check"></i>Тест эмпатии Дэвиса</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#tipi"><i class="fa fa-check"></i>TIPI</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-13-факторной-моделью-1"><i class="fa fa-check"></i>корреляция с 13-факторной моделью</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-14-факторной-моделью-1"><i class="fa fa-check"></i>корреляция с 14-факторной моделью</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#sspm"><i class="fa fa-check"></i>SSPM</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-13-факторной-моделью-2"><i class="fa fa-check"></i>корреляция с 13-факторной моделью</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-14-факторной-моделью-2"><i class="fa fa-check"></i>корреляция с 14-факторной моделью</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html"><i class="fa fa-check"></i>Summary</a>
+<ul>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html#ход-работ-и-гипотезы"><i class="fa fa-check"></i>Ход работ и гипотезы</a></li>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html#результаты"><i class="fa fa-check"></i>Результаты</a></li>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html#дальнейшие-действия"><i class="fa fa-check"></i>Дальнейшие действия</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Валидация опросника</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="descriptives" class="section level1 hasAnchor">
+<h1>Descriptives<a href="descriptives.html#descriptives" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="вопросы-по-шкалам" class="section level2 hasAnchor">
+<h2>Вопросы по шкалам<a href="descriptives.html#вопросы-по-шкалам" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+В опроснике присутствуют не все вопросы из теоретической модели (137 из 250).
+Ниже дана таблица, по каким шкалам вопросы оказались частично или полностью исключены.
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+C2
+</th>
+<th style="text-align:left;">
+c2
+</th>
+<th style="text-align:right;">
+in_model
+</th>
+<th style="text-align:right;">
+in_questionnaire
+</th>
+<th style="text-align:right;">
+lost_questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">альянс и сеттинг - 1</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">2</span>
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">альянс и сеттинг - 2</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">3</span>
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-1</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">5</span>
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-2</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">6</span>
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">профессионализм-1</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">9</span>
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">профессионализм-2</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">10</span>
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">работа с изменениями</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">8</span>
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">результаты</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">11</span>
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">альянс и сеттинг - 3</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">4</span>
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">мета-компетенции</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">1</span>
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">отношения-3</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">7</span>
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="вопросы-по-субшкалам" class="section level2 hasAnchor">
+<h2>Вопросы по субшкалам<a href="descriptives.html#вопросы-по-субшкалам" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Аналогичная таблица, но уже по субшкалам.</p>
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+C2
+</th>
+<th style="text-align:right;">
+c2
+</th>
+<th style="text-align:left;">
+C3
+</th>
+<th style="text-align:right;">
+in_model
+</th>
+<th style="text-align:right;">
+in_questionnaire
+</th>
+<th style="text-align:right;">
+lost_questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">альянс и сеттинг - 1</span>
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">актуализация цели</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">альянс и сеттинг - 1</span>
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">обсуждение контракта</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">альянс и сеттинг - 2</span>
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">информация о психотерапии</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-1</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">конгруэнтность</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-1</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">невербальные навыки</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-1</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">перефразирование и пересказ</span>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-1</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">поддержка</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-1</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">понятность</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-1</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">принятие</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-1</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">резюмирование</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-1</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">эмпатия</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-2</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">контекст</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-2</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">обратная связь</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-2</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">распознавание разрывов в терапевтическом альянсе</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">отношения-2</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">сопротивление</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">профессионализм-1</span>
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">профессиональные знания</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">профессионализм-2</span>
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">мотивация развиваться</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">профессионализм-2</span>
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">самооценка</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">профессионализм-2</span>
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">супервизия - личная терапия - интервизия</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">работа с изменениями</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">альтернативные взгляды</span>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">работа с изменениями</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">вопросы</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">работа с изменениями</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">интерпретации</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">работа с изменениями</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">пауза</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">работа с изменениями</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">прямое руководство</span>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">работа с изменениями</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">стимуляция</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">работа с изменениями</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">уместное самораскрытие</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">работа с изменениями</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">челендж (работа с затруднениями)</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">результаты</span>
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">оценка результатов</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">результаты</span>
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">поддержание результатов</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: black !important;">результаты</span>
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">резюмирование сессии и результатов терапии c клиентом</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">альянс и сеттинг - 1</span>
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">концептуализация случая</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">альянс и сеттинг - 2</span>
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">план сессии и отчет</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">альянс и сеттинг - 2</span>
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">последовательность и фокус терапии</span>
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">альянс и сеттинг - 3</span>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">границы и правила</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">альянс и сеттинг - 3</span>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">конфиденциальность</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">альянс и сеттинг - 3</span>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">навыки тайм-менджмента</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">мета-компетенции</span>
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">гибкость и адаптивность</span>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">мета-компетенции</span>
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">саморегуляция</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">отношения-3</span>
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">мультикультурность</span>
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">профессионализм-1</span>
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">знание границ своей компетентности</span>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">профессионализм-1</span>
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">межпрофессиональное сотрудничество</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style="     color: red !important;">работа с изменениями</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">информация о психических процессах</span>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="стабильность-ответов" class="section level2 hasAnchor">
+<h2>Стабильность ответов<a href="descriptives.html#стабильность-ответов" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Опросник достаточно длинный (137 вопросов по компетенциям, плюс несколько десятков по шкалам эмпатии и проч.). Так что есть вероятность, что респонденты в результате прохождения опросник устают и начинают выбирать какой-то один ответ. По настройкам гугл-формы видно, что переключатель <code>Shuffle question order</code> выключен, то есть респонденты видят вопросы ровно в той последовательности, как они заданы и поэтому гипотеза имеет место.</p>
+<p>Однако, судя по графику, какого-то убывающего тренда в дисперсии (т.е. пользователи продолжают выбирать разные варианты ответов) нет.</p>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-ae9a231241a93b3c4dcf" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-ae9a231241a93b3c4dcf">{"x":{"visdat":{"c146c6e44ba4b":["function () ","plotlyVisDat"]},"cur_data":"c146c6e44ba4b","attrs":{"c146c6e44ba4b":{"x":{},"y":{},"hoverinfo":"text","text":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Дисперсия вопросов по номеру предъявления","xaxis":{"domain":[0,1],"automargin":true,"title":"q_order"},"yaxis":{"domain":[0,1],"automargin":true,"title":"q_sd"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"data":[{"x":[10,21,26,34,60,64,92,97,98,99,103,106,111,112,120,121,123,125],"y":[1.165978754906791,0.95971391665324812,1.1786550658814945,1.080892239880783,0.91901346766343339,0.88871855693383428,1.4075627775790509,0.40441236849543793,0.77942155569362503,1.106740997013139,0.95897925965959263,0.81236890480003898,1.019691956301279,1.054041247724,0.90936106265423422,1.0445171004576341,1.1610758223144229,1.0871460635378885],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["вне сессий я тренировал(а) свои профессиональные навыки (например, в группах, на тренингах и т.д.)<br>профессионализм-2<br>SD = 1.16597875490679<br>Mean = 1.2","я проводил(а) самостоятельный анализ сессий, чтобы лучше разобраться в случае клиента<br>профессионализм-2<br>SD = 0.959713916653248<br>Mean = 1.2","на сессиях я действовал(а) интуитивно, не вдаваясь в детальный анализ своей работы<br>профессионализм-2<br>SD = 1.17865506588149<br>Mean = -0.5","между сессиями я анализировал(а) качество терапевтического альянса<br>профессионализм-2<br>SD = 1.08089223988078<br>Mean = 1","я анализировал(а) проведенные мною сессии, чтобы выявить свои зоны развития<br>профессионализм-2<br>SD = 0.919013467663433<br>Mean = 1.4","я не анализировал(а) случай клиента между сессиями<br>профессионализм-2<br>SD = 0.888718556933834<br>Mean = -1.3","я посещаю конференции и участвую в них<br>профессионализм-2<br>SD = 1.40756277757905<br>Mean = 0.7","я не ощущаю необходимости в курсах повышения квалификации<br>профессионализм-2<br>SD = 0.404412368495438<br>Mean = -1.9","я не ощущаю потребности в личной терапии<br>профессионализм-2<br>SD = 0.779421555693625<br>Mean = -1.6","я изучаю актуальную повестку научных событий в своей области<br>профессионализм-2<br>SD = 1.10674099701314<br>Mean = 1.1","я обращаюсь к своим коллегам, чтобы обсудить возникающие в процессе консультирования проблемы (например, этические, эмоциональные и пр.)<br>профессионализм-2<br>SD = 0.958979259659593<br>Mean = 1.3","я осваиваю новые подходы самостоятельно, не прибегая к обучению у других специалистов<br>профессионализм-2<br>SD = 0.812368904800039<br>Mean = -1.3","я не провожу профилактику эмоционального выгорания<br>профессионализм-2<br>SD = 1.01969195630128<br>Mean = -1.2","я не прибегаю к супервизиям/интервизиям в своей работе<br>профессионализм-2<br>SD = 1.054041247724<br>Mean = -1.4","я предпринимаю специальные действия для профилактики эмоционального выгорания (супервизии, личная терапия, интервизии, группы и т.д.)<br>профессионализм-2<br>SD = 0.909361062654234<br>Mean = 1.5","я обращаюсь к интервизии и/или супервизии для рефлексии работы с клиентами<br>профессионализм-2<br>SD = 1.04451710045763<br>Mean = 1.3","мне не хватает времени и сил следить за исследованиями в области психологии и смежных специальностей<br>профессионализм-2<br>SD = 1.16107582231442<br>Mean = -0.8","я прохожу личную терапию для проработки собственных проблем и запросов<br>профессионализм-2<br>SD = 1.08714606353789<br>Mean = 1.4"],"type":"bar","name":"c2 =  10","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[12,13,14,16,19,35,36,47,50,55,63,65,69,83,85,87,88],"y":[1.4446547777192662,1.2364599500052476,0.82914643004498167,1.0000505666626958,1.0378968581615613,1.1774773240089751,1.0520784299239894,0.86039335949213347,1.0619098109256759,1.2258552880887936,0.74803713359180213,1.0802517006903687,0.89493093228008525,1.2421672953007326,0.9618028031513699,0.89838870615122002,1.0294212434953358],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["я использовал(а) специальные инструменты для подведения промежуточных итогов (например, шкалы или вопросы)<br>результаты<br>SD = 1.44465477771927<br>Mean = 0.4","я не тратил(а) время сессии на оценку промежуточных результатов<br>результаты<br>SD = 1.23645995000525<br>Mean = -0.6","я не отмечал(а) незначительные изменения клиента, пока проблема не была полностью решена<br>результаты<br>SD = 0.829146430044982<br>Mean = -1.4","я специально оставлял(а) время в конце сессии для подведения итогов<br>результаты<br>SD = 1.0000505666627<br>Mean = 1.1","я не подводил(а) итогов на сессии<br>результаты<br>SD = 1.03789685816156<br>Mean = -1.1","я не задавал(а) клиенту вопросы про результаты терапии, так как, когда они появятся, это станет само собой заметно<br>результаты<br>SD = 1.17747732400898<br>Mean = -0.8","я подводил(а) итог сессии, только если об этом просил клиент<br>результаты<br>SD = 1.05207842992399<br>Mean = -1","я не обсуждал(а) с клиентом то, что уже достигнуто, а фокусировался(лась) на том, что еще не сделано<br>результаты<br>SD = 0.860393359492133<br>Mean = -1.3","я просил(а) клиента рассказывать мне о том, как он оценивает свой прогресс<br>результаты<br>SD = 1.06190981092568<br>Mean = 0.9","я не выделял(а) значимые моменты сессии для клиента, поскольку он сам запоминает самое важное<br>результаты<br>SD = 1.22585528808879<br>Mean = -0.7","я поддерживал(а) в клиенте ощущение веры в свою способность достичь цели, напоминая о его предыдущих успехах<br>результаты<br>SD = 0.748037133591802<br>Mean = 1.5","я ждал(а) полного решения проблемы, чтобы вместе с клиентом подвести итоги работы<br>результаты<br>SD = 1.08025170069037<br>Mean = -1","я не акцентировал(а) внимание на успехах клиента и ждал(а), что он сам их заметит<br>результаты<br>SD = 0.894930932280085<br>Mean = -1.2","в конце сессии я уточнял(а) у клиента, что он считает результатом сессии<br>результаты<br>SD = 1.24216729530073<br>Mean = 0.6","я замечал(а) даже малейшие положительные изменения у клиента и говорил(а) ему о них<br>результаты<br>SD = 0.96180280315137<br>Mean = 1","я акцентировал(а) внимание клиента на его достижениях<br>результаты<br>SD = 0.89838870615122<br>Mean = 1.2","во время сессии я сопоставлял(а) изначальный запрос клиента и текущие результаты<br>результаты<br>SD = 1.02942124349534<br>Mean = 0.8"],"type":"bar","name":"c2 =  11","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[95,96,100,101,102,109,119,128,134],"y":[1.1841125746023595,1.2895941865056495,1.180573417905286,1.1162098996110723,0.97331058211197519,1.099087013436606,0.73361316583539715,0.68115136453373426,1.0675822513941691],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"text":["я не обсуждаю контракт с клиентом, поскольку этого не предполагает подход, в котором я работаю<br>альянс и сеттинг - 1<br>SD = 1.18411257460236<br>Mean = -1","в процессе терапии все быстро меняется, поэтому я не формулирую детализированный контракт о целях работы с клиентом<br>альянс и сеттинг - 1<br>SD = 1.28959418650565<br>Mean = -0.4","я формулирую психотерапевтический контракт с клиентом<br>альянс и сеттинг - 1<br>SD = 1.18057341790529<br>Mean = 1","я поддерживаю в терапии актуальный процесс клиента, а не концентрируюсь на целях.<br>альянс и сеттинг - 1<br>SD = 1.11620989961107<br>Mean = 0.3","я обсуждаю с клиентом критерии достижения общей цели нашей работы<br>альянс и сеттинг - 1<br>SD = 0.973310582111975<br>Mean = 1.1","я следую за текущими процессами клиента, не инициируя обсуждение целей нашей работы<br>альянс и сеттинг - 1<br>SD = 1.09908701343661<br>Mean = -0.4","я переформулирую и уточняю цели терапии, если это необходимо<br>альянс и сеттинг - 1<br>SD = 0.733613165835397<br>Mean = 1.4","я обсуждаю результаты, которые хочет получить клиент в ходе терапии<br>альянс и сеттинг - 1<br>SD = 0.681151364533734<br>Mean = 1.5","в своей работе я уделяю внимание проговариванию конкретных формулировок целей<br>альянс и сеттинг - 1<br>SD = 1.06758225139417<br>Mean = 0.7"],"type":"bar","name":"c2 =  2","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[93,94,108,115,116],"y":[1.2347103502422252,1.056993590640535,1.1831513140667604,1.046934939366994,1.1120483999242741],"hoverinfo":["text","text","text","text","text"],"text":["я не рассказываю клиентам про то, как действуют техники и упражнения, которые я применяю в работе с ними<br>альянс и сеттинг - 2<br>SD = 1.23471035024223<br>Mean = -0.7","я не рассказываю клиентам о том, как работаю, поскольку считаю, что это никак не повлияет на эффективность нашей работы<br>альянс и сеттинг - 2<br>SD = 1.05699359064053<br>Mean = -1","я объясняю клиенту цель и способ действия интервенций, которые я применяю<br>альянс и сеттинг - 2<br>SD = 1.18315131406676<br>Mean = 0.5","я информирую клиентов об особенностях процесса психотерапии, поскольку считаю, что это важно для нашей работы<br>альянс и сеттинг - 2<br>SD = 1.04693493936699<br>Mean = 1","я рассказываю клиентам об особенностях подхода, в котором я работаю<br>альянс и сеттинг - 2<br>SD = 1.11204839992427<br>Mean = 1"],"type":"bar","name":"c2 =  3","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[3,4,5,6,7,15,24,29,31,39,44,45,46,51,53,58,61,67,68,71,75,76,77,79,86,89,136],"y":[1.2162109885732231,1.3123329063392661,1.0112169019370467,1.3193488077789268,1.353967108151849,0.7554533633948034,1.1880775338304621,1.2565561649605881,0.8273453293070302,0.74764410043543572,1.1522610567395106,1.2709910169897638,1.0057545091007545,1.2710805328554231,0.81501400814941194,0.6790322589968516,1.1695107320159679,1.0384357004073277,1.1080766485352995,0.84525094326811034,0.79568646129301035,0.95147860203090773,0.94134000044685295,0.84163120082195153,0.94604878949519988,0.83616086781857268,0.64650057765560787],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["я спрашивал(а) клиента о том, комфортно ли ему во время сессии<br>отношения-1<br>SD = 1.21621098857322<br>Mean = 0.9","я не называл(а) чувства клиента, он сам должен осознавать и называть их<br>отношения-1<br>SD = 1.31233290633927<br>Mean = 0","я использовал(а) невербальные способы поддержки клиента<br>отношения-1<br>SD = 1.01121690193705<br>Mean = 1.3","я старался(лась) не показывать клиенту свои чувства, возникающие в процессе терапии<br>отношения-1<br>SD = 1.31934880777893<br>Mean = -0.1","я не отзеркаливал(а) чувства клиента, чтобы не вовлечься в его переживания и быть в состоянии помочь ему<br>отношения-1<br>SD = 1.35396710815185<br>Mean = -0.1","когда я слушал(а) клиента, то смотрел(а) на него, активно поддерживая контакт<br>отношения-1<br>SD = 0.755453363394803<br>Mean = 1.5","на вопросы клиента о моих чувствах я давал(а) честный ответ, даже если это могло задеть его<br>отношения-1<br>SD = 1.18807753383046<br>Mean = 0.4","я не подстраивался(лась) под позу и манеру речи клиента<br>отношения-1<br>SD = 1.25655616496059<br>Mean = -0.4","после рассказа клиента я кратко резюмировал(а) ему суть сказанного<br>отношения-1<br>SD = 0.82734532930703<br>Mean = 1.2","я говорил(а) клиентам слова одобрения и поддержки в процессе работы<br>отношения-1<br>SD = 0.747644100435436<br>Mean = 1.5","я называл(а) чувства, переживаемые клиентом<br>отношения-1<br>SD = 1.15226105673951<br>Mean = 0.6","я подстраивался(лась) под позу, тембр и манеру речи клиента<br>отношения-1<br>SD = 1.27099101698976<br>Mean = 0.3","я использовал(а) психологические термины, чтобы завоевать доверие клиента<br>отношения-1<br>SD = 1.00575450910075<br>Mean = -1","я открыто делился своими чувствами с клиентом во время сессии<br>отношения-1<br>SD = 1.27108053285542<br>Mean = 0","я использовал(а) перефразирование, чтобы убедиться, что правильно понимаю клиента<br>отношения-1<br>SD = 0.815014008149412<br>Mean = 1.4","я уточнял(а) у клиента, правильно ли я его понимаю<br>отношения-1<br>SD = 0.679032258996852<br>Mean = 1.6","я повторял(а) сказанное словами клиента<br>отношения-1<br>SD = 1.16951073201597<br>Mean = 0.7","я уделял(а) внимание смыслу сказанного клиентом, а не его невербальным проявлениям<br>отношения-1<br>SD = 1.03843570040733<br>Mean = -0.6","я обращал(а) большое внимание на невербальные проявления клиента<br>отношения-1<br>SD = 1.1080766485353<br>Mean = 0.8","я избегал(а) переспрашиваний в процессе работы<br>отношения-1<br>SD = 0.84525094326811<br>Mean = -1.2","я использовал(а) метафоры и аналогии, чтобы клиенту было понятнее, что я имел(а) в виду<br>отношения-1<br>SD = 0.79568646129301<br>Mean = 1.4","по следам рассказа клиента я обобщал(а) суть его переживаний и размышлений<br>отношения-1<br>SD = 0.951478602030908<br>Mean = 1","я часто испытывал(а) теплые чувства и заботу по отношению к клиенту<br>отношения-1<br>SD = 0.941340000446853<br>Mean = 1","я не использовал(а) перефразирование<br>отношения-1<br>SD = 0.841631200821952<br>Mean = -1.3","мне было трудно удерживать зрительный контакт с клиентом, это отвлекало от сути нашей беседы<br>отношения-1<br>SD = 0.9460487894952<br>Mean = -1.2","я резюмировал(а) слова клиента<br>отношения-1<br>SD = 0.836160867818573<br>Mean = 1.2","я с уважением отношусь к личности, мировоззрению, ценностям клиента и стараюсь продемонстрировать это<br>отношения-1<br>SD = 0.646500577655608<br>Mean = 1.6"],"type":"bar","name":"c2 =  5","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,25,28,40,54,56,57,73,91,110,113,117,124,126,132,133,135],"y":[0.90969465072952482,1.49598553844538,1.2171669129667355,1.087259436463637,0.86722796733379404,1.1173390783717294,1.2854629264360098,0.87795622188769218,0.91827034109495898,0.76485807156350749,1.0779672363195736,1.0825634586616826,0.74643835513124357,0.89930642520854376,1.2172759653062315,1.0189695257751263,1.0477316017600236],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["я следил(а) за тем, как менялось состояние клиента от начала к концу сессии<br>отношения-2<br>SD = 0.909694650729525<br>Mean = 1.4","я использовал(а) шкалы обратной связи<br>отношения-2<br>SD = 1.49598553844538<br>Mean = -0.1","я возвращал(а) клиента к изначальному плану терапии, если он отвлекался на другие цели<br>отношения-2<br>SD = 1.21716691296674<br>Mean = 0","когда клиент был недоволен и не ценил проделанную работу, я расстраивался(лась) и говорил(а) клиенту о своих чувствах<br>отношения-2<br>SD = 1.08725943646364<br>Mean = -1","в начале сессии я обсуждал(а) с клиентом, с чем бы он хотел поработать сегодня<br>отношения-2<br>SD = 0.867227967333794<br>Mean = 1.4","я обсуждал(а) с клиентом нашу работу, его удовлетворенность ею<br>отношения-2<br>SD = 1.11733907837173<br>Mean = 0.9","я спрашивал клиента, насколько работа с текущими переживаниями для него актуальнее, чем работа над целью<br>отношения-2<br>SD = 1.28546292643601<br>Mean = 0.6","когда клиент высказывал неудовлетворенность работой, я пытался(лась) переубедить его<br>отношения-2<br>SD = 0.877956221887692<br>Mean = -1.1","я не переключался(лась) на текущие потребности клиента, не связанные с выбранной целью<br>отношения-2<br>SD = 0.918270341094959<br>Mean = -1","когда клиент отказывается работать с какой-то техникой, я обсуждаю с ним возможность альтернативных вариантов<br>отношения-2<br>SD = 0.764858071563507<br>Mean = 1.3","если клиент не хочет работать с какой-то темой, то я соглашаюсь и не затрагиваю ее<br>отношения-2<br>SD = 1.07796723631957<br>Mean = 0.8","если я подозреваю у клиента наличие сопротивления, я задаю вопрос об этом<br>отношения-2<br>SD = 1.08256345866168<br>Mean = 0.9","я стараюсь восстановить контакт с клиентом, если замечаю, что он нарушается<br>отношения-2<br>SD = 0.746438355131244<br>Mean = 1.4","я уточняю, с чем связаны изменения в поведении клиента на сессии (изменение интонации, непривычно долгое молчание и.т.д)<br>отношения-2<br>SD = 0.899306425208544<br>Mean = 1.2","если клиент пытается манипулировать мной, я замечаю и сообщаю ему об этом<br>отношения-2<br>SD = 1.21727596530623<br>Mean = 0.5","когда клиент закрывается в процессе терапии, я не пытаюсь его вовлечь в разговор, а жду инициативы от него<br>отношения-2<br>SD = 1.01896952577513<br>Mean = -0.6","я останавливаю попытки манипуляций со стороны клиента<br>отношения-2<br>SD = 1.04773160176002<br>Mean = 0.8"],"type":"bar","name":"c2 =  6","marker":{"color":"rgba(255,217,47,1)","line":{"color":"rgba(255,217,47,1)"}},"textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2,8,9,11,17,18,20,22,23,27,30,32,33,37,38,41,42,43,48,49,52,59,62,66,70,72,74,78,80,81,82,84,90,104,105,107,114,122,130,131],"y":[1.21649680555175,1.3293813334339959,0.92323375951307773,1.1234237834405147,1.0832143016920526,0.89550991973628469,1.2397529142872719,0.89911662915238144,1.230661936359049,1.2158679195112561,0.77575131654294194,1.3694365067284315,1.2656609190431438,1.1617044436796133,1.2498983859130033,1.025135578252879,1.2260641042538529,1.0861222647812674,1.1712632823278983,1.200746908884041,1.1828146883194204,1.2295160181476654,1.1751989817853195,1.2572124620690681,1.1931105684112351,1.23484600724368,1.332288116243908,0.6651933007730052,1.2767197567573272,1.2172162473781305,1.1238710046223905,0.83758462921645294,0.87180052539439923,1.1836720937592451,1.2918689438328474,1.2697819351532029,1.2926197866282814,1.0120604185414546,1.2685467868737301,1.2743361182853028],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["я не указывал(а) клиенту на его дисфункциональные процессы, убеждения или внутренние противоречия, чтобы не нарушить наши отношения<br>работа с изменениями<br>SD = 1.21649680555175<br>Mean = -0.5","сначала я собирал(а) как можно больше информации о жизни клиента, а потом думал(а), что из этого пригодится в работе<br>работа с изменениями<br>SD = 1.329381333434<br>Mean = 0.1","я хорошо понимал(а), что я спрашиваю у клиента и зачем<br>работа с изменениями<br>SD = 0.923233759513078<br>Mean = 1.1","я не предлагал(а) клиенту конкретных решений ситуации<br>работа с изменениями<br>SD = 1.12342378344051<br>Mean = 1","я использовал(а) техники, помогающие клиенту преодолеть его дисфункциональные процессы и паттерны поведения<br>работа с изменениями<br>SD = 1.08321430169205<br>Mean = 1","я обсуждал(а) с клиентом его затруднения, и мы вместе размышляли над тем, как их преодолеть<br>работа с изменениями<br>SD = 0.895509919736285<br>Mean = 1.2","я предлагал(а) клиенту варианты поведения в определенных ситуациях<br>работа с изменениями<br>SD = 1.23975291428727<br>Mean = -0.1","я делал(а) паузы в разговоре, чтобы дать клиенту возможность побыть со своими мыслями и переживаниям<br>работа с изменениями<br>SD = 0.899116629152381<br>Mean = 1.3","я старался(лась) не влиять на убеждения клиента<br>работа с изменениями<br>SD = 1.23066193635905<br>Mean = 0.7","когда я наблюдал(а) у клиента какой-то дисфункциональный процесс/убеждение или внутреннее противоречие, я прямо указывал(а) на это<br>работа с изменениями<br>SD = 1.21586791951126<br>Mean = 0.1","я просил(а) клиента подробнее рассказать о чувствах, которые он испытывает<br>работа с изменениями<br>SD = 0.775751316542942<br>Mean = 1.5","я рекомендовал(а) клиенту ознакомиться с дополнительной информацией (исследования, книги, статистические данные, статьи и др.), которые не совпадают с его убеждениями<br>работа с изменениями<br>SD = 1.36943650672843<br>Mean = -0.1","я рассказывал(а) клиенту о том, что может значить его поведение или состояние с точки зрения той теории, которой я учился(лась)<br>работа с изменениями<br>SD = 1.26566091904314<br>Mean = 0.5","если клиент сам не рассказывал подробно о чем-то, я не просил(а) клиента рассказать больше<br>работа с изменениями<br>SD = 1.16170444367961<br>Mean = -0.7","я не раскрывал(а) клиенту свое видение его случая<br>работа с изменениями<br>SD = 1.249898385913<br>Mean = -0.2","если в разговоре с клиентом возникала пауза, я старался(лась) ее чем-то заполнить<br>работа с изменениями<br>SD = 1.02513557825288<br>Mean = -1","задавая вопросы клиенту, я опирался(лась) на интуицию<br>работа с изменениями<br>SD = 1.22606410425385<br>Mean = -0.1","я использовал(а) фразы «расскажите больше о…», «а что еще…?»<br>работа с изменениями<br>SD = 1.08612226478127<br>Mean = 0.8","я давал(а) клиенту домашние задания<br>работа с изменениями<br>SD = 1.1712632823279<br>Mean = 1","я ждал(а), когда клиент сам обнаружит свои внутренние противоречия и затруднения<br>работа с изменениями<br>SD = 1.20074690888404<br>Mean = -0.2","я просил(а) клиента говорить о своих чувствах и мыслях и не предлагал(а) своих интерпретаций<br>работа с изменениями<br>SD = 1.18281468831942<br>Mean = 0.5","я не привносил(а) информации, противоречащей взгляду клиента<br>работа с изменениями<br>SD = 1.22951601814767<br>Mean = -0.2","я использовал(а) рекомендации и предписания в своей работе<br>работа с изменениями<br>SD = 1.17519898178532<br>Mean = 0.8","я использовал(а) молчание, чтобы углубить контакт<br>работа с изменениями<br>SD = 1.25721246206907<br>Mean = 0.2","когда клиент дистанцировался и избегал говорить о чем-то, я старался(лась) вовлечь его в обсуждение<br>работа с изменениями<br>SD = 1.19311056841124<br>Mean = -0.1","я не пользовался(лась) техникой терапевтических пауз на сессии<br>работа с изменениями<br>SD = 1.23484600724368<br>Mean = -0.7","я предлагал(а) клиенту помолчать, чтобы обратить его внимание на то, что с ним происходит<br>работа с изменениями<br>SD = 1.33228811624391<br>Mean = 0","я задавал(а) вопросы, направленные на расширение и дополнение видения ситуации клиентом<br>работа с изменениями<br>SD = 0.665193300773005<br>Mean = 1.5","я просил(а) клиента на сессии усилить невербальные проявления чувств и переживаний<br>работа с изменениями<br>SD = 1.27671975675733<br>Mean = -0.7","я не использовал(а) интерпретации, чтобы не исказить субъективный опыт клиента<br>работа с изменениями<br>SD = 1.21721624737813<br>Mean = -0.3","я акцентировал(а) внимание клиента на том, что его действия, слова и чувства могут иметь определенный психологический смысл<br>работа с изменениями<br>SD = 1.12387100462239<br>Mean = 0.6","я использовал(а) вопросы только для сбора информации, а не для продвижения терапевтического процесса<br>работа с изменениями<br>SD = 0.837584629216453<br>Mean = -1.3","я задавал(а) вопросы, ориентируясь на поставленную цель терапии<br>работа с изменениями<br>SD = 0.871800525394399<br>Mean = 1","когда клиент задает вопросы обо мне, я отвечаю максимально подробно<br>работа с изменениями<br>SD = 1.18367209375925<br>Mean = -0.5","я ничего не рассказываю клиенту о себе, на терапии мы говорим о клиенте<br>работа с изменениями<br>SD = 1.29186894383285<br>Mean = 0","я раскрываю перед клиентом личный опыт, когда понимаю, что у нас крепкий терапевтический альянс<br>работа с изменениями<br>SD = 1.2697819351532<br>Mean = 0.3","я делюсь своим опытом с клиентом, чтобы показать альтернативный способ мышления или действий<br>работа с изменениями<br>SD = 1.29261978662828<br>Mean = 0.1","когда клиент задает вопросы обо мне, я избегаю ответа на них<br>работа с изменениями<br>SD = 1.01206041854145<br>Mean = -0.8","я нормализую переживания клиента, раскрывая перед ним свой опыт<br>работа с изменениями<br>SD = 1.26854678687373<br>Mean = 0.5","я рассказываю клиенту о личном опыте применения упражнений и техник (например, практик внимательности), которые использую в терапии<br>работа с изменениями<br>SD = 1.2743361182853<br>Mean = 0.5"],"type":"bar","name":"c2 =  8","marker":{"color":"rgba(229,196,148,1)","line":{"color":"rgba(229,196,148,1)"}},"textfont":{"color":"rgba(229,196,148,1)"},"error_y":{"color":"rgba(229,196,148,1)"},"error_x":{"color":"rgba(229,196,148,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[118,127,129,137],"y":[0.85481756602253922,0.87205063188481768,0.80287121528153882,1.2128358674037107],"hoverinfo":["text","text","text","text"],"text":["я изучаю особенности применения техник (уместность, особенности и модификации разных упражнений)<br>профессионализм-1<br>SD = 0.854817566022539<br>Mean = 1.4","я объясняю клиентам некоторые психологические термины, которые считаю полезными для понимания ситуации<br>профессионализм-1<br>SD = 0.872050631884818<br>Mean = 1.3","я читаю дополнительную литературу, чтобы лучше разобраться в ситуации клиента<br>профессионализм-1<br>SD = 0.802871215281539<br>Mean = 1.5","я не употребляю психологические термины, чтобы не запутывать клиента<br>профессионализм-1<br>SD = 1.21283586740371<br>Mean = 0.2"],"type":"bar","name":"c2 =  9","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-f5ca3cbbabc4f2ebb087" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-f5ca3cbbabc4f2ebb087">{"x":{"visdat":{"c146c4143918f":["function () ","plotlyVisDat"]},"cur_data":"c146c4143918f","attrs":{"c146c4143918f":{"x":{},"y":{},"hoverinfo":"text","text":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Среднее значение вопросов по номеру предъявления","xaxis":{"domain":[0,1],"automargin":true,"title":"q_order"},"yaxis":{"domain":[0,1],"automargin":true,"title":"q_mean"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"data":[{"x":[10,21,26,34,60,64,92,97,98,99,103,106,111,112,120,121,123,125],"y":[1.1882770870337478,1.1705150976909413,-0.49733570159857904,1.0266429840142095,1.3801065719360568,-1.3374777975133214,0.69449378330373002,-1.8596802841918294,-1.6287744227353464,1.0905861456483126,1.3428063943161634,-1.3321492007104796,-1.2255772646536411,-1.4351687388987566,1.5044404973357015,1.344582593250444,-0.82948490230905858,1.4103019538188277],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["вне сессий я тренировал(а) свои профессиональные навыки (например, в группах, на тренингах и т.д.)<br>профессионализм-2<br>SD = 1.16597875490679<br>Mean = 1.2","я проводил(а) самостоятельный анализ сессий, чтобы лучше разобраться в случае клиента<br>профессионализм-2<br>SD = 0.959713916653248<br>Mean = 1.2","на сессиях я действовал(а) интуитивно, не вдаваясь в детальный анализ своей работы<br>профессионализм-2<br>SD = 1.17865506588149<br>Mean = -0.5","между сессиями я анализировал(а) качество терапевтического альянса<br>профессионализм-2<br>SD = 1.08089223988078<br>Mean = 1","я анализировал(а) проведенные мною сессии, чтобы выявить свои зоны развития<br>профессионализм-2<br>SD = 0.919013467663433<br>Mean = 1.4","я не анализировал(а) случай клиента между сессиями<br>профессионализм-2<br>SD = 0.888718556933834<br>Mean = -1.3","я посещаю конференции и участвую в них<br>профессионализм-2<br>SD = 1.40756277757905<br>Mean = 0.7","я не ощущаю необходимости в курсах повышения квалификации<br>профессионализм-2<br>SD = 0.404412368495438<br>Mean = -1.9","я не ощущаю потребности в личной терапии<br>профессионализм-2<br>SD = 0.779421555693625<br>Mean = -1.6","я изучаю актуальную повестку научных событий в своей области<br>профессионализм-2<br>SD = 1.10674099701314<br>Mean = 1.1","я обращаюсь к своим коллегам, чтобы обсудить возникающие в процессе консультирования проблемы (например, этические, эмоциональные и пр.)<br>профессионализм-2<br>SD = 0.958979259659593<br>Mean = 1.3","я осваиваю новые подходы самостоятельно, не прибегая к обучению у других специалистов<br>профессионализм-2<br>SD = 0.812368904800039<br>Mean = -1.3","я не провожу профилактику эмоционального выгорания<br>профессионализм-2<br>SD = 1.01969195630128<br>Mean = -1.2","я не прибегаю к супервизиям/интервизиям в своей работе<br>профессионализм-2<br>SD = 1.054041247724<br>Mean = -1.4","я предпринимаю специальные действия для профилактики эмоционального выгорания (супервизии, личная терапия, интервизии, группы и т.д.)<br>профессионализм-2<br>SD = 0.909361062654234<br>Mean = 1.5","я обращаюсь к интервизии и/или супервизии для рефлексии работы с клиентами<br>профессионализм-2<br>SD = 1.04451710045763<br>Mean = 1.3","мне не хватает времени и сил следить за исследованиями в области психологии и смежных специальностей<br>профессионализм-2<br>SD = 1.16107582231442<br>Mean = -0.8","я прохожу личную терапию для проработки собственных проблем и запросов<br>профессионализм-2<br>SD = 1.08714606353789<br>Mean = 1.4"],"type":"bar","name":"c2 =  10","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[12,13,14,16,19,35,36,47,50,55,63,65,69,83,85,87,88],"y":[0.41740674955595025,-0.55239786856127882,-1.3516873889875667,1.1456483126110124,-1.0799289520426287,-0.75133214920071045,-1.0408525754884548,-1.2664298401420959,0.86500888099467144,-0.71580817051509771,1.522202486678508,-0.98223801065719363,-1.2380106571936056,0.63055062166962694,0.98579040852575484,1.1758436944937833,0.84547069271758435],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["я использовал(а) специальные инструменты для подведения промежуточных итогов (например, шкалы или вопросы)<br>результаты<br>SD = 1.44465477771927<br>Mean = 0.4","я не тратил(а) время сессии на оценку промежуточных результатов<br>результаты<br>SD = 1.23645995000525<br>Mean = -0.6","я не отмечал(а) незначительные изменения клиента, пока проблема не была полностью решена<br>результаты<br>SD = 0.829146430044982<br>Mean = -1.4","я специально оставлял(а) время в конце сессии для подведения итогов<br>результаты<br>SD = 1.0000505666627<br>Mean = 1.1","я не подводил(а) итогов на сессии<br>результаты<br>SD = 1.03789685816156<br>Mean = -1.1","я не задавал(а) клиенту вопросы про результаты терапии, так как, когда они появятся, это станет само собой заметно<br>результаты<br>SD = 1.17747732400898<br>Mean = -0.8","я подводил(а) итог сессии, только если об этом просил клиент<br>результаты<br>SD = 1.05207842992399<br>Mean = -1","я не обсуждал(а) с клиентом то, что уже достигнуто, а фокусировался(лась) на том, что еще не сделано<br>результаты<br>SD = 0.860393359492133<br>Mean = -1.3","я просил(а) клиента рассказывать мне о том, как он оценивает свой прогресс<br>результаты<br>SD = 1.06190981092568<br>Mean = 0.9","я не выделял(а) значимые моменты сессии для клиента, поскольку он сам запоминает самое важное<br>результаты<br>SD = 1.22585528808879<br>Mean = -0.7","я поддерживал(а) в клиенте ощущение веры в свою способность достичь цели, напоминая о его предыдущих успехах<br>результаты<br>SD = 0.748037133591802<br>Mean = 1.5","я ждал(а) полного решения проблемы, чтобы вместе с клиентом подвести итоги работы<br>результаты<br>SD = 1.08025170069037<br>Mean = -1","я не акцентировал(а) внимание на успехах клиента и ждал(а), что он сам их заметит<br>результаты<br>SD = 0.894930932280085<br>Mean = -1.2","в конце сессии я уточнял(а) у клиента, что он считает результатом сессии<br>результаты<br>SD = 1.24216729530073<br>Mean = 0.6","я замечал(а) даже малейшие положительные изменения у клиента и говорил(а) ему о них<br>результаты<br>SD = 0.96180280315137<br>Mean = 1","я акцентировал(а) внимание клиента на его достижениях<br>результаты<br>SD = 0.89838870615122<br>Mean = 1.2","во время сессии я сопоставлял(а) изначальный запрос клиента и текущие результаты<br>результаты<br>SD = 1.02942124349534<br>Mean = 0.8"],"type":"bar","name":"c2 =  11","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[95,96,100,101,102,109,119,128,134],"y":[-1.0035523978685612,-0.43872113676731794,0.96447602131438726,0.32859680284191828,1.0532859680284192,-0.36767317939609234,1.3943161634103018,1.4991119005328597,0.71580817051509771],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"text":["я не обсуждаю контракт с клиентом, поскольку этого не предполагает подход, в котором я работаю<br>альянс и сеттинг - 1<br>SD = 1.18411257460236<br>Mean = -1","в процессе терапии все быстро меняется, поэтому я не формулирую детализированный контракт о целях работы с клиентом<br>альянс и сеттинг - 1<br>SD = 1.28959418650565<br>Mean = -0.4","я формулирую психотерапевтический контракт с клиентом<br>альянс и сеттинг - 1<br>SD = 1.18057341790529<br>Mean = 1","я поддерживаю в терапии актуальный процесс клиента, а не концентрируюсь на целях.<br>альянс и сеттинг - 1<br>SD = 1.11620989961107<br>Mean = 0.3","я обсуждаю с клиентом критерии достижения общей цели нашей работы<br>альянс и сеттинг - 1<br>SD = 0.973310582111975<br>Mean = 1.1","я следую за текущими процессами клиента, не инициируя обсуждение целей нашей работы<br>альянс и сеттинг - 1<br>SD = 1.09908701343661<br>Mean = -0.4","я переформулирую и уточняю цели терапии, если это необходимо<br>альянс и сеттинг - 1<br>SD = 0.733613165835397<br>Mean = 1.4","я обсуждаю результаты, которые хочет получить клиент в ходе терапии<br>альянс и сеттинг - 1<br>SD = 0.681151364533734<br>Mean = 1.5","в своей работе я уделяю внимание проговариванию конкретных формулировок целей<br>альянс и сеттинг - 1<br>SD = 1.06758225139417<br>Mean = 0.7"],"type":"bar","name":"c2 =  2","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[93,94,108,115,116],"y":[-0.72291296625222023,-0.98579040852575484,0.50799289520426283,0.99644760213143868,0.9982238010657194],"hoverinfo":["text","text","text","text","text"],"text":["я не рассказываю клиентам про то, как действуют техники и упражнения, которые я применяю в работе с ними<br>альянс и сеттинг - 2<br>SD = 1.23471035024223<br>Mean = -0.7","я не рассказываю клиентам о том, как работаю, поскольку считаю, что это никак не повлияет на эффективность нашей работы<br>альянс и сеттинг - 2<br>SD = 1.05699359064053<br>Mean = -1","я объясняю клиенту цель и способ действия интервенций, которые я применяю<br>альянс и сеттинг - 2<br>SD = 1.18315131406676<br>Mean = 0.5","я информирую клиентов об особенностях процесса психотерапии, поскольку считаю, что это важно для нашей работы<br>альянс и сеттинг - 2<br>SD = 1.04693493936699<br>Mean = 1","я рассказываю клиентам об особенностях подхода, в котором я работаю<br>альянс и сеттинг - 2<br>SD = 1.11204839992427<br>Mean = 1"],"type":"bar","name":"c2 =  3","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[3,4,5,6,7,15,24,29,31,39,44,45,46,51,53,58,61,67,68,71,75,76,77,79,86,89,136],"y":[0.94493783303730017,0.014209591474245116,1.2539964476021315,-0.11722912966252221,-0.13143872113676733,1.4955595026642985,0.40142095914742454,-0.38543516873889877,1.2202486678507993,1.5328596802841918,0.62344582593250442,0.32682060390763767,-1.0301953818827709,0.003552397868561279,1.4493783303730017,1.6163410301953818,0.74600355239786853,-0.60923623445825936,0.81172291296625221,-1.1811722912966252,1.38898756660746,1.0195381882770871,1,-1.3179396092362345,-1.2149200710479573,1.1580817051509769,1.6181172291296626],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["я спрашивал(а) клиента о том, комфортно ли ему во время сессии<br>отношения-1<br>SD = 1.21621098857322<br>Mean = 0.9","я не называл(а) чувства клиента, он сам должен осознавать и называть их<br>отношения-1<br>SD = 1.31233290633927<br>Mean = 0","я использовал(а) невербальные способы поддержки клиента<br>отношения-1<br>SD = 1.01121690193705<br>Mean = 1.3","я старался(лась) не показывать клиенту свои чувства, возникающие в процессе терапии<br>отношения-1<br>SD = 1.31934880777893<br>Mean = -0.1","я не отзеркаливал(а) чувства клиента, чтобы не вовлечься в его переживания и быть в состоянии помочь ему<br>отношения-1<br>SD = 1.35396710815185<br>Mean = -0.1","когда я слушал(а) клиента, то смотрел(а) на него, активно поддерживая контакт<br>отношения-1<br>SD = 0.755453363394803<br>Mean = 1.5","на вопросы клиента о моих чувствах я давал(а) честный ответ, даже если это могло задеть его<br>отношения-1<br>SD = 1.18807753383046<br>Mean = 0.4","я не подстраивался(лась) под позу и манеру речи клиента<br>отношения-1<br>SD = 1.25655616496059<br>Mean = -0.4","после рассказа клиента я кратко резюмировал(а) ему суть сказанного<br>отношения-1<br>SD = 0.82734532930703<br>Mean = 1.2","я говорил(а) клиентам слова одобрения и поддержки в процессе работы<br>отношения-1<br>SD = 0.747644100435436<br>Mean = 1.5","я называл(а) чувства, переживаемые клиентом<br>отношения-1<br>SD = 1.15226105673951<br>Mean = 0.6","я подстраивался(лась) под позу, тембр и манеру речи клиента<br>отношения-1<br>SD = 1.27099101698976<br>Mean = 0.3","я использовал(а) психологические термины, чтобы завоевать доверие клиента<br>отношения-1<br>SD = 1.00575450910075<br>Mean = -1","я открыто делился своими чувствами с клиентом во время сессии<br>отношения-1<br>SD = 1.27108053285542<br>Mean = 0","я использовал(а) перефразирование, чтобы убедиться, что правильно понимаю клиента<br>отношения-1<br>SD = 0.815014008149412<br>Mean = 1.4","я уточнял(а) у клиента, правильно ли я его понимаю<br>отношения-1<br>SD = 0.679032258996852<br>Mean = 1.6","я повторял(а) сказанное словами клиента<br>отношения-1<br>SD = 1.16951073201597<br>Mean = 0.7","я уделял(а) внимание смыслу сказанного клиентом, а не его невербальным проявлениям<br>отношения-1<br>SD = 1.03843570040733<br>Mean = -0.6","я обращал(а) большое внимание на невербальные проявления клиента<br>отношения-1<br>SD = 1.1080766485353<br>Mean = 0.8","я избегал(а) переспрашиваний в процессе работы<br>отношения-1<br>SD = 0.84525094326811<br>Mean = -1.2","я использовал(а) метафоры и аналогии, чтобы клиенту было понятнее, что я имел(а) в виду<br>отношения-1<br>SD = 0.79568646129301<br>Mean = 1.4","по следам рассказа клиента я обобщал(а) суть его переживаний и размышлений<br>отношения-1<br>SD = 0.951478602030908<br>Mean = 1","я часто испытывал(а) теплые чувства и заботу по отношению к клиенту<br>отношения-1<br>SD = 0.941340000446853<br>Mean = 1","я не использовал(а) перефразирование<br>отношения-1<br>SD = 0.841631200821952<br>Mean = -1.3","мне было трудно удерживать зрительный контакт с клиентом, это отвлекало от сути нашей беседы<br>отношения-1<br>SD = 0.9460487894952<br>Mean = -1.2","я резюмировал(а) слова клиента<br>отношения-1<br>SD = 0.836160867818573<br>Mean = 1.2","я с уважением отношусь к личности, мировоззрению, ценностям клиента и стараюсь продемонстрировать это<br>отношения-1<br>SD = 0.646500577655608<br>Mean = 1.6"],"type":"bar","name":"c2 =  5","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,25,28,40,54,56,57,73,91,110,113,117,124,126,132,133,135],"y":[1.3996447602131439,-0.13499111900532859,0.02664298401420959,-0.96625222024866786,1.3960923623445827,0.90230905861456479,0.61989342806394321,-1.1385435168738898,-1.044404973357016,1.2770870337477798,0.76554174067495562,0.8579040852575488,1.3836589698046182,1.2326820603907638,0.5008880994671403,-0.64120781527531079,0.84191829484902314],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["я следил(а) за тем, как менялось состояние клиента от начала к концу сессии<br>отношения-2<br>SD = 0.909694650729525<br>Mean = 1.4","я использовал(а) шкалы обратной связи<br>отношения-2<br>SD = 1.49598553844538<br>Mean = -0.1","я возвращал(а) клиента к изначальному плану терапии, если он отвлекался на другие цели<br>отношения-2<br>SD = 1.21716691296674<br>Mean = 0","когда клиент был недоволен и не ценил проделанную работу, я расстраивался(лась) и говорил(а) клиенту о своих чувствах<br>отношения-2<br>SD = 1.08725943646364<br>Mean = -1","в начале сессии я обсуждал(а) с клиентом, с чем бы он хотел поработать сегодня<br>отношения-2<br>SD = 0.867227967333794<br>Mean = 1.4","я обсуждал(а) с клиентом нашу работу, его удовлетворенность ею<br>отношения-2<br>SD = 1.11733907837173<br>Mean = 0.9","я спрашивал клиента, насколько работа с текущими переживаниями для него актуальнее, чем работа над целью<br>отношения-2<br>SD = 1.28546292643601<br>Mean = 0.6","когда клиент высказывал неудовлетворенность работой, я пытался(лась) переубедить его<br>отношения-2<br>SD = 0.877956221887692<br>Mean = -1.1","я не переключался(лась) на текущие потребности клиента, не связанные с выбранной целью<br>отношения-2<br>SD = 0.918270341094959<br>Mean = -1","когда клиент отказывается работать с какой-то техникой, я обсуждаю с ним возможность альтернативных вариантов<br>отношения-2<br>SD = 0.764858071563507<br>Mean = 1.3","если клиент не хочет работать с какой-то темой, то я соглашаюсь и не затрагиваю ее<br>отношения-2<br>SD = 1.07796723631957<br>Mean = 0.8","если я подозреваю у клиента наличие сопротивления, я задаю вопрос об этом<br>отношения-2<br>SD = 1.08256345866168<br>Mean = 0.9","я стараюсь восстановить контакт с клиентом, если замечаю, что он нарушается<br>отношения-2<br>SD = 0.746438355131244<br>Mean = 1.4","я уточняю, с чем связаны изменения в поведении клиента на сессии (изменение интонации, непривычно долгое молчание и.т.д)<br>отношения-2<br>SD = 0.899306425208544<br>Mean = 1.2","если клиент пытается манипулировать мной, я замечаю и сообщаю ему об этом<br>отношения-2<br>SD = 1.21727596530623<br>Mean = 0.5","когда клиент закрывается в процессе терапии, я не пытаюсь его вовлечь в разговор, а жду инициативы от него<br>отношения-2<br>SD = 1.01896952577513<br>Mean = -0.6","я останавливаю попытки манипуляций со стороны клиента<br>отношения-2<br>SD = 1.04773160176002<br>Mean = 0.8"],"type":"bar","name":"c2 =  6","marker":{"color":"rgba(255,217,47,1)","line":{"color":"rgba(255,217,47,1)"}},"textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2,8,9,11,17,18,20,22,23,27,30,32,33,37,38,41,42,43,48,49,52,59,62,66,70,72,74,78,80,81,82,84,90,104,105,107,114,122,130,131],"y":[-0.54351687388987568,0.09236234458259325,1.1190053285968029,1.0355239786856127,1.0319715808170515,1.2202486678507993,-0.12078152753108348,1.2753108348134992,0.67673179396092364,0.06216696269982238,1.4689165186500888,-0.11190053285968028,0.47069271758436942,-0.68028419182948485,-0.23090586145648312,-1.0497335701598578,-0.10479573712255773,0.8312611012433393,0.99467140319715808,-0.17229129662522202,0.52930728241563052,-0.23623445825932504,0.75488454706927177,0.17229129662522202,-0.072824156305506219,-0.73001776198934276,0.028419182948490232,1.4884547069271759,-0.65008880994671403,-0.30195381882770872,0.59325044404973359,-1.3001776198934281,0.96092362344582594,-0.45115452930728239,0.010657193605683837,0.25932504440497334,0.11900532859680284,-0.8348134991119005,0.47424511545293074,0.48667850799289519],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["я не указывал(а) клиенту на его дисфункциональные процессы, убеждения или внутренние противоречия, чтобы не нарушить наши отношения<br>работа с изменениями<br>SD = 1.21649680555175<br>Mean = -0.5","сначала я собирал(а) как можно больше информации о жизни клиента, а потом думал(а), что из этого пригодится в работе<br>работа с изменениями<br>SD = 1.329381333434<br>Mean = 0.1","я хорошо понимал(а), что я спрашиваю у клиента и зачем<br>работа с изменениями<br>SD = 0.923233759513078<br>Mean = 1.1","я не предлагал(а) клиенту конкретных решений ситуации<br>работа с изменениями<br>SD = 1.12342378344051<br>Mean = 1","я использовал(а) техники, помогающие клиенту преодолеть его дисфункциональные процессы и паттерны поведения<br>работа с изменениями<br>SD = 1.08321430169205<br>Mean = 1","я обсуждал(а) с клиентом его затруднения, и мы вместе размышляли над тем, как их преодолеть<br>работа с изменениями<br>SD = 0.895509919736285<br>Mean = 1.2","я предлагал(а) клиенту варианты поведения в определенных ситуациях<br>работа с изменениями<br>SD = 1.23975291428727<br>Mean = -0.1","я делал(а) паузы в разговоре, чтобы дать клиенту возможность побыть со своими мыслями и переживаниям<br>работа с изменениями<br>SD = 0.899116629152381<br>Mean = 1.3","я старался(лась) не влиять на убеждения клиента<br>работа с изменениями<br>SD = 1.23066193635905<br>Mean = 0.7","когда я наблюдал(а) у клиента какой-то дисфункциональный процесс/убеждение или внутреннее противоречие, я прямо указывал(а) на это<br>работа с изменениями<br>SD = 1.21586791951126<br>Mean = 0.1","я просил(а) клиента подробнее рассказать о чувствах, которые он испытывает<br>работа с изменениями<br>SD = 0.775751316542942<br>Mean = 1.5","я рекомендовал(а) клиенту ознакомиться с дополнительной информацией (исследования, книги, статистические данные, статьи и др.), которые не совпадают с его убеждениями<br>работа с изменениями<br>SD = 1.36943650672843<br>Mean = -0.1","я рассказывал(а) клиенту о том, что может значить его поведение или состояние с точки зрения той теории, которой я учился(лась)<br>работа с изменениями<br>SD = 1.26566091904314<br>Mean = 0.5","если клиент сам не рассказывал подробно о чем-то, я не просил(а) клиента рассказать больше<br>работа с изменениями<br>SD = 1.16170444367961<br>Mean = -0.7","я не раскрывал(а) клиенту свое видение его случая<br>работа с изменениями<br>SD = 1.249898385913<br>Mean = -0.2","если в разговоре с клиентом возникала пауза, я старался(лась) ее чем-то заполнить<br>работа с изменениями<br>SD = 1.02513557825288<br>Mean = -1","задавая вопросы клиенту, я опирался(лась) на интуицию<br>работа с изменениями<br>SD = 1.22606410425385<br>Mean = -0.1","я использовал(а) фразы «расскажите больше о…», «а что еще…?»<br>работа с изменениями<br>SD = 1.08612226478127<br>Mean = 0.8","я давал(а) клиенту домашние задания<br>работа с изменениями<br>SD = 1.1712632823279<br>Mean = 1","я ждал(а), когда клиент сам обнаружит свои внутренние противоречия и затруднения<br>работа с изменениями<br>SD = 1.20074690888404<br>Mean = -0.2","я просил(а) клиента говорить о своих чувствах и мыслях и не предлагал(а) своих интерпретаций<br>работа с изменениями<br>SD = 1.18281468831942<br>Mean = 0.5","я не привносил(а) информации, противоречащей взгляду клиента<br>работа с изменениями<br>SD = 1.22951601814767<br>Mean = -0.2","я использовал(а) рекомендации и предписания в своей работе<br>работа с изменениями<br>SD = 1.17519898178532<br>Mean = 0.8","я использовал(а) молчание, чтобы углубить контакт<br>работа с изменениями<br>SD = 1.25721246206907<br>Mean = 0.2","когда клиент дистанцировался и избегал говорить о чем-то, я старался(лась) вовлечь его в обсуждение<br>работа с изменениями<br>SD = 1.19311056841124<br>Mean = -0.1","я не пользовался(лась) техникой терапевтических пауз на сессии<br>работа с изменениями<br>SD = 1.23484600724368<br>Mean = -0.7","я предлагал(а) клиенту помолчать, чтобы обратить его внимание на то, что с ним происходит<br>работа с изменениями<br>SD = 1.33228811624391<br>Mean = 0","я задавал(а) вопросы, направленные на расширение и дополнение видения ситуации клиентом<br>работа с изменениями<br>SD = 0.665193300773005<br>Mean = 1.5","я просил(а) клиента на сессии усилить невербальные проявления чувств и переживаний<br>работа с изменениями<br>SD = 1.27671975675733<br>Mean = -0.7","я не использовал(а) интерпретации, чтобы не исказить субъективный опыт клиента<br>работа с изменениями<br>SD = 1.21721624737813<br>Mean = -0.3","я акцентировал(а) внимание клиента на том, что его действия, слова и чувства могут иметь определенный психологический смысл<br>работа с изменениями<br>SD = 1.12387100462239<br>Mean = 0.6","я использовал(а) вопросы только для сбора информации, а не для продвижения терапевтического процесса<br>работа с изменениями<br>SD = 0.837584629216453<br>Mean = -1.3","я задавал(а) вопросы, ориентируясь на поставленную цель терапии<br>работа с изменениями<br>SD = 0.871800525394399<br>Mean = 1","когда клиент задает вопросы обо мне, я отвечаю максимально подробно<br>работа с изменениями<br>SD = 1.18367209375925<br>Mean = -0.5","я ничего не рассказываю клиенту о себе, на терапии мы говорим о клиенте<br>работа с изменениями<br>SD = 1.29186894383285<br>Mean = 0","я раскрываю перед клиентом личный опыт, когда понимаю, что у нас крепкий терапевтический альянс<br>работа с изменениями<br>SD = 1.2697819351532<br>Mean = 0.3","я делюсь своим опытом с клиентом, чтобы показать альтернативный способ мышления или действий<br>работа с изменениями<br>SD = 1.29261978662828<br>Mean = 0.1","когда клиент задает вопросы обо мне, я избегаю ответа на них<br>работа с изменениями<br>SD = 1.01206041854145<br>Mean = -0.8","я нормализую переживания клиента, раскрывая перед ним свой опыт<br>работа с изменениями<br>SD = 1.26854678687373<br>Mean = 0.5","я рассказываю клиенту о личном опыте применения упражнений и техник (например, практик внимательности), которые использую в терапии<br>работа с изменениями<br>SD = 1.2743361182853<br>Mean = 0.5"],"type":"bar","name":"c2 =  8","marker":{"color":"rgba(229,196,148,1)","line":{"color":"rgba(229,196,148,1)"}},"textfont":{"color":"rgba(229,196,148,1)"},"error_y":{"color":"rgba(229,196,148,1)"},"error_x":{"color":"rgba(229,196,148,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[118,127,129,137],"y":[1.3534635879218473,1.2877442273534636,1.5293072824156306,0.20781527531083482],"hoverinfo":["text","text","text","text"],"text":["я изучаю особенности применения техник (уместность, особенности и модификации разных упражнений)<br>профессионализм-1<br>SD = 0.854817566022539<br>Mean = 1.4","я объясняю клиентам некоторые психологические термины, которые считаю полезными для понимания ситуации<br>профессионализм-1<br>SD = 0.872050631884818<br>Mean = 1.3","я читаю дополнительную литературу, чтобы лучше разобраться в ситуации клиента<br>профессионализм-1<br>SD = 0.802871215281539<br>Mean = 1.5","я не употребляю психологические термины, чтобы не запутывать клиента<br>профессионализм-1<br>SD = 1.21283586740371<br>Mean = 0.2"],"type":"bar","name":"c2 =  9","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="корреляция-шкал" class="section level2 hasAnchor">
+<h2>Корреляция шкал<a href="descriptives.html#корреляция-шкал" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Каждую шкалу (компетенцию) я представил как сумму всех вопросов шкалы. Ниже дана сводная статистика, с каким количеством шкал есть значимая взаимосвязь и максимальное значение значимого коэффициента корреляции.</p>
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+row
+</th>
+<th style="text-align:right;">
+n_sig_corrs
+</th>
+<th style="text-align:right;">
+r_max
+</th>
+<th style="text-align:right;">
+r_min
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+альянс и сеттинг - 1
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.555
+</td>
+<td style="text-align:right;">
+0.426
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+альянс и сеттинг - 2
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.452
+</td>
+<td style="text-align:right;">
+0.291
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+отношения-1
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.570
+</td>
+<td style="text-align:right;">
+0.323
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+отношения-2
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.666
+</td>
+<td style="text-align:right;">
+0.446
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+профессионализм-1
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.541
+</td>
+<td style="text-align:right;">
+0.291
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+профессионализм-2
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.541
+</td>
+<td style="text-align:right;">
+0.324
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+работа с изменениями
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.662
+</td>
+<td style="text-align:right;">
+0.434
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+результаты
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.666
+</td>
+<td style="text-align:right;">
+0.352
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="Psychometrics_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="корреляция-субшкал" class="section level2 hasAnchor">
+<h2>Корреляция субшкал<a href="descriptives.html#корреляция-субшкал" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Аналогично, корреляция субшкал. Видно, что достаточно мало сильно скоррелированых шкал, некоторые субшкалы если и значимо взаимосвязаны с какими-то другими, то все равно связь очень слабая (например, <code>уместное самораскрытие</code>, <code>эмпатия</code>, <code>понятность</code>).</p>
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+row
+</th>
+<th style="text-align:right;">
+n_sig_corrs
+</th>
+<th style="text-align:right;">
+r_max
+</th>
+<th style="text-align:right;">
+r_min
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+оценка результатов
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+0.587
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+резюмирование сессии и результатов терапии c клиентом
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+0.587
+</td>
+<td style="text-align:right;">
+0.088
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+поддержание результатов
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+0.565
+</td>
+<td style="text-align:right;">
+0.180
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+мотивация развиваться
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+0.554
+</td>
+<td style="text-align:right;">
+0.107
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+самооценка
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+0.554
+</td>
+<td style="text-align:right;">
+0.099
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+обратная связь
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+0.542
+</td>
+<td style="text-align:right;">
+0.138
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+актуализация цели
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+0.520
+</td>
+<td style="text-align:right;">
+0.107
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+контекст
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+0.520
+</td>
+<td style="text-align:right;">
+0.122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+поддержка
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.520
+</td>
+<td style="text-align:right;">
+0.086
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+профессиональные знания
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+0.520
+</td>
+<td style="text-align:right;">
+0.125
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+супервизия - личная терапия - интервизия
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+0.517
+</td>
+<td style="text-align:right;">
+0.129
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+вопросы
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+0.491
+</td>
+<td style="text-align:right;">
+0.113
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+перефразирование и пересказ
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.487
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+резюмирование
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.487
+</td>
+<td style="text-align:right;">
+0.140
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+распознавание разрывов в терапевтическом альянсе
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.469
+</td>
+<td style="text-align:right;">
+0.089
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+обсуждение контракта
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+0.440
+</td>
+<td style="text-align:right;">
+0.135
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+принятие
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.434
+</td>
+<td style="text-align:right;">
+0.133
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+сопротивление
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+0.429
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+интерпретации
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+0.407
+</td>
+<td style="text-align:right;">
+0.122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+челендж (работа с затруднениями)
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.407
+</td>
+<td style="text-align:right;">
+0.108
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+пауза
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+0.405
+</td>
+<td style="text-align:right;">
+0.145
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+информация о психотерапии
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+0.404
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+невербальные навыки
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+0.398
+</td>
+<td style="text-align:right;">
+0.108
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+альтернативные взгляды
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.379
+</td>
+<td style="text-align:right;">
+0.120
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+прямое руководство
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+0.366
+</td>
+<td style="text-align:right;">
+0.111
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+стимуляция
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.323
+</td>
+<td style="text-align:right;">
+0.127
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+конгруэнтность
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+0.310
+</td>
+<td style="text-align:right;">
+0.086
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+эмпатия
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+0.310
+</td>
+<td style="text-align:right;">
+0.086
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+понятность
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+0.309
+</td>
+<td style="text-align:right;">
+0.088
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+уместное самораскрытие
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+0.261
+</td>
+<td style="text-align:right;">
+0.089
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="Psychometrics_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+<div id="размеры-шкал" class="section level2 hasAnchor">
+<h2>Размеры шкал<a href="descriptives.html#размеры-шкал" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>В модели на уровне компетенций (с2-шкал) шкалы не сбалансированы по количеству вопросов. Эта неравномерность вызвана тем, что от исходной модели опросника на 230 вопросов в количественном исследовании было использовано всего 137 вопросов. Остальные вопросы (и, соответственно, (суб)шкалы), было решено оценивать качественными методами.</p>
+<p>В результате в некоторых шкалах всего 3 вопроса, а в некоторых — до 27:</p>
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+c2
+</th>
+<th style="text-align:left;">
+C1
+</th>
+<th style="text-align:left;">
+C2
+</th>
+<th style="text-align:right;">
+full_model
+</th>
+<th style="text-align:right;">
+trimmed_model
+</th>
+<th style="text-align:right;">
+excluded
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+c2
+</td>
+<td style="text-align:left;">
+процесс терапии
+</td>
+<td style="text-align:left;">
+альянс и сеттинг - 1
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c3
+</td>
+<td style="text-align:left;">
+процесс терапии
+</td>
+<td style="text-align:left;">
+альянс и сеттинг - 2
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c5
+</td>
+<td style="text-align:left;">
+отношения
+</td>
+<td style="text-align:left;">
+отношения-1
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c6
+</td>
+<td style="text-align:left;">
+отношения
+</td>
+<td style="text-align:left;">
+отношения-2
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c8
+</td>
+<td style="text-align:left;">
+работа с изменениями
+</td>
+<td style="text-align:left;">
+работа с изменениями
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c9
+</td>
+<td style="text-align:left;">
+профессионализм
+</td>
+<td style="text-align:left;">
+профессионализм-1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c10
+</td>
+<td style="text-align:left;">
+профессионализм
+</td>
+<td style="text-align:left;">
+профессионализм-2
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c11
+</td>
+<td style="text-align:left;">
+результаты
+</td>
+<td style="text-align:left;">
+результаты
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="preprocessing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="efa.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": false,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section",
+    "scroll_highlight": true
+  },
+  "toolbar": {
+    "position": "static"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

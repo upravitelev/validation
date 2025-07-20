@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>CFA | Валидация опросника</title>
   <meta name="description" content="CFA | Валидация опросника" />
-  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="CFA | Валидация опросника" />
   <meta property="og:type" content="book" />
@@ -23,15 +23,15 @@
 <meta name="author" content="Ph.A.Upravitelev" />
 
 
-<meta name="date" content="2025-04-12" />
+<meta name="date" content="2025-07-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="efa.html"/>
+<link rel="prev" href="efa.html"/>
+<link rel="next" href="newmodel.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,6 +54,21 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/dt-ext-fixedcolumns-1.13.6/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-fixedcolumns-1.13.6/js/dataTables.fixedColumns.min.js"></script>
 
 
 
@@ -80,29 +95,96 @@
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Intro</a>
 <ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#content"><i class="fa fa-check"></i>Content</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#model"><i class="fa fa-check"></i>Model</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#model-and-applications"><i class="fa fa-check"></i>Model and applications</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html"><i class="fa fa-check"></i>CFA</a>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html"><i class="fa fa-check"></i>Data preparation</a>
 <ul>
-<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-на-8-компетенций"><i class="fa fa-check"></i>модель на 8 компетенций</a></li>
-<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#очищенная-модель"><i class="fa fa-check"></i>очищенная модель</a></li>
-<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#метрики-качества-c2-моделей"><i class="fa fa-check"></i>метрики качества c2-моделей</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#корректировка-текстов-вопросов"><i class="fa fa-check"></i>Корректировка текстов вопросов</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#кодирование-шкал"><i class="fa fa-check"></i>Кодирование шкал</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#кодирование-названий-вопросов"><i class="fa fa-check"></i>Кодирование названий вопросов</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#кодирование-вариантов-ответов"><i class="fa fa-check"></i>Кодирование вариантов ответов</a></li>
+<li class="chapter" data-level="" data-path="preprocessing.html"><a href="preprocessing.html#перекодирование-обратных-вопросов"><i class="fa fa-check"></i>Перекодирование обратных вопросов</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html"><i class="fa fa-check"></i>Descriptives</a>
+<ul>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#вопросы-по-шкалам"><i class="fa fa-check"></i>Вопросы по шкалам</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#вопросы-по-субшкалам"><i class="fa fa-check"></i>Вопросы по субшкалам</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#стабильность-ответов"><i class="fa fa-check"></i>Стабильность ответов</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#корреляция-шкал"><i class="fa fa-check"></i>Корреляция шкал</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#корреляция-субшкал"><i class="fa fa-check"></i>Корреляция субшкал</a></li>
+<li class="chapter" data-level="" data-path="descriptives.html"><a href="descriptives.html#размеры-шкал"><i class="fa fa-check"></i>Размеры шкал</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="efa.html"><a href="efa.html"><i class="fa fa-check"></i>EFA</a>
 <ul>
-<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#размеры-шкал"><i class="fa fa-check"></i>Размеры шкал</a></li>
-<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#модель-с3-шкал"><i class="fa fa-check"></i>Модель с3-шкал</a></li>
-<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с3-5"><i class="fa fa-check"></i>EFA, с3 = 5</a></li>
-<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с3-10"><i class="fa fa-check"></i>EFA, с3 = 10</a></li>
-<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с3-11"><i class="fa fa-check"></i>EFA, с3 = 11</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="mimic.html"><a href="mimic.html"><i class="fa fa-check"></i>MIMIC</a></li>
-<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html"><i class="fa fa-check"></i>Convergent validity</a></li>
-<li class="chapter" data-level="" data-path="diff.html"><a href="diff.html"><i class="fa fa-check"></i>Differences</a></li>
-<li class="chapter" data-level="" data-path="q.html"><a href="q.html"><i class="fa fa-check"></i>Questions</a>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#оценка-данных"><i class="fa fa-check"></i>Оценка данных</a>
 <ul>
-<li class="chapter" data-level="" data-path="q.html"><a href="q.html#несбалансированность-шкал"><i class="fa fa-check"></i>несбалансированность шкал</a></li>
-<li class="chapter" data-level="" data-path="q.html"><a href="q.html#качество-модели"><i class="fa fa-check"></i>качество модели</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#меры-адекватности-данных"><i class="fa fa-check"></i>меры адекватности данных</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#график-собственных-значений"><i class="fa fa-check"></i>график собственных значений</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#восьмифакторная-модель"><i class="fa fa-check"></i>Восьмифакторная модель</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#корреляция-факторов"><i class="fa fa-check"></i>корреляция факторов</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#факторные-нагрузки"><i class="fa fa-check"></i>факторные нагрузки</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#варианты-с-разным-числом-факторов"><i class="fa fa-check"></i>Варианты с разным числом факторов</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#сводная-таблица"><i class="fa fa-check"></i>сводная таблица</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#динамика-cfi"><i class="fa fa-check"></i>динамика CFI</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#переразбиение-шкал"><i class="fa fa-check"></i>Переразбиение шкал</a>
+<ul>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-5"><i class="fa fa-check"></i>EFA, с2 = 5</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-8"><i class="fa fa-check"></i>EFA, с2 = 8</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-10"><i class="fa fa-check"></i>EFA, с2 = 10</a></li>
+<li class="chapter" data-level="" data-path="efa.html"><a href="efa.html#efa-с2-11"><i class="fa fa-check"></i>EFA, с2 = 11</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html"><i class="fa fa-check"></i>CFA</a>
+<ul>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#основная-модель"><i class="fa fa-check"></i>основная модель</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#подходы-к-улучшению-модели"><i class="fa fa-check"></i>подходы к улучшению модели</a>
+<ul>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#скорректированная-модель"><i class="fa fa-check"></i>скорректированная модель</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с-кросс-нагрузками"><i class="fa fa-check"></i>модель с кросс-нагрузками</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-без-кросс-нагрузок"><i class="fa fa-check"></i>модель без кросс-нагрузок</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с-высокими-efa-нагрузками"><i class="fa fa-check"></i>модель с высокими efa-нагрузками</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-без-вопросов-с-низкой-нагрузкой"><i class="fa fa-check"></i>модель без вопросов с низкой нагрузкой</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#метрики-с2-моделей"><i class="fa fa-check"></i>метрики с2-моделей</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с3-шкал"><i class="fa fa-check"></i>модель с3-шкал</a></li>
+<li class="chapter" data-level="" data-path="cfa.html"><a href="cfa.html#модель-с1-шкал"><i class="fa fa-check"></i>модель с1-шкал</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html"><i class="fa fa-check"></i>New model</a>
+<ul>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#cleaned-models"><i class="fa fa-check"></i>cleaned models</a></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#факторная-модель"><i class="fa fa-check"></i>13-факторная модель</a></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#факторная-модель-1"><i class="fa fa-check"></i>14-факторная модель</a></li>
+<li class="chapter" data-level="" data-path="newmodel.html"><a href="newmodel.html#сравнение-моделей"><i class="fa fa-check"></i>сравнение моделей</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html"><i class="fa fa-check"></i>Convergent validity</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#mass"><i class="fa fa-check"></i>MASS</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-13-факторной-моделью"><i class="fa fa-check"></i>корреляция с 13-факторной моделью</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-14-факторной-моделью"><i class="fa fa-check"></i>корреляция с 14-факторной моделью</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#тест-эмпатии-дэвиса"><i class="fa fa-check"></i>Тест эмпатии Дэвиса</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#tipi"><i class="fa fa-check"></i>TIPI</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-13-факторной-моделью-1"><i class="fa fa-check"></i>корреляция с 13-факторной моделью</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-14-факторной-моделью-1"><i class="fa fa-check"></i>корреляция с 14-факторной моделью</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#sspm"><i class="fa fa-check"></i>SSPM</a>
+<ul>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-13-факторной-моделью-2"><i class="fa fa-check"></i>корреляция с 13-факторной моделью</a></li>
+<li class="chapter" data-level="" data-path="cv.html"><a href="cv.html#корреляция-с-14-факторной-моделью-2"><i class="fa fa-check"></i>корреляция с 14-факторной моделью</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html"><i class="fa fa-check"></i>Summary</a>
+<ul>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html#ход-работ-и-гипотезы"><i class="fa fa-check"></i>Ход работ и гипотезы</a></li>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html#результаты"><i class="fa fa-check"></i>Результаты</a></li>
+<li class="chapter" data-level="" data-path="s.html"><a href="s.html#дальнейшие-действия"><i class="fa fa-check"></i>Дальнейшие действия</a></li>
 </ul></li>
 </ul>
 
@@ -123,26 +205,26 @@
             <section class="normal" id="section-">
 <div id="cfa" class="section level1 hasAnchor">
 <h1>CFA<a href="cfa.html#cfa" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="модель-на-8-компетенций" class="section level2 hasAnchor">
-<h2>модель на 8 компетенций<a href="cfa.html#модель-на-8-компетенций" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="основная-модель" class="section level2 hasAnchor">
+<h2>основная модель<a href="cfa.html#основная-модель" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Самая простая модель на 8 компетенций среднего уровня (с2). Это исходная модель, которая описана в статье. С помощью конфирматорного факторного анализа проверяем, насколько теоретическая структура модели присутствует в данных.</p>
 <p>Декларация модели такая:</p>
-<pre><code>## c2 =~ q_6 + q_157 + q_174 + q_179 + q_4 + q_119 + q_158 + q_208 + q_227
+<pre><code>## c11 =~ q_83 + q_88 + q_87 + q_65 + q_85 + q_12 + q_69 + q_55 + q_35 + q_47 + q_14 + q_19 + q_13 + q_36 + q_63 + q_50 + q_16
 ## 
-## c3 =~ q_84 + q_139 + q_141 + q_165 + q_201
+## c6 =~ q_54 + q_113 + q_132 + q_117 + q_40 + q_73 + q_133 + q_110 + q_28 + q_25 + q_91 + q_56 + q_135 + q_1 + q_57 + q_124 + q_126
 ## 
-## c5 =~ q_40 + q_171 + q_215 + q_34 + q_130 + q_151 + q_182 + q_221 + q_89 + q_115 + q_175 + q_223 + q_62 + q_88 + q_212 + q_86 + q_90 + q_32 + q_206 + q_46 + q_48 + q_79 + q_203 + q_104 + q_117 + q_123 + q_229
+## c2 =~ q_96 + q_134 + q_95 + q_128 + q_102 + q_119 + q_101 + q_109 + q_100
 ## 
-## c6 =~ q_2 + q_60 + q_128 + q_207 + q_211 + q_21 + q_22 + q_97 + q_155 + q_26 + q_216 + q_225 + q_11 + q_14 + q_17 + q_28 + q_168
+## c10 =~ q_10 + q_34 + q_123 + q_26 + q_60 + q_99 + q_64 + q_97 + q_98 + q_112 + q_111 + q_121 + q_103 + q_106 + q_92 + q_120 + q_21 + q_125
 ## 
-## c8 =~ q_74 + q_134 + q_204 + q_214 + q_19 + q_51 + q_76 + q_85 + q_228 + q_56 + q_113 + q_138 + q_193 + q_200 + q_10 + q_67 + q_87 + q_131 + q_185 + q_65 + q_91 + q_132 + q_184 + q_15 + q_23 + q_96 + q_194 + q_195 + q_24 + q_25 + q_69 + q_148 + q_149 + q_199 + q_202 + q_30 + q_73 + q_95 + q_146 + q_154
+## c8 =~ q_41 + q_37 + q_42 + q_70 + q_122 + q_104 + q_27 + q_8 + q_82 + q_48 + q_22 + q_114 + q_49 + q_78 + q_90 + q_84 + q_66 + q_62 + q_17 + q_43 + q_81 + q_72 + q_11 + q_59 + q_38 + q_2 + q_105 + q_130 + q_18 + q_20 + q_74 + q_52 + q_80 + q_30 + q_107 + q_33 + q_131 + q_32 + q_23 + q_9
 ## 
-## c9 =~ q_81 + q_147 + q_164 + q_230
+## c5 =~ q_15 + q_86 + q_24 + q_76 + q_31 + q_39 + q_71 + q_75 + q_5 + q_53 + q_46 + q_44 + q_79 + q_4 + q_7 + q_29 + q_68 + q_51 + q_61 + q_45 + q_89 + q_136 + q_3 + q_6 + q_67 + q_58 + q_77
 ## 
-## c10 =~ q_36 + q_80 + q_126 + q_136 + q_183 + q_186 + q_7 + q_33 + q_43 + q_57 + q_107 + q_190 + q_127 + q_133 + q_152 + q_153 + q_166 + q_197
+## c9 =~ q_118 + q_137 + q_127 + q_129
 ## 
-## c11 =~ q_8 + q_72 + q_93 + q_111 + q_144 + q_196 + q_55 + q_77 + q_106 + q_118 + q_125 + q_177 + q_1 + q_109 + q_129 + q_176 + q_210</code></pre>
-<p>Модель сходится относительно неплохо:</p>
+## c3 =~ q_115 + q_94 + q_93 + q_108 + q_116</code></pre>
+<p>Модель сходится посредственно:</p>
 <pre><code>##   cfi rmsea  srmr 
 ## 0.456 0.054 0.078</code></pre>
 <p>Индекс CFI (сравнение с моделью без латентных факторов) невысок, так как для хороших моделей значение должно быть выше 0.9, а лучше – выше 0.95.
@@ -150,9 +232,12 @@
 <p>Референсные значения для RMSEA (оценка сложности модели) – чем ниже, тем лучше, ниже 0.05 очень хорошее качество, ниже 0.08 – приемлемое.</p>
 <p>Референсные значения для SRMR (насколько хорошо модель воспроизводит наблюдаемые корреляции) – чем ниже, тем лучше, ниже 0.05 очень хорошее качество, ниже 0.08 – приемлемое.</p>
 </div>
-<div id="очищенная-модель" class="section level2 hasAnchor">
-<h2>очищенная модель<a href="cfa.html#очищенная-модель" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Ряд вопросов имеют низкий / незначимый вклад, поэтому их лучше удалить из модели. Вот список компетенций с исходным количеством вопросов и удаленными вопросами:</p>
+<div id="подходы-к-улучшению-модели" class="section level2 hasAnchor">
+<h2>подходы к улучшению модели<a href="cfa.html#подходы-к-улучшению-модели" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="скорректированная-модель" class="section level3 hasAnchor">
+<h3>скорректированная модель<a href="cfa.html#скорректированная-модель" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Самый простой способ улучшить модель – удалить те вопросы, по которым нет значимых вкладов. В табличке ниже дано количество вопросов в каждой шкале всего, и сколько оказалось без значимых вкладов (кандидаты на удаление):</p>
+<!-- Ряд вопросов имеют низкий / незначимый вклад, поэтому их лучше удалить из модели. Вот список компетенций с исходным количеством вопросов и удаленными вопросами: -->
 <table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -271,10 +356,10 @@ c8
 40
 </td>
 <td style="text-align:right;">
-28
+21
 </td>
 <td style="text-align:right;">
-12
+19
 </td>
 </tr>
 <tr>
@@ -341,17 +426,1025 @@ c11
 </table>
 <p>После удаления вопросов метрики модели выглядят следующим образом:</p>
 <pre><code>##   cfi rmsea  srmr 
-## 0.551 0.054 0.073</code></pre>
+## 0.582 0.054 0.070</code></pre>
 </div>
-<div id="метрики-качества-c2-моделей" class="section level2 hasAnchor">
-<h2>метрики качества c2-моделей<a href="cfa.html#метрики-качества-c2-моделей" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Метрики качества модели без знасимых вопросов практически не изменились. Сводная таблица всех четырех моделей (с корреляцией факторов / без корреляции, с удалением незначимых вопровов / все вопросы) выглядит следующим образом:</p>
-<pre><code>##                 model    cfi  rmsea   srmr
-##                &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt;
-## 1:      all questions  0.456  0.054  0.078
-## 2: excluded questions  0.551  0.054  0.073</code></pre>
-<p>Удаление незначимых вопросов немного улучшает качество структуры модели, но оно все еще недостаточно. Дальнейшие действия возможные тут — добавление кросс-нагрузок вопросов в разные факторы. Либо пересмотр всей модели в целом с помощью разведочного факторного анализа.</p>
-<p>Однако это все требует теоретического пересмотра модели компетенций, и может быть излишним для текущей задачи.</p>
+<div id="модель-с-кросс-нагрузками" class="section level3 hasAnchor">
+<h3>модель с кросс-нагрузками<a href="cfa.html#модель-с-кросс-нагрузками" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>И EFA, и метрики кросс-нагрузков CFA показывают, что много вопросов делают вклад в несколько факторов (т. е. высокая кросс-факторная нагрузка). <a href="https://docs.google.com/spreadsheets/d/1kjfYXDjMQ-RXZSFKUem_ABaXFhO1qg6Y4KLeFZD0DeM/edit?gid=1290465890#gid=1290465890">Таблица</a>, в которой для каждого вопроса даны факторы с максимальной нагрузкой – по модели и, если есть, кросс-факторы.</p>
+<p>Соответственно, можно попробовать учесть в модели, что некоторые вопросы могут относиться к нескольким факторам. Для этого я взял первый по кросс-нагрузке фактор для каждого вопроса и добавил к скорректированной модели (основной модели, из которой удалены незначимые вопросы).</p>
+<p>Декларация модели:</p>
+<pre><code>##        rhs    lhs     op       mi        epc    sepc.lv   sepc.all   sepc.nox
+##     &lt;char&gt; &lt;char&gt; &lt;char&gt;    &lt;num&gt;      &lt;num&gt;      &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
+##  1:  q_100    c10     =~ 45.41248  0.7106538  0.4765198  0.4039927  0.4039927
+##  2:  q_102    c10     =~ 13.17355 -0.2990720 -0.2005389 -0.2062211 -0.2062211
+##  3:  q_103     c6     =~ 13.48991  0.4282365  0.1971413  0.2057572  0.2057572
+##  4:  q_109     c9     =~ 24.01459  1.0036046  0.5839685  0.5317943  0.5317943
+##  5:  q_112     c6     =~ 45.05624 -0.8255243 -0.3800352 -0.3608719 -0.3608719
+##  6:  q_115     c9     =~ 16.18168  0.4213688  0.2451824  0.2343976  0.2343976
+##  7:  q_116     c9     =~ 10.26016  0.3553297  0.2067561  0.1860887  0.1860887
+##  8:  q_119     c6     =~ 41.15206  1.1888077  0.5472750  0.7466621  0.7466621
+##  9:  q_120     c8     =~ 24.51322 -0.9006735 -0.2293951 -0.2524841 -0.2524841
+## 10:  q_121    c11     =~ 30.71587 -0.2847672 -0.2266302 -0.2171642 -0.2171642
+## 11:  q_124     c5     =~ 11.59134  0.6671565  0.2338432  0.3135570  0.3135570
+## 12:  q_127    c10     =~ 54.88341 -0.8051707 -0.5398969 -0.6196627 -0.6196627
+## 13:  q_128     c5     =~ 31.47723  0.6353938  0.2227101  0.3272517  0.3272517
+## 14:  q_129    c10     =~ 27.37304  0.5329962  0.3573938  0.4455401  0.4455401
+## 15:   q_13     c5     =~ 14.10894 -0.8419055 -0.2950939 -0.2388722 -0.2388722
+## 16:  q_134     c9     =~ 23.67891 -0.9133203 -0.5314347 -0.4982345 -0.4982345
+## 17:  q_136     c9     =~ 15.07752  0.2684211  0.1561865  0.2418025  0.2418025
+## 18:   q_17     c5     =~ 29.18556 -1.9697897 -0.6904255 -0.6379535 -0.6379535
+## 19:   q_19     c6     =~ 26.49392 -0.9437674 -0.4344691 -0.4189776 -0.4189776
+## 20:   q_21     c8     =~ 33.45108  1.3642391  0.3474620  0.3623697  0.3623697
+## 21:   q_22     c6     =~ 28.60734 -2.0097291 -0.9251911 -1.0299151 -1.0299151
+## 22:   q_25    c11     =~ 24.48602  0.8313266  0.6616061  0.4426467  0.4426467
+## 23:   q_26    c11     =~ 34.08793  0.4425164  0.3521739  0.2990593  0.2990593
+## 24:    q_3     c6     =~ 38.88546  1.5551613  0.7159280  0.5891792  0.5891792
+## 25:   q_30     c5     =~ 13.44099  0.9710349  0.3403547  0.4391334  0.4391334
+## 26:   q_34     c8     =~ 31.26607  1.3632160  0.3472014  0.3215033  0.3215033
+## 27:   q_35     c5     =~ 38.79855 -1.2915050 -0.4526818 -0.3847923 -0.3847923
+## 28:   q_36     c8     =~ 27.27250  1.5823349  0.4030094  0.3834009  0.3834009
+## 29:   q_37    c11     =~ 11.11265  0.3995060  0.3179443  0.2739306  0.2739306
+## 30:   q_42     c5     =~ 47.20908 -3.1879149 -1.1173871 -0.9121709 -0.9121709
+## 31:   q_48    c11     =~ 37.31930  0.6917268  0.5505064  0.4704299  0.4704299
+## 32:   q_53     c3     =~ 10.81168 -0.1625146 -0.1191727 -0.1463513 -0.1463513
+## 33:   q_55     c5     =~ 11.07569 -0.7370420 -0.2583385 -0.2109297 -0.2109297
+## 34:   q_56    c11     =~ 23.97023  0.5832706  0.4641922  0.4158124  0.4158124
+## 35:   q_57    c11     =~ 18.40229  0.5881308  0.4680602  0.3644414  0.3644414
+## 36:   q_60     c8     =~ 35.50530  1.2814293  0.3263709  0.3554478  0.3554478
+## 37:   q_62     c5     =~ 19.69414 -1.8837568 -0.6602703 -0.5623405 -0.5623405
+## 38:   q_63     c5     =~ 80.34451  1.1515239  0.4036174  0.5400485  0.5400485
+## 39:   q_66    c11     =~ 20.08614 -0.5675006 -0.4516418 -0.3595590 -0.3595590
+## 40:   q_68     c8     =~ 12.17656  1.8931438  0.4821702  0.4355270  0.4355270
+## 41:   q_69     c8     =~ 10.27041 -0.8321065 -0.2119316 -0.2370240 -0.2370240
+## 42:   q_72    c10     =~ 23.90095  0.5840747  0.3916438  0.3174417  0.3174417
+## 43:   q_76     c6     =~ 18.60958 -0.8255970 -0.3800686 -0.3998065 -0.3998065
+## 44:   q_77     c2     =~ 15.26179 -0.4228828 -0.2442494 -0.2597007 -0.2597007
+## 45:   q_78     c5     =~ 60.29769  1.6876046  0.5915176  0.8900325  0.8900325
+## 46:   q_84    c10     =~ 13.12863  0.3004550  0.2014662  0.2407463  0.2407463
+## 47:   q_85     c5     =~ 19.36141  0.7115947  0.2494191  0.2595552  0.2595552
+## 48:   q_87     c5     =~ 25.17403  0.7701641  0.2699481  0.3007475  0.3007475
+## 49:   q_88     c6     =~ 22.20654  0.8528524  0.3926159  0.3817340  0.3817340
+## 50:   q_89    c11     =~ 13.98718  0.2337278  0.1860108  0.2226566  0.2226566
+## 51:   q_90     c6     =~ 10.12319  1.1734869  0.5402219  0.6202125  0.6202125
+## 52:   q_93     c9     =~ 31.00588 -0.7175184 -0.4175032 -0.3384390 -0.3384390
+## 53:   q_94     c9     =~ 20.70984 -0.4942146 -0.2875692 -0.2723051 -0.2723051
+## 54:   q_95     c6     =~ 39.10297 -1.9625135 -0.9034552 -0.7636606 -0.7636606
+## 55:   q_96     c6     =~ 19.51100 -1.5160244 -0.6979112 -0.5416624 -0.5416624
+## 56:   q_99     c2     =~ 27.48733  0.5991966  0.3460851  0.3129839  0.3129839
+##        rhs    lhs     op       mi        epc    sepc.lv   sepc.all   sepc.nox
+##     mi_rnd
+##      &lt;num&gt;
+##  1:  45.41
+##  2:  13.17
+##  3:  13.49
+##  4:  24.01
+##  5:  45.06
+##  6:  16.18
+##  7:  10.26
+##  8:  41.15
+##  9:  24.51
+## 10:  30.72
+## 11:  11.59
+## 12:  54.88
+## 13:  31.48
+## 14:  27.37
+## 15:  14.11
+## 16:  23.68
+## 17:  15.08
+## 18:  29.19
+## 19:  26.49
+## 20:  33.45
+## 21:  28.61
+## 22:  24.49
+## 23:  34.09
+## 24:  38.89
+## 25:  13.44
+## 26:  31.27
+## 27:  38.80
+## 28:  27.27
+## 29:  11.11
+## 30:  47.21
+## 31:  37.32
+## 32:  10.81
+## 33:  11.08
+## 34:  23.97
+## 35:  18.40
+## 36:  35.51
+## 37:  19.69
+## 38:  80.34
+## 39:  20.09
+## 40:  12.18
+## 41:  10.27
+## 42:  23.90
+## 43:  18.61
+## 44:  15.26
+## 45:  60.30
+## 46:  13.13
+## 47:  19.36
+## 48:  25.17
+## 49:  22.21
+## 50:  13.99
+## 51:  10.12
+## 52:  31.01
+## 53:  20.71
+## 54:  39.10
+## 55:  19.51
+## 56:  27.49
+##     mi_rnd</code></pre>
+<pre><code>## [1] &quot;c11&quot; &quot;c6&quot;  &quot;c2&quot;  &quot;c10&quot; &quot;c8&quot;  &quot;c5&quot;  &quot;c9&quot;  &quot;c3&quot;</code></pre>
+<pre><code>## c10 =~ q_10 + q_100 + q_102 + q_103 + q_106 + q_111 + q_112 + q_120 + q_121 + q_123 + q_125 + q_127 + q_129 + q_21 + q_26 + q_34 + q_60 + q_64 + q_72 + q_84 + q_92 + q_97 + q_98 + q_99
+## c11 =~ q_12 + q_121 + q_13 + q_14 + q_16 + q_19 + q_25 + q_26 + q_35 + q_36 + q_37 + q_47 + q_48 + q_50 + q_55 + q_56 + q_57 + q_63 + q_65 + q_66 + q_69 + q_83 + q_85 + q_87 + q_88 + q_89
+## c2 =~ q_100 + q_102 + q_109 + q_119 + q_128 + q_134 + q_77 + q_95 + q_96 + q_99
+## c3 =~ q_108 + q_115 + q_116 + q_53 + q_93 + q_94
+## c5 =~ q_124 + q_128 + q_13 + q_136 + q_15 + q_17 + q_24 + q_3 + q_30 + q_31 + q_35 + q_39 + q_42 + q_44 + q_45 + q_5 + q_51 + q_53 + q_55 + q_58 + q_61 + q_62 + q_63 + q_68 + q_71 + q_75 + q_76 + q_77 + q_78 + q_79 + q_85 + q_86 + q_87 + q_89
+## c6 =~ q_1 + q_103 + q_110 + q_112 + q_117 + q_119 + q_124 + q_126 + q_132 + q_135 + q_19 + q_22 + q_25 + q_28 + q_3 + q_54 + q_56 + q_57 + q_76 + q_88 + q_90 + q_95 + q_96
+## c8 =~ q_120 + q_17 + q_18 + q_2 + q_21 + q_22 + q_30 + q_32 + q_34 + q_36 + q_37 + q_41 + q_42 + q_43 + q_48 + q_60 + q_62 + q_66 + q_68 + q_69 + q_72 + q_74 + q_78 + q_80 + q_82 + q_84 + q_9 + q_90
+## c9 =~ q_109 + q_115 + q_116 + q_118 + q_127 + q_129 + q_134 + q_136 + q_93 + q_94</code></pre>
+<p>В результате получилось такое качество модели:</p>
+<pre><code>##   cfi rmsea  srmr 
+## 0.582 0.054 0.070</code></pre>
+</div>
+<div id="модель-без-кросс-нагрузок" class="section level3 hasAnchor">
+<h3>модель без кросс-нагрузок<a href="cfa.html#модель-без-кросс-нагрузок" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Еще один способ улучшить модель — исключить вопросы с высокой кросс-нагрузкой (вариативность которых может объясняться сразу несколькими латентными факторами).</p>
+<p>Я исключил вопросы, у которых параметр mi &gt; 15. Пробовал также mi &gt; 20, но существенных различий не нашел.</p>
+<p>Декларация модели:</p>
+<pre><code>## [1] 42</code></pre>
+<pre><code>## c11 =~ q_83 + q_65 + q_12 + q_69 + q_55 + q_47 + q_14 + q_13 + q_50 + q_16
+## 
+## c6 =~ q_54 + q_113 + q_132 + q_117 + q_40 + q_73 + q_133 + q_110 + q_28 + q_91 + q_135 + q_1 + q_124 + q_126
+## 
+## c2 =~ q_102 + q_101
+## 
+## c10 =~ q_10 + q_123 + q_64 + q_97 + q_98 + q_111 + q_103 + q_106 + q_92 + q_125
+## 
+## c8 =~ q_41 + q_37 + q_70 + q_122 + q_104 + q_27 + q_8 + q_82 + q_114 + q_49 + q_90 + q_84 + q_43 + q_81 + q_11 + q_59 + q_38 + q_2 + q_105 + q_130 + q_18 + q_20 + q_74 + q_52 + q_80 + q_30 + q_107 + q_33 + q_131 + q_32 + q_23 + q_9
+## 
+## c5 =~ q_15 + q_86 + q_24 + q_31 + q_39 + q_71 + q_75 + q_5 + q_53 + q_46 + q_44 + q_79 + q_4 + q_7 + q_29 + q_68 + q_51 + q_61 + q_45 + q_89 + q_6 + q_67 + q_58
+## 
+## c9 =~ q_118 + q_137
+## 
+## c3 =~ q_108 + q_116</code></pre>
+<p>Метрики качества модели при удалении вопросов с высокими (mi &gt; 15) кросс-нагрузками:</p>
+<pre><code>##   cfi rmsea  srmr 
+## 0.470 0.054 0.087</code></pre>
+</div>
+<div id="модель-с-высокими-efa-нагрузками" class="section level3 hasAnchor">
+<h3>модель с высокими efa-нагрузками<a href="cfa.html#модель-с-высокими-efa-нагрузками" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Четвертый способ, который я использовал — убрал из модели вопросы, которые имели низкую факторную нагрузку (меньше 0.3) при разбиении вопросов на восемь факторов при EFA. По сути, я убрал совсем нерелевантные вопросы.</p>
+<p>Декларация модели:</p>
+<pre><code>## [1] 31</code></pre>
+<pre><code>## c11 =~ q_83 + q_88 + q_87 + q_65 + q_85 + q_12 + q_69 + q_55 + q_35 + q_47 + q_14 + q_19 + q_13 + q_36 + q_63 + q_50 + q_16
+## 
+## c6 =~ q_54 + q_73 + q_110 + q_28 + q_25 + q_1 + q_57 + q_124
+## 
+## c2 =~ q_96 + q_134 + q_95 + q_128 + q_102 + q_119 + q_101 + q_109 + q_100
+## 
+## c10 =~ q_10 + q_34 + q_26 + q_60 + q_99 + q_112 + q_111 + q_121 + q_103 + q_92 + q_120 + q_21 + q_125
+## 
+## c8 =~ q_41 + q_42 + q_122 + q_104 + q_8 + q_48 + q_22 + q_114 + q_49 + q_78 + q_90 + q_84 + q_66 + q_62 + q_17 + q_43 + q_81 + q_72 + q_11 + q_59 + q_38 + q_2 + q_105 + q_130 + q_18 + q_74 + q_52 + q_80 + q_30 + q_107 + q_131 + q_23 + q_9
+## 
+## c5 =~ q_15 + q_76 + q_31 + q_39 + q_75 + q_53 + q_44 + q_4 + q_7 + q_68 + q_51 + q_89 + q_136 + q_3 + q_6 + q_67 + q_58 + q_77
+## 
+## c9 =~ q_118 + q_127 + q_129
+## 
+## c3 =~ q_115 + q_94 + q_93 + q_108 + q_116</code></pre>
+<p>Метрики качества получившейся модели:</p>
+<pre><code>##   cfi rmsea  srmr 
+## 0.509 0.059 0.082</code></pre>
+</div>
+<div id="модель-без-вопросов-с-низкой-нагрузкой" class="section level3 hasAnchor">
+<h3>модель без вопросов с низкой нагрузкой<a href="cfa.html#модель-без-вопросов-с-низкой-нагрузкой" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Пятый способ (самый слабый) – удаление нерелевантных вопросов из шкал <code>отношения-1</code>, <code>работа с изменениями</code>, <code>профессионализм-2</code>, <code>результаты</code> (по результатам оценки факторной структуры этих больших по количеству вопросов шкал).</p>
+<p>Декларация модели:</p>
+<pre><code>## c11 =~ q_83 + q_88 + q_87 + q_65 + q_85 + q_12 + q_69 + q_55 + q_35 + q_47 + q_14 + q_19 + q_13 + q_36 + q_63 + q_50 + q_16
+## 
+## c6 =~ q_54 + q_113 + q_132 + q_117 + q_40 + q_73 + q_133 + q_110 + q_28 + q_25 + q_91 + q_56 + q_135 + q_1 + q_57 + q_124 + q_126
+## 
+## c2 =~ q_96 + q_134 + q_95 + q_128 + q_102 + q_119 + q_101 + q_109 + q_100
+## 
+## c10 =~ q_10 + q_34 + q_123 + q_26 + q_60 + q_64 + q_97 + q_98 + q_112 + q_111 + q_121 + q_103 + q_92 + q_120 + q_21 + q_125
+## 
+## c8 =~ q_41 + q_37 + q_42 + q_122 + q_104 + q_8 + q_82 + q_48 + q_22 + q_114 + q_49 + q_78 + q_90 + q_66 + q_62 + q_17 + q_43 + q_81 + q_72 + q_11 + q_59 + q_38 + q_2 + q_105 + q_130 + q_18 + q_20 + q_74 + q_52 + q_80 + q_30 + q_107 + q_33 + q_131 + q_32 + q_23 + q_9
+## 
+## c5 =~ q_15 + q_76 + q_31 + q_39 + q_75 + q_5 + q_53 + q_44 + q_4 + q_7 + q_29 + q_68 + q_51 + q_45 + q_89 + q_136 + q_3 + q_6 + q_67 + q_58 + q_77
+## 
+## c9 =~ q_118 + q_137 + q_127 + q_129
+## 
+## c3 =~ q_115 + q_94 + q_93 + q_108 + q_116</code></pre>
+<p>Метрики качества получившейся модели:</p>
+<pre><code>##   cfi rmsea  srmr 
+## 0.509 0.059 0.082</code></pre>
+</div>
+</div>
+<div id="метрики-с2-моделей" class="section level2 hasAnchor">
+<h2>метрики с2-моделей<a href="cfa.html#метрики-с2-моделей" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Сводная таблица метрик качества этих моделей выглядит следующим образом:</p>
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+model
+</th>
+<th style="text-align:right;">
+cfi
+</th>
+<th style="text-align:right;">
+rmsea
+</th>
+<th style="text-align:right;">
+srmr
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+исходная модель
+</td>
+<td style="text-align:right;">
+0.456
+</td>
+<td style="text-align:right;">
+0.054
+</td>
+<td style="text-align:right;">
+0.078
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+модель без незначимых вопросов
+</td>
+<td style="text-align:right;">
+0.582
+</td>
+<td style="text-align:right;">
+0.054
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+модель с кросс-нагрузками
+</td>
+<td style="text-align:right;">
+0.582
+</td>
+<td style="text-align:right;">
+0.054
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+модель без кросс-нагрузок
+</td>
+<td style="text-align:right;">
+0.470
+</td>
+<td style="text-align:right;">
+0.054
+</td>
+<td style="text-align:right;">
+0.087
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+модель с высокими EFA-нагрузками
+</td>
+<td style="text-align:right;">
+0.509
+</td>
+<td style="text-align:right;">
+0.059
+</td>
+<td style="text-align:right;">
+0.082
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+модель без низких EFA-нагрузок по отдельным шкалам
+</td>
+<td style="text-align:right;">
+0.474
+</td>
+<td style="text-align:right;">
+0.055
+</td>
+<td style="text-align:right;">
+0.079
+</td>
+</tr>
+</tbody>
+</table>
+<p>Удаление незначимых вопросов немного улучшает качество структуры модели, но оно все еще недостаточно. Остальные попытки улучшить качество модели не дали хороших эффектов, даже наоборот.</p>
+<p>Дальнейшие улучшения текущей можели на восемь компетенций мне кажутся бессмысленными. Тем не менее, можно попробовать оценить качество модели по 30 субшкалам (то есть по субшкалам наших восьми компетенций), что я и сделал ниже. Либо в целом попробовать пересобрать факторную модель в эксплораторном факторном анализе (в следующем разделе).</p>
+</div>
+<div id="модель-с3-шкал" class="section level2 hasAnchor">
+<h2>модель с3-шкал<a href="cfa.html#модель-с3-шкал" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>В качестве альтернативного решения я попробовал оценить структуру опросника на уровне дробных с3-шкал. Может быть, осмысленно спуститься на уровень ниже, от восьми шкал компетенций на уровень из субшкал (исходно в модели их 42, в опроснике представлено 30)</p>
+<p>Однако модель на 30 факторов не сходится, даже если предположить скоррелированность латентных факторов.</p>
+<p>Если рассматривать каждую из 30 шкал отдельно, то видно, что есть несколько шкал, по которым даже маленькая модель сойтись не может.</p>
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+c3
+</th>
+<th style="text-align:right;">
+c2
+</th>
+<th style="text-align:right;">
+n_questions
+</th>
+<th style="text-align:left;">
+cfi
+</th>
+<th style="text-align:left;">
+rmsea
+</th>
+<th style="text-align:left;">
+srmr
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.879</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.169</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.066</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.889</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.154</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.061</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.863</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.2</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.066</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.976</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.077</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.031</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.917</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.096</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.041</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">1</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.733</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.226</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.117</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">1</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.997</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.034</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.017</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.868</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.107</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.056</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">NA</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.776</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.111</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.063</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.706</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.134</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.075</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.64</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.175</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.094</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.837</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.086</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.052</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.851</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.111</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.047</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.957</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.089</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.037</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.521</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.261</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.109</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.906</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.122</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.064</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.881</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.069</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.041</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.845</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.2</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.077</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.875</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.132</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.072</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.872</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.114</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.053</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.971</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.064</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.035</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.915</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.145</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.052</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.873</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.103</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.057</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.888</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">0.127</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: black !important;">0.067</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="модель-с1-шкал" class="section level2 hasAnchor">
+<h2>модель с1-шкал<a href="cfa.html#модель-с1-шкал" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Еще одно альтернативное решение — подняться на уровень макро-компетенций (всего пять).</p>
+<p>Декларация модели:</p>
+<pre><code>## c3 =~ q_134 + q_128 + q_119 + q_101
+## 
+## c5 =~ q_96 + q_95 + q_102 + q_109 + q_100
+## 
+## c8 =~ q_115 + q_94 + q_93 + q_108 + q_116
+## 
+## c12 =~ q_15 + q_136
+## 
+## c13 =~ q_53 + q_79 + q_61 + q_58
+## 
+## c14 =~ q_44 + q_4 + q_7 + q_77
+## 
+## c15 =~ q_39 + q_5 + q_3
+## 
+## c16 =~ q_86 + q_29 + q_68 + q_45 + q_67
+## 
+## c17 =~ q_24 + q_51 + q_6
+## 
+## c18 =~ q_76 + q_31 + q_71 + q_89
+## 
+## c19 =~ q_75 + q_46
+## 
+## c20 =~ q_133 + q_124 + q_126
+## 
+## c21 =~ q_113 + q_132 + q_117 + q_110 + q_135
+## 
+## c22 =~ q_40 + q_73 + q_25 + q_56
+## 
+## c23 =~ q_54 + q_28 + q_91 + q_1 + q_57
+## 
+## c25 =~ q_27 + q_49 + q_17 + q_2 + q_18
+## 
+## c26 =~ q_82 + q_81 + q_38 + q_52 + q_33
+## 
+## c27 =~ q_42 + q_8 + q_90 + q_84 + q_9
+## 
+## c28 =~ q_78 + q_59 + q_32 + q_23
+## 
+## c29 =~ q_41 + q_22 + q_66 + q_72 + q_74
+## 
+## c30 =~ q_48 + q_62 + q_11 + q_20
+## 
+## c31 =~ q_122 + q_104 + q_114 + q_105 + q_130 + q_107 + q_131
+## 
+## c32 =~ q_37 + q_70 + q_43 + q_80 + q_30
+## 
+## c36 =~ q_118 + q_137 + q_127 + q_129
+## 
+## c37 =~ q_98 + q_112 + q_121 + q_103 + q_106 + q_125
+## 
+## c38 =~ q_123 + q_99 + q_97 + q_111 + q_92 + q_120
+## 
+## c39 =~ q_10 + q_34 + q_26 + q_60 + q_64 + q_21
+## 
+## c40 =~ q_83 + q_55 + q_19 + q_36 + q_16
+## 
+## c41 =~ q_88 + q_65 + q_12 + q_35 + q_13 + q_50
+## 
+## c42 =~ q_87 + q_85 + q_69 + q_47 + q_14 + q_63</code></pre>
+<p>Метрики качества получившейся модели:</p>
+<pre><code>##   cfi rmsea  srmr 
+## 0.432 0.055 0.078</code></pre>
 
 </div>
 </div>
@@ -360,8 +1453,8 @@ c11
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="efa.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="efa.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="newmodel.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -375,36 +1468,36 @@ c11
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": false,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section",
-"scroll_highlight": true
-},
-"toolbar": {
-"position": "static"
-}
+  "sharing": false,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section",
+    "scroll_highlight": true
+  },
+  "toolbar": {
+    "position": "static"
+  }
 });
 });
 </script>
